@@ -106,7 +106,7 @@
 
   <meta property="og:type" content="website">
 <meta property="og:title" content="卡丘的博客">
-<meta property="og:url" content="http://yoursite.com/tags/springBoot/index.html">
+<meta property="og:url" content="http://yoursite.com/tags/SpringBoot/index.html">
 <meta property="og:site_name" content="卡丘的博客">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
@@ -119,7 +119,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/springBoot/">
+  <link rel="canonical" href="http://yoursite.com/tags/SpringBoot/">
 
 
 
@@ -129,7 +129,7 @@
   };
 </script>
 
-  <title>标签: springBoot | 卡丘的博客</title>
+  <title>标签: SpringBoot | 卡丘的博客</title>
   
 
 
@@ -352,7 +352,7 @@
 
     <div id="posts" class="posts-collapse">
       <div class="collection-title">
-        <h1>springBoot<small>标签</small>
+        <h1>SpringBoot<small>标签</small>
         </h1>
       </div>
 
@@ -364,16 +364,16 @@
 
       <h2 class="post-title">
         
-            <a class="post-title-link" href="/2018/12/23/springBoot-1-使用MyEclipse构建一个SpringBoot/" itemprop="url">
+            <a class="post-title-link" href="/2018/12/23/springBoot-2-SpringBoot日志配置/" itemprop="url">
               
-                <span itemprop="name">springBoot(1)使用MyEclipse构建一个SpringBoot</span>
+                <span itemprop="name">springBoot(2)SpringBoot日志配置</span>
               
             </a>
         
       </h2>
 
       <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-23T10:38:56+08:00" content="2018-12-23">
+        <time class="post-time" itemprop="dateCreated" datetime="2018-12-23T11:14:06+08:00" content="2018-12-23">
           12-23
         </time>
       </div>
@@ -433,7 +433,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -465,7 +465,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">1</span>
+                      
+                    
+                    <span class="site-state-item-count">2</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>
@@ -739,6 +741,55 @@
     $(function() {
       $.get('https://app-router.leancloud.cn/2/route?appId=' + "OdVJyQ0RufHbP3IGm64pLGTR-gzGzoHsz")
         .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "OdVJyQ0RufHbP3IGm64pLGTR-gzGzoHsz",
+                'X-LC-Key': "GM8FS2xjI83IuuP9Frddmv3s",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          if ($('.post-title-link').length >= 1) {
+            showTime(Counter);
+          }
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+ api_server }) {
           var Counter = function (method, url, data) {
             return $.ajax({
               method: method,
