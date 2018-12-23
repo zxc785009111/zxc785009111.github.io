@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在互联网的数据库的使用中，对于电商和金融网站，最关注的就是数据库事务，对于热门商品的交易和库存以及金融产品的金额，是不允许发生错误的，当热门商品的抢购时，面临高并发的时候，这时候数据库事务处理就显得格外重要了 对于事务处理最简单的理解就是当高并发的时候对于数据库事务处理机制，此时数据库将在一个多事务的场景下运行。 说到事务处理，我的第一反应就是@Transactional这个注解这个注解当时只学习">
+<meta name="keywords" content="springBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot(5)数据库事务处理">
+<meta property="og:url" content="http://yoursite.com/2018/12/23/SpringBoot-5-数据库事务处理/index.html">
+<meta property="og:site_name" content="卡丘的博客">
+<meta property="og:description" content="在互联网的数据库的使用中，对于电商和金融网站，最关注的就是数据库事务，对于热门商品的交易和库存以及金融产品的金额，是不允许发生错误的，当热门商品的抢购时，面临高并发的时候，这时候数据库事务处理就显得格外重要了 对于事务处理最简单的理解就是当高并发的时候对于数据库事务处理机制，此时数据库将在一个多事务的场景下运行。 说到事务处理，我的第一反应就是@Transactional这个注解这个注解当时只学习">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/SpringBoot/SpringBoot5/sp5-1.png">
+<meta property="og:image" content="http://yoursite.com/images/SpringBoot/SpringBoot5/sp5-2.png">
+<meta property="og:image" content="http://yoursite.com/images/SpringBoot/SpringBoot5/sp5-3.png">
+<meta property="og:image" content="http://yoursite.com/images/SpringBoot/SpringBoot5/sp5-4.png">
+<meta property="og:updated_time" content="2018-12-23T12:59:53.678Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringBoot(5)数据库事务处理">
+<meta name="twitter:description" content="在互联网的数据库的使用中，对于电商和金融网站，最关注的就是数据库事务，对于热门商品的交易和库存以及金融产品的金额，是不允许发生错误的，当热门商品的抢购时，面临高并发的时候，这时候数据库事务处理就显得格外重要了 对于事务处理最简单的理解就是当高并发的时候对于数据库事务处理机制，此时数据库将在一个多事务的场景下运行。 说到事务处理，我的第一反应就是@Transactional这个注解这个注解当时只学习">
+<meta name="twitter:image" content="http://yoursite.com/images/SpringBoot/SpringBoot5/sp5-1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="卡丘的博客" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/23/SpringBoot-5-数据库事务处理/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>SpringBoot(5)数据库事务处理 | 卡丘的博客</title>
+  
+
+
+
+
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?39f133557477ec32790de624cc6b48a6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">卡丘的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">java新手</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/23/SpringBoot-5-数据库事务处理/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="卡丘">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/icon.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="卡丘的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SpringBoot(5)数据库事务处理
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-23 20:03:59 / 修改时间：20:59:53" itemprop="dateCreated datePublished" datetime="2018-12-23T20:03:59+08:00">2018-12-23</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/SpringBoot学习/" itemprop="url" rel="index"><span itemprop="name">SpringBoot学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/12/23/SpringBoot-5-数据库事务处理/" class="leancloud_visitors" data-flag-title="SpringBoot(5)数据库事务处理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在互联网的数据库的使用中，对于电商和金融网站，最关注的就是数据库事务，对于热门商品的交易和库存以及金融产品的金额，是不允许发生错误的，当热门商品的抢购时，面临高并发的时候，这时候数据库事务处理就显得格外重要了</p>
+<p>对于事务处理最简单的理解就是当高并发的时候对于数据库事务处理机制，此时数据库将在一个多事务的场景下运行。</p>
+<p>说到事务处理，我的第一反应就是@Transactional这个注解<br>这个注解当时只学习了放到方法上，那么今天就来对这个注解以及背后的数据库事务进行深一步的了解…..<a id="more"></a></p>
+<p>在Spring中，数据库事务是通过AOP技术来提供服务的，AOP(面向切面编程)把jdbc中大量的try catch  finally 代码擦出了。看到了非常干净的代码。</p>
+<h2 id="Spring声明式事务的使用"><a href="#Spring声明式事务的使用" class="headerlink" title="Spring声明式事务的使用"></a>Spring声明式事务的使用</h2><p>根据SpringAOP的约定，它会吧我们的代码织入到约定的流程中，同样的，使用AOP的思维后，执行SQL的代码就可以织入到Spring约定的数据库事务的流程中，所以首先来说说这个约定</p>
+<h3 id="Spring声明式数据库事务约定"><a href="#Spring声明式数据库事务约定" class="headerlink" title="Spring声明式数据库事务约定"></a>Spring声明式数据库事务约定</h3><p>对于事务，需要通过标注告诉Spring 在什么地方开启数据库事务，对于声明式事务，是使用@Transactional进行标注的，这个注解可以标注在类或者方法上，当它标注在类上的时候，代表这个类的所有公共非静态方法都将启用事务功能，在@Transactional中，还允许配置了许多属性，比如说事务的隔离级别和传播行为(这2个概念后续会说到)，在比如说异常类型，从而确定方法发生什么异常时回滚事务 或者说什么异常时不回滚事务。这些配置的内容，是在Spring IoC容器在加载的时候就会把这些信息解析出来了，然后把这些信息存到事务定义器(TransactionDefinition接口的实现类中)并且记录哪些类或者方法需要开启事务，采用什么策略去执行事务，这个过程我们就只需要给<strong>Transactional</strong>配置属性而已。</p>
+<p>当Spring 的上下文开始被@Transactional标注的类或者方法的时候，Spring就会产生AOP的功能，当它启动事务的时候，就会根据事务定义器里的配置去设置事务，首先是根据传播行为去确定事务的策略，然后是隔离级别、超时时间、只读等内容，这些都是Spring事务拦截器通过我们对于@Transactional配置的内容来完成的。<br>当执行SQL发生异常之后，Spring数据库拦截器就会根据我们的配置去判断是提交事务 还是回滚(默认不配置的话是回滚)，无论发生异常与否，Spring都会释放事务资源，这样就可以保证数据库连接池正常可用了，这也是由Spring事务拦截器完成的内容。</p>
+<h3 id="Transactional的配置项"><a href="#Transactional的配置项" class="headerlink" title="@Transactional的配置项"></a>@Transactional的配置项</h3><p>数据库的事务属性都是可以通过@Transactional来配置的，下面先来看一下其源码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">@Target(&#123;ElementType.METHOD, ElementType.TYPE&#125;)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Inherited</span><br><span class="line">@Documented</span><br><span class="line">public @interface Transactional &#123;</span><br><span class="line">       /**</span><br><span class="line">        * 通过Bean name 来指定事务管理器</span><br><span class="line">        * @see <span class="comment">#transactionManager</span></span><br><span class="line">        */</span><br><span class="line">       @AliasFor(<span class="string">"transactionManager"</span>)</span><br><span class="line">       String value() default <span class="string">""</span>;</span><br><span class="line">       /**</span><br><span class="line">        * 同value属性</span><br><span class="line">        * @since 4.2</span><br><span class="line">        * @see <span class="comment">#value</span></span><br><span class="line">        */</span><br><span class="line">       @AliasFor(<span class="string">"value"</span>)</span><br><span class="line">       String transactionManager() default <span class="string">""</span>;</span><br><span class="line">       /**</span><br><span class="line">        * 指定传播行为</span><br><span class="line">        * @see org.springframework.transaction.interceptor.TransactionAttribute<span class="comment">#getPropagationBehavior()</span></span><br><span class="line">        */</span><br><span class="line">       Propagation propagation() default Propagation.REQUIRED;</span><br><span class="line">       /**</span><br><span class="line">        * 指定隔离级别</span><br><span class="line">        * @see org.springframework.transaction.interceptor.TransactionAttribute<span class="comment">#getIsolationLevel()</span></span><br><span class="line">        * @see org.springframework.transaction.support.AbstractPlatformTransactionManager<span class="comment">#setValidateExistingTransaction</span></span><br><span class="line">        */</span><br><span class="line">       Isolation isolation() default Isolation.DEFAULT;</span><br><span class="line">       /**</span><br><span class="line">        * 指定超时时间(单位秒)</span><br><span class="line">        * @see org.springframework.transaction.interceptor.TransactionAttribute<span class="comment">#getTimeout()</span></span><br><span class="line">        */</span><br><span class="line">       int timeout() default TransactionDefinition.TIMEOUT_DEFAULT;</span><br><span class="line">       /**</span><br><span class="line">        * 是否只读事务</span><br><span class="line">        * @see org.springframework.transaction.interceptor.TransactionAttribute<span class="comment">#isReadOnly()</span></span><br><span class="line">        * @see org.springframework.transaction.support.TransactionSynchronizationManager<span class="comment">#isCurrentTransactionReadOnly()</span></span><br><span class="line">        */</span><br><span class="line">       boolean readOnly() default <span class="literal">false</span>;</span><br><span class="line">       /**</span><br><span class="line">        * 方法在发生指定异常时回滚，默认所有都回滚</span><br><span class="line">        * @see <span class="comment">#rollbackForClassName</span></span><br><span class="line">        * @see org.springframework.transaction.interceptor.DefaultTransactionAttribute<span class="comment">#rollbackOn(Throwable)</span></span><br><span class="line">        */</span><br><span class="line">       Class&lt;? extends Throwable&gt;[] rollbackFor() default &#123;&#125;;</span><br><span class="line">       /**</span><br><span class="line">        *方法在发生指定异常名称时回滚，默认所有异常都回滚</span><br><span class="line">        * @see <span class="comment">#rollbackFor</span></span><br><span class="line">        * @see org.springframework.transaction.interceptor.DefaultTransactionAttribute<span class="comment">#rollbackOn(Throwable)</span></span><br><span class="line">        */</span><br><span class="line">       String[] rollbackForClassName() default &#123;&#125;;</span><br><span class="line">       /**</span><br><span class="line">        * 方法在发生指定异常时不回滚，默认所有异常都回滚</span><br><span class="line">        * @see <span class="comment">#noRollbackForClassName</span></span><br><span class="line">        * @see org.springframework.transaction.interceptor.DefaultTransactionAttribute<span class="comment">#rollbackOn(Throwable)</span></span><br><span class="line">        */</span><br><span class="line">       Class&lt;? extends Throwable&gt;[] noRollbackFor() default &#123;&#125;;</span><br><span class="line">       /**</span><br><span class="line">        * 方法在发生指定异常名称时不回滚，默认所有异常都回滚</span><br><span class="line">        * @see <span class="comment">#noRollbackFor</span></span><br><span class="line">        * @see org.springframework.transaction.interceptor.DefaultTransactionAttribute<span class="comment">#rollbackOn(Throwable)</span></span><br><span class="line">        */</span><br><span class="line">       String[] noRollbackForClassName() default &#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重点是<strong>propagation</strong>和<strong>isolation</strong> 这2个属性，这两个属性是指传播行为和隔离级别，它需要了解数据库特性才能使用，也是企业最为关心的内容之一。<br>关于注解@Transactional  其实它是可以放到接口上的，也可以放在实现类上，只不过Spring推荐我们放在实现类上，因为放在接口上将使得你的类基于接口的代理时他们才会生效，在AOP中，Spring可以使用JDK动态代理，也可以使用CGLIG动态代理，如果使用接口，那么将不能使用CGLIG代理….</p>
+<h2 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h2><h3 id="数据库事务的基本知识，数据库事务具有4个基本特征，也就是ACID："><a href="#数据库事务的基本知识，数据库事务具有4个基本特征，也就是ACID：" class="headerlink" title="数据库事务的基本知识，数据库事务具有4个基本特征，也就是ACID："></a>数据库事务的基本知识，数据库事务具有4个基本特征，也就是ACID：</h3><h4 id="原子性（Atomicity）"><a href="#原子性（Atomicity）" class="headerlink" title="原子性（Atomicity）"></a><strong>原子性（Atomicity）</strong></h4><p>　　<br>      原子性是指事务包含的所有操作要么全部成功，要么全部失败回滚，因此事务的操作如果成功就必须要完全应用到数据库，如果操作失败则不能对数据库有任何影响。</p>
+<h4 id="一致性（Consistency）"><a href="#一致性（Consistency）" class="headerlink" title="一致性（Consistency）"></a><strong>一致性（Consistency）</strong></h4><p>　　<br>     一致性是指事务必须使数据库从一个一致性状态变换到另一个一致性状态，也就是说一个事务执行之前和执行之后都必须处于一致性状态。<br>    拿转账来说，假设用户A和用户B两者的钱加起来一共是5000，那么不管A和B之间如何转账，转几次账，事务结束后两个用户的钱相加起来应该还得是5000，这就是事务的一致性。</p>
+<h4 id="隔离性（Isolation）"><a href="#隔离性（Isolation）" class="headerlink" title="隔离性（Isolation）"></a><strong>隔离性（Isolation）</strong></h4><p>   隔离性是当多个用户并发访问数据库时，比如操作同一张表时，数据库为每一个用户开启的事务，不能被其他事务的操作所干扰，多个并发事务之间要相互隔离。<br>　　<br>   即要达到这么一种效果：对于任意两个并发的事务T1和T2，在事务T1看来，T2要么在T1开始之前就已经结束，要么在T1结束之后才开始，这样每个事务都感觉不到有其他事务在并发地执行。<br>　<br>   关于事务的隔离性数据库提供了多种隔离级别，稍后会介绍到。</p>
+<h4 id="持久性（Durability）"><a href="#持久性（Durability）" class="headerlink" title="持久性（Durability）"></a><strong>持久性（Durability）</strong></h4><p>　　<br>  持久性是指一个事务一旦被提交了，那么对数据库中的数据的改变就是永久性的，即便是在数据库系统遇到故障的情况下也不会丢失提交事务的操作。例如我们在使用JDBC操作数据库时，在提交事务方法后，提示用户事务操作完成，当我们程序执行完成直到看到提示后，就可以认定事务以及正确提交，即使这时候数据库出现了问题，也必须要将我们的事务完全执行完成，否则就会造成我们看到提示事务处理完毕，但是数据库因为故障而没有执行事务的重大错误。</p>
+<h3 id="两类丢失更新"><a href="#两类丢失更新" class="headerlink" title="两类丢失更新"></a>两类丢失更新</h3><p><img src="/images/SpringBoot/SpringBoot5/sp5-1.png"></p>
+<p>在第二类对视更新中，为了压制丢失更新，数据库标准提出了4类隔离级别，不同程度的压制丢失更新，这4类隔离级别分别是未提交读，读写提交，可重复读和串行化，他们会在不同程度上压制丢失更新的情景。</p>
+<p>4个隔离级别对于压制丢失更新的程度是不同的，同样对服务器的性能影响也是不同的，现有的技术中有完全可以避免丢失更新的情况，但是这种情况要付出锁的代价，即在同一时间只有一个县城可以访问数据，这样在高并发的情况下，会导致大量线程被挂起和恢复，整个系统会十分缓慢。用户体验极差~</p>
+<h3 id="4种隔离级别的区别："><a href="#4种隔离级别的区别：" class="headerlink" title="4种隔离级别的区别："></a>4种隔离级别的区别：</h3><h4 id="未提交读"><a href="#未提交读" class="headerlink" title="未提交读:"></a>未提交读:</h4><p>   未提交读是最低级别的隔离级别，其含义是允许一个事务读取另一个事务中未提交的事务，未提交读是一种危险的隔离级别，所以一般在实际开发应用中不多，但是它的优点在于并发能力高，适合那些对于数据一致性没有要求而追求高并发的场景，它最大的坏处就是出现脏读。</p>
+<p><img src="/images/SpringBoot/SpringBoot5/sp5-2.png"></p>
+<p>如图，当T3时刻，由于采用了未提交读，所以事务2可以读取事务1中未提交的库存数据为1，这里当他扣除库存后数据为0，然后它提交了事务，然后事务1在T5时刻回滚了事务，最后的结果就变成了0，这样就出现了错误。<br>        脏读一般是比较危险的隔离级别，在实际应用中并不多，为了克服脏读，数据库隔离级别还提供了读写提交。</p>
+<h4 id="读写提交"><a href="#读写提交" class="headerlink" title="读写提交:"></a>读写提交:</h4><p>读写提交是指一个事务只能读取另一个事务中已提交的数据，不能读取未提交的数据，可以克服脏读。<br><img src="/images/SpringBoot/SpringBoot5/sp5-3.png"></p>
+<p>但是读写提交也会出现上面描述的问题，这就是我最开始想到的，一个事务执行到一半的时候另外一个事务进来了，这样的update操作可能会出现错误。<br>为了克服这个不足，数据库还提出了可重复读。</p>
+<h4 id="可重复读："><a href="#可重复读：" class="headerlink" title="可重复读："></a>可重复读：</h4><p>可重复读是为了克服读写提交中的不可重复读的现象，因为在读写提交的时候，有些值的变化，影响当前事务的执行，如上述库存是个变化的值。</p>
+<p>   简单点来说，就是当一个事务未提交的时候(特指增删改，查询时不会影响其他事务的读取)，数据库将会阻止其他事务对于数据的读取，只有当前第一个事务提交了之后，事务2才会读取库存的值。但是会引发新的问题：幻读：<br>上图~(其实这些东西主要以理解为主，至于我用图是因为我觉得不至于为了这些概念而单独打出来这些东西，理解第一)<br><img src="/images/SpringBoot/SpringBoot5/sp5-4.png"></p>
+<h4 id="串行化："><a href="#串行化：" class="headerlink" title="串行化："></a>串行化：</h4><p>串行化是数据库最高的隔离级别，他要求所有的SQL都按照顺序执行，可以完全保证数据的一致性，但由于单线程锁，导致性能降低很多，可能会导致系统十分慢。</p>
+<h3 id="使用隔离级别"><a href="#使用隔离级别" class="headerlink" title="使用隔离级别"></a>使用隔离级别</h3><p>之前也说过了，使用这些只需要在注解中添加配置即可，剩下的由Spring完成</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Transactional(isolation=Isolation.SERIALIZABLE)</span><br><span class="line">@Override</span><br><span class="line">public int delete(String appid) &#123;</span><br><span class="line">       log.info(<span class="string">"进入 delete 方法"</span>);</span><br><span class="line">       <span class="built_in">return</span> routeDao.deleteByAppid(appid);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>如果说一个一个方法单独制定隔离级别太麻烦 可以在配置文件中统一指定</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  datasource:</span><br><span class="line">        tomcat:</span><br><span class="line">        <span class="comment">#指定数据源默认隔离级别；</span></span><br><span class="line">        <span class="comment">#-1：数据库默认隔离级别</span></span><br><span class="line">        <span class="comment">#1 未提交读</span></span><br><span class="line">        <span class="comment">#2，读写提交</span></span><br><span class="line">        <span class="comment">#4 可重复读</span></span><br><span class="line">        <span class="comment">#8  串行化</span></span><br><span class="line">          default-transaction-isolation: 2</span><br></pre></td></tr></table></figure></p>
+<h2 id="传播行为"><a href="#传播行为" class="headerlink" title="传播行为"></a>传播行为</h2><p>传播行为是指方法之间调用事务才去的策略问题，在默认情况下，一个事务调用的所有方法，要么一起成功，要么所有都失败，但是在实际过程中，比如有1000条数据，成功了900条，这时候如果全部回滚的话 这900条成功的数据也就回滚了，此时，我们的真实需求是 如果发生异常，则异常的数据不提交数据，也就是只回滚这些有问题的数据，那些正常的数据正常的提交事务。</p>
+<p>在Spring中，当一个方法调用另外一个方法的时候，可以让事务才去不同的策略工作，比如新建事务或者挂起事务，这就是事务的传播行为。比如说我们在一个事务中for循环批量插入一千条数据，这当每一条数据插入时，这可以理解成整个事务的单个方法，这个方法执行时，可以让这个当个方法不在当前事务中执行，而是单独的信件一个事务去执行方法，我们就会将当前方法调用资方的传播行为为信件事务，此外，还可以让子方法在无事务、独立事务中执行，这完全取决于你的业务需求</p>
+<p>在Spring事务机制中，对于数据存在七中传播行为，它通过枚举类Propagation定义的，下面放源代码！</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">public  enum Propagation &#123;       </span><br><span class="line">       /**</span><br><span class="line">        * 需要事务，它是默认的传播行为，如果当前存在事务，就沿用当前事务</span><br><span class="line">        * 否则就新建一个事务运行子方法</span><br><span class="line">        */</span><br><span class="line">       REQUIRED(TransactionDefinition.PROPAGATION_REQUIRED),</span><br><span class="line">       /**</span><br><span class="line">        * 支持事务，如果当前存在事务，就沿用当前事务</span><br><span class="line">        * 如果不存在，则继续采用无事务的方式运行子方法</span><br><span class="line">        */</span><br><span class="line">       SUPPORTS(TransactionDefinition.PROPAGATION_SUPPORTS),</span><br><span class="line">       /**</span><br><span class="line">        * 必须使用事务，如果当前没有事务，则会抛出异常</span><br><span class="line">        * 如果存在事务，则沿用当前事务</span><br><span class="line">        */</span><br><span class="line">       MANDATORY(TransactionDefinition.PROPAGATION_MANDATORY),</span><br><span class="line">       /**</span><br><span class="line">        * 无论当前事务是否存在，都会创建新的事务运行方法，这样新事务就可以拥有新的锁和隔离级别等特性，与当前事务相互独立</span><br><span class="line">        */</span><br><span class="line">       REQUIRES_NEW(TransactionDefinition.PROPAGATION_REQUIRES_NEW),</span><br><span class="line">       /**</span><br><span class="line">        * 不支持事务，如果当前存在事务将挂起事务，运行方法</span><br><span class="line">        */</span><br><span class="line">       NOT_SUPPORTED(TransactionDefinition.PROPAGATION_NOT_SUPPORTED),</span><br><span class="line">       /**</span><br><span class="line">        * 不支持事务，如果当前方法存在事务，则抛出异常，否则继续使用无事务机制运行</span><br><span class="line">        */</span><br><span class="line">       NEVER(TransactionDefinition.PROPAGATION_NEVER),</span><br><span class="line">       /**</span><br><span class="line">        * 在当前方法调用子方法时，如果子方法发生异常，只回滚子方法执行的SQL，而不回滚当前方法的事务</span><br><span class="line">        */</span><br><span class="line">       NESTED(TransactionDefinition.PROPAGATION_NESTED);</span><br><span class="line">       private final int value;</span><br><span class="line">       Propagation(int value) &#123; this.value = value; &#125;</span><br><span class="line">       public int <span class="function"><span class="title">value</span></span>() &#123; <span class="built_in">return</span> this.value; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最常用的也就是 <strong>NESTED(TransactionDefinition.PROPAGATION_NESTED)</strong><br><strong>REQUIRES_NEW(TransactionDefinition.PROPAGATION_REQUIRES_NEW)</strong><br><strong>REQUIRED(TransactionDefinition.PROPAGATION_REQUIRED)</strong></p>
+<p>接下来通过测试来理解几种常用的传播行为</p>
+<h4 id="REQUIRED"><a href="#REQUIRED" class="headerlink" title="REQUIRED:"></a><strong>REQUIRED:</strong></h4><p>需要事务，它是默认的传播行为，如果当前存在事务，就沿用当前事务,否则就新建一个事务运行子方法</p>
+<h4 id="Mapper文件编写"><a href="#Mapper文件编写" class="headerlink" title="Mapper文件编写"></a>Mapper文件编写</h4><p><strong>注意:</strong> mapper文件要注意的是在默认执行student赋值的时候，如果不加后面的jdbcTYPE=XXX  会报错无效的列类型..因为他无法默认给你识别<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span> ?&gt;</span><br><span class="line">&lt;!DOCTYPE mapper PUBLIC <span class="string">"-//mybatis.org//DTD Mapper 3.0//EN"</span> <span class="string">"http://mybatis.org/dtd/mybatis-3-mapper.dtd"</span> &gt;</span><br><span class="line">&lt;mapper namespace=<span class="string">"com.wangshun.leaning.dao.IStudentDao"</span> &gt;</span><br><span class="line">  &lt;sql id=<span class="string">"BASE_TABLE"</span>&gt;</span><br><span class="line">    student</span><br><span class="line">  &lt;/sql&gt;</span><br><span class="line">  &lt;sql id=<span class="string">"BASE_COLUMN"</span>&gt;</span><br><span class="line">    id,name,age,sex</span><br><span class="line">  &lt;/sql&gt;</span><br><span class="line">    &lt;select id=<span class="string">"selectAll"</span> resultType=<span class="string">"student"</span>&gt;</span><br><span class="line">      SELECT</span><br><span class="line">        &lt;include refid=<span class="string">"BASE_COLUMN"</span>/&gt;</span><br><span class="line">      FROM</span><br><span class="line">        &lt;include refid=<span class="string">"BASE_TABLE"</span>/&gt;</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line">  &lt;insert id=<span class="string">"saveOrUpdate"</span> parameterType=<span class="string">"student"</span>&gt;</span><br><span class="line">    insert into student(id,name,age,sex) VALUES(<span class="comment">#&#123;id,jdbcType=NUMERIC&#125;,#&#123;name,jdbcType=VARCHAR&#125;,#&#123;age,jdbcType=VARCHAR&#125;,#&#123;sex,jdbcType=VARCHAR&#125;)</span></span><br><span class="line">  &lt;/insert&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="entity"><a href="#entity" class="headerlink" title="entity"></a>entity</h4><p><strong>注意:</strong> @Alias(“student”) 注解的使用，这个注解必须配合配置文件中的自动扫描 才能使用，否则在mapper文件中是无法使用类别名的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">@Alias(<span class="string">"student"</span>)</span><br><span class="line">public class Student &#123;</span><br><span class="line">       private int id;</span><br><span class="line">       private String name;</span><br><span class="line">       private String age;</span><br><span class="line">       private String sex;</span><br><span class="line">       </span><br><span class="line">       </span><br><span class="line">       public int <span class="function"><span class="title">getId</span></span>() &#123;</span><br><span class="line">              <span class="built_in">return</span> id;</span><br><span class="line">       &#125;</span><br><span class="line">       public void setId(int id) &#123;</span><br><span class="line">              this.id = id;</span><br><span class="line">       &#125;</span><br><span class="line">       public String <span class="function"><span class="title">getName</span></span>() &#123;</span><br><span class="line">              <span class="built_in">return</span> name;</span><br><span class="line">       &#125;</span><br><span class="line">       public void setName(String name) &#123;</span><br><span class="line">              this.name = name;</span><br><span class="line">       &#125;</span><br><span class="line">       public String <span class="function"><span class="title">getAge</span></span>() &#123;</span><br><span class="line">              <span class="built_in">return</span> age;</span><br><span class="line">       &#125;</span><br><span class="line">       public void setAge(String age) &#123;</span><br><span class="line">              this.age = age;</span><br><span class="line">       &#125;</span><br><span class="line">       public String <span class="function"><span class="title">getSex</span></span>() &#123;</span><br><span class="line">              <span class="built_in">return</span> sex;</span><br><span class="line">       &#125;</span><br><span class="line">       public void setSex(String sex) &#123;</span><br><span class="line">              this.sex = sex;</span><br><span class="line">       &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><p><strong>注意：</strong>配置文件中要注意2个点，一个是日志配置中必须吧springframework  这个的日志打开，否则是看不到测试结果的，第二个就是在Mybatis配置中type-aliases-package: com.wangshun.leaning.entity  # 注意：对应实体类的路径 这个必须和实体类路径必须和你@Alias注解所在的包对应才，这个@Alias 注解才能生效</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  datasource:</span><br><span class="line">        tomcat:</span><br><span class="line">        <span class="comment">#指定数据源默认隔离级别；</span></span><br><span class="line">        <span class="comment">#-1：数据库默认隔离级别</span></span><br><span class="line">        <span class="comment">#1 未提交读</span></span><br><span class="line">        <span class="comment">#2，读写提交</span></span><br><span class="line">        <span class="comment">#4 可重复读</span></span><br><span class="line">        <span class="comment">#8  串行化</span></span><br><span class="line">          default-transaction-isolation: 2</span><br><span class="line">        name: oracle_test</span><br><span class="line">        <span class="built_in">type</span>: com.alibaba.druid.pool.DruidDataSource</span><br><span class="line">        <span class="comment">#druid相关配置</span></span><br><span class="line">        druid:</span><br><span class="line">          <span class="comment">#监控统计拦截的filters</span></span><br><span class="line">          filters: <span class="built_in">stat</span></span><br><span class="line">          driver-class-name: oracle.jdbc.OracleDriver</span><br><span class="line">          <span class="comment">#基本属性</span></span><br><span class="line">          url: jdbc:oracle:thin:@localhost:1521:orcl</span><br><span class="line">          username: weblogic</span><br><span class="line">          password: password1</span><br><span class="line">          <span class="comment">#配置初始化大小/最小/最大</span></span><br><span class="line">          initial-size: 1</span><br><span class="line">          min-idle: 1</span><br><span class="line">          max-active: 20</span><br><span class="line">          <span class="comment">#获取连接等待超时时间</span></span><br><span class="line">          max-wait: 60000</span><br><span class="line">          <span class="comment">#间隔多久进行一次检测，检测需要关闭的空闲连接</span></span><br><span class="line">          time-between-eviction-runs-millis: 60000</span><br><span class="line">          <span class="comment">#一个连接在池中最小生存的时间</span></span><br><span class="line">          min-evictable-idle-time-millis: 300000</span><br><span class="line">          validation-query: SELECT <span class="string">'x'</span> FROM DUAL</span><br><span class="line">          <span class="built_in">test</span>-while-idle: <span class="literal">true</span></span><br><span class="line">          <span class="built_in">test</span>-on-borrow: <span class="literal">false</span></span><br><span class="line">          <span class="built_in">test</span>-on-return: <span class="literal">false</span></span><br><span class="line">          <span class="comment">#打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false</span></span><br><span class="line">          pool-prepared-statements: <span class="literal">true</span></span><br><span class="line">          max-pool-prepared-statement-per-connection-size: 20</span><br><span class="line"><span class="comment">##日志配置,这里只是写了显示日志，后面服务器需要可能需要记录日志可以参考battch的博客</span></span><br><span class="line">logging:</span><br><span class="line">  level:</span><br><span class="line">    root: warn</span><br><span class="line">    <span class="comment">#设置Mybatis打印Sql,下面的包是dao层的包路径，不是mapper的路径</span></span><br><span class="line">    com.wangshun.leaning.dao: DEBUG</span><br><span class="line">    org:</span><br><span class="line">      mybatis: INFO</span><br><span class="line">      springframework: debug</span><br><span class="line">       </span><br><span class="line"><span class="comment">## Mybatis 配置</span></span><br><span class="line">mybatis:</span><br><span class="line">  mapper-locations: classpath:mapper/*.xml  <span class="comment">#注意：一定要对应mapper映射xml文件的所在路径</span></span><br><span class="line">  <span class="built_in">type</span>-aliases-package: com.wangshun.leaning.entity  <span class="comment"># 注意：对应实体类的路径</span></span><br><span class="line">  <span class="comment">#驼峰命名规范 如：数据库字段是  order_id 那么 实体字段就要写成 orderId，</span></span><br><span class="line">  <span class="comment">#这个配置是为我们简化ResultMap的配置</span></span><br><span class="line">  configuration:</span><br><span class="line">    map-underscore-to-camel-case: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h4 id="dao接口"><a href="#dao接口" class="headerlink" title="dao接口"></a>dao接口</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Mapper</span><br><span class="line">public interface IStudentDao &#123;</span><br><span class="line">       </span><br><span class="line">       List&lt;Student&gt; selectAll();</span><br><span class="line">       </span><br><span class="line">       int saveOrUpdate(Student student);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="service实现类"><a href="#service实现类" class="headerlink" title="service实现类"></a>service实现类</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class StudentServiceImpl implements IStudneService&#123;</span><br><span class="line">       </span><br><span class="line">       @Autowired</span><br><span class="line">       IStudentDao studentDao;</span><br><span class="line">       </span><br><span class="line">       </span><br><span class="line">       @Override</span><br><span class="line">       @Transactional(isolation=Isolation.READ_COMMITTED)</span><br><span class="line">       public int saveOrUpdate(Student student) &#123;</span><br><span class="line">              <span class="built_in">return</span> studentDao.saveOrUpdate(student);</span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="批量类BatchService"><a href="#批量类BatchService" class="headerlink" title="批量类BatchService"></a>批量类BatchService</h4><p>这里是需要2个service的，之前也说了 传播行为是方法与方法之间的，同样这里添加事务注解，并且声明传播行为<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class BatchStudentImpl implements IBatchStudent&#123;</span><br><span class="line">       @Autowired</span><br><span class="line">       IStudneService stuentService;</span><br><span class="line">       @Override</span><br><span class="line">       @Transactional(isolation=Isolation.READ_COMMITTED,propagation=Propagation.REQUIRED)</span><br><span class="line">       public int saveOrUpdate(List&lt;Student&gt; students) &#123;</span><br><span class="line">              <span class="keyword">for</span> (Student student : students) &#123;</span><br><span class="line">                     stuentService.saveOrUpdate(student);</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="built_in">return</span> 0;</span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">public class StudentController &#123;</span><br><span class="line">       @Autowired</span><br><span class="line">       IBatchStudent batchStudent;</span><br><span class="line">       </span><br><span class="line">       /**</span><br><span class="line">        * 测试数据库传播行为</span><br><span class="line">        * @<span class="built_in">return</span></span><br><span class="line">        */</span><br><span class="line">       @GetMapping(<span class="string">"/insertStudents.do"</span>)</span><br><span class="line">       @ResponseBody</span><br><span class="line">       public String <span class="function"><span class="title">insert</span></span>() &#123;</span><br><span class="line">              List&lt;Student&gt; list = new ArrayList&lt;Student&gt;();</span><br><span class="line">              <span class="keyword">for</span>(int i = 0;i&lt;=3;i++) &#123;</span><br><span class="line">                     Student student = new Student();</span><br><span class="line">                     student.setId(i);</span><br><span class="line">                     student.setName(<span class="string">"张三"</span>+i);</span><br><span class="line">                     student.setAge(<span class="string">""</span>+i);</span><br><span class="line">                     list.add(student);</span><br><span class="line">              &#125;</span><br><span class="line">              batchStudent.saveOrUpdate(list);</span><br><span class="line">              <span class="built_in">return</span> <span class="string">"success"</span>;</span><br><span class="line">              </span><br><span class="line">       &#125;</span><br><span class="line">       </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行代码 执行<a href="http://localhost:8080/insertStudents.do" target="_blank" rel="noopener">http://localhost:8080/insertStudents.do</a><br>后台日志如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">2018-12-20 23:03:56.227 DEBUG 16864 --- [nio-8080-exec-3] o.s.j.d.DataSourceTransactionManager     : Participating <span class="keyword">in</span> existing transaction</span><br><span class="line">2018-12-20 23:03:56.227 DEBUG 16864 --- [nio-8080-exec-3] c.w.l.dao.IStudentDao.saveOrUpdate       : ==&gt;  Preparing: insert into student(id,name,age,sex) VALUES(?,?,?,?)</span><br><span class="line">2018-12-20 23:03:56.228 DEBUG 16864 --- [nio-8080-exec-3] c.w.l.dao.IStudentDao.saveOrUpdate       : ==&gt; Parameters: 0(Integer), 张三0(String), 0(String), null</span><br><span class="line">2018-12-20 23:03:56.229 DEBUG 16864 --- [nio-8080-exec-3] c.w.l.dao.IStudentDao.saveOrUpdate       : &lt;==    Updates: 1</span><br><span class="line">2018-12-20 23:03:56.231 DEBUG 16864 --- [nio-8080-exec-3] o.s.j.d.DataSourceTransactionManager     : Participating <span class="keyword">in</span> existing transaction</span><br><span class="line">2018-12-20 23:03:56.231 DEBUG 16864 --- [nio-8080-exec-3] c.w.l.dao.IStudentDao.saveOrUpdate       : ==&gt;  Preparing: insert into student(id,name,age,sex) VALUES(?,?,?,?)</span><br><span class="line">2018-12-20 23:03:56.231 DEBUG 16864 --- [nio-8080-exec-3] c.w.l.dao.IStudentDao.saveOrUpdate       : ==&gt; Parameters: 1(Integer), 张三1(String), 1(String), null</span><br><span class="line">2018-12-20 23:03:56.232 DEBUG 16864 --- [nio-8080-exec-3] c.w.l.dao.IStudentDao.saveOrUpdate       : &lt;==    Updates: 1</span><br><span class="line">2018-12-20 23:03:56.232 DEBUG 16864 --- [nio-8080-exec-3] o.s.j.d.DataSourceTransactionManager     : Participating <span class="keyword">in</span> existing transaction</span><br><span class="line">2018-12-20 23:03:56.232 DEBUG 16864 --- [nio-8080-exec-3] c.w.l.dao.IStudentDao.saveOrUpdate       : ==&gt;  Preparing: insert into student(id,name,age,sex) VALUES(?,?,?,?)</span><br><span class="line">2018-12-20 23:03:56.232 DEBUG 16864 --- [nio-8080-exec-3] c.w.l.dao.IStudentDao.saveOrUpdate       : ==&gt; Parameters: 2(Integer), 张三2(String), 2(String), null</span><br><span class="line">2018-12-20 23:03:56.232 DEBUG 16864 --- [nio-8080-exec-3] c.w.l.dao.IStudentDao.saveOrUpdate       : &lt;==    Updates: 1</span><br><span class="line">2018-12-20 23:03:56.233 DEBUG 16864 --- [nio-8080-exec-3] o.s.j.d.DataSourceTransactionManager     : Participating <span class="keyword">in</span> existing transaction</span><br><span class="line">2018-12-20 23:03:56.233 DEBUG 16864 --- [nio-8080-exec-3] c.w.l.dao.IStudentDao.saveOrUpdate       : ==&gt;  Preparing: insert into student(id,name,age,sex) VALUES(?,?,?,?)</span><br></pre></td></tr></table></figure></p>
+<p>注意这个：Participating in existing transaction<br>也就是说 它这里执行后面的sql还是沿用的之前的事务。</p>
+<h4 id="Propagation-REQUIRES-NEW"><a href="#Propagation-REQUIRES-NEW" class="headerlink" title="Propagation.REQUIRES_NEW"></a>Propagation.REQUIRES_NEW</h4><p>改动的代码也就是单条插入的那个service 的实现类中的事务标注的设置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class StudentServiceImpl implements IStudneService&#123;</span><br><span class="line">       </span><br><span class="line">       @Autowired</span><br><span class="line">       IStudentDao studentDao;</span><br><span class="line">       </span><br><span class="line">       </span><br><span class="line">       @Override</span><br><span class="line">       @Transactional(isolation=Isolation.READ_COMMITTED,propagation = Propagation.REQUIRES_NEW)</span><br><span class="line">       public int saveOrUpdate(Student student) &#123;</span><br><span class="line">              <span class="built_in">return</span> studentDao.saveOrUpdate(student);</span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">2018-12-20 23:23:03.360  INFO 16640 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet <span class="string">'dispatcherServlet'</span></span><br><span class="line">2018-12-20 23:23:03.361 DEBUG 16640 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver</span><br><span class="line">2018-12-20 23:23:03.373 DEBUG 16640 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails=<span class="string">'false'</span>: request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data</span><br><span class="line">2018-12-20 23:23:03.373  INFO 16640 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization <span class="keyword">in</span> 12 ms</span><br><span class="line">2018-12-20 23:23:03.392 DEBUG 16640 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET <span class="string">"/insertStudents.do"</span>, parameters=&#123;&#125;</span><br><span class="line">2018-12-20 23:23:03.400 DEBUG 16640 --- [nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to public java.lang.String com.wangshun.leaning.controller.StudentController.insert()</span><br><span class="line"><span class="comment">#创建当前方法事务(com.wangshun.leaning.service.impl.BatchStudentImpl类的saveOrUpdate方法)</span></span><br><span class="line">2018-12-20 23:23:03.419 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Creating new transaction with name [com.wangshun.leaning.service.impl.BatchStudentImpl.saveOrUpdate]: PROPAGATION_REQUIRED,ISOLATION_READ_COMMITTED</span><br><span class="line">2018-12-20 23:23:03.425 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Acquired Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@6ac5a885] <span class="keyword">for</span> JDBC transaction</span><br><span class="line"><span class="comment">#设置当前事务的隔离级别</span></span><br><span class="line">2018-12-20 23:23:03.433 DEBUG 16640 --- [nio-8080-exec-1] o.s.jdbc.datasource.DataSourceUtils      : Changing isolation level of JDBC Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@6ac5a885] to 2</span><br><span class="line">2018-12-20 23:23:03.433 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Switching JDBC Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@6ac5a885] to manual commit</span><br><span class="line"><span class="comment">#创建子方法事务(com.wangshun.leaning.service.impl.StudentServiceImpl类的saveOrUpdate方法)</span></span><br><span class="line">2018-12-20 23:23:03.439 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Suspending current transaction, creating new transaction with name [com.wangshun.leaning.service.impl.StudentServiceImpl.saveOrUpdate]</span><br><span class="line">2018-12-20 23:23:03.497 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Acquired Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9] <span class="keyword">for</span> JDBC transaction</span><br><span class="line"><span class="comment">#更改子方法事务的隔离级别</span></span><br><span class="line">2018-12-20 23:23:03.499 DEBUG 16640 --- [nio-8080-exec-1] o.s.jdbc.datasource.DataSourceUtils      : Changing isolation level of JDBC Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9] to 2</span><br><span class="line">2018-12-20 23:23:03.499 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Switching JDBC Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9] to manual commit</span><br><span class="line">2018-12-20 23:23:03.543 DEBUG 16640 --- [nio-8080-exec-1] c.w.l.dao.IStudentDao.saveOrUpdate       : ==&gt;  Preparing: insert into student(id,name,age,sex) VALUES(?,?,?,?)</span><br><span class="line">2018-12-20 23:23:03.658 DEBUG 16640 --- [nio-8080-exec-1] c.w.l.dao.IStudentDao.saveOrUpdate       : ==&gt; Parameters: 0(Integer), 张三0(String), 0(String), null</span><br><span class="line">2018-12-20 23:23:03.665 DEBUG 16640 --- [nio-8080-exec-1] c.w.l.dao.IStudentDao.saveOrUpdate       : &lt;==    Updates: 1</span><br><span class="line">2018-12-20 23:23:03.667 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Initiating transaction commit</span><br><span class="line">2018-12-20 23:23:03.667 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Committing JDBC transaction on Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9]</span><br><span class="line">2018-12-20 23:23:03.670 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Releasing JDBC Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9] after transaction</span><br><span class="line">2018-12-20 23:23:03.670 DEBUG 16640 --- [nio-8080-exec-1] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource</span><br><span class="line">2018-12-20 23:23:03.670 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Resuming suspended transaction after completion of inner transaction</span><br><span class="line"><span class="comment">#创建子方法事务(com.wangshun.leaning.service.impl.StudentServiceImpl类的saveOrUpdate方法)</span></span><br><span class="line">2018-12-20 23:23:03.670 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Suspending current transaction, creating new transaction with name [com.wangshun.leaning.service.impl.StudentServiceImpl.saveOrUpdate]</span><br><span class="line">2018-12-20 23:23:03.671 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Acquired Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9] <span class="keyword">for</span> JDBC transaction</span><br><span class="line"><span class="comment">#更改子方法事务的隔离级别</span></span><br><span class="line">2018-12-20 23:23:03.671 DEBUG 16640 --- [nio-8080-exec-1] o.s.jdbc.datasource.DataSourceUtils      : Changing isolation level of JDBC Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9] to 2</span><br><span class="line">2018-12-20 23:23:03.671 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Switching JDBC Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9] to manual commit</span><br><span class="line">2018-12-20 23:23:03.671 DEBUG 16640 --- [nio-8080-exec-1] c.w.l.dao.IStudentDao.saveOrUpdate       : ==&gt;  Preparing: insert into student(id,name,age,sex) VALUES(?,?,?,?)</span><br><span class="line">2018-12-20 23:23:03.671 DEBUG 16640 --- [nio-8080-exec-1] c.w.l.dao.IStudentDao.saveOrUpdate       : ==&gt; Parameters: 1(Integer), 张三1(String), 1(String), null</span><br><span class="line">2018-12-20 23:23:03.672 DEBUG 16640 --- [nio-8080-exec-1] c.w.l.dao.IStudentDao.saveOrUpdate       : &lt;==    Updates: 1</span><br><span class="line">2018-12-20 23:23:03.672 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Initiating transaction commit</span><br><span class="line">2018-12-20 23:23:03.672 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Committing JDBC transaction on Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9]</span><br><span class="line">2018-12-20 23:23:03.704 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Releasing JDBC Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9] after transaction</span><br><span class="line">2018-12-20 23:23:03.704 DEBUG 16640 --- [nio-8080-exec-1] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource</span><br><span class="line">2018-12-20 23:23:03.704 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Resuming suspended transaction after completion of inner transaction</span><br><span class="line"><span class="comment">#创建子方法事务(com.wangshun.leaning.service.impl.StudentServiceImpl类的saveOrUpdate方法)</span></span><br><span class="line">2018-12-20 23:23:03.704 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Suspending current transaction, creating new transaction with name [com.wangshun.leaning.service.impl.StudentServiceImpl.saveOrUpdate]</span><br><span class="line">2018-12-20 23:23:03.704 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Acquired Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9] <span class="keyword">for</span> JDBC transaction</span><br><span class="line"><span class="comment">#更改子方法事务的隔离级别</span></span><br><span class="line">2018-12-20 23:23:03.704 DEBUG 16640 --- [nio-8080-exec-1] o.s.jdbc.datasource.DataSourceUtils      : Changing isolation level of JDBC Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9] to 2</span><br><span class="line">2018-12-20 23:23:03.704 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Switching JDBC Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9] to manual commit</span><br><span class="line">2018-12-20 23:23:03.704 DEBUG 16640 --- [nio-8080-exec-1] c.w.l.dao.IStudentDao.saveOrUpdate       : ==&gt;  Preparing: insert into student(id,name,age,sex) VALUES(?,?,?,?)</span><br><span class="line">2018-12-20 23:23:03.704 DEBUG 16640 --- [nio-8080-exec-1] c.w.l.dao.IStudentDao.saveOrUpdate       : ==&gt; Parameters: 2(Integer), 张三2(String), 2(String), null</span><br><span class="line">2018-12-20 23:23:03.705 DEBUG 16640 --- [nio-8080-exec-1] c.w.l.dao.IStudentDao.saveOrUpdate       : &lt;==    Updates: 1</span><br><span class="line">2018-12-20 23:23:03.705 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Initiating transaction commit</span><br><span class="line">2018-12-20 23:23:03.705 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Committing JDBC transaction on Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9]</span><br><span class="line">2018-12-20 23:23:03.706 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Releasing JDBC Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9] after transaction</span><br><span class="line">2018-12-20 23:23:03.706 DEBUG 16640 --- [nio-8080-exec-1] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource</span><br><span class="line">2018-12-20 23:23:03.706 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Resuming suspended transaction after completion of inner transaction</span><br><span class="line"><span class="comment">#创建子方法事务(com.wangshun.leaning.service.impl.StudentServiceImpl类的saveOrUpdate方法)</span></span><br><span class="line">2018-12-20 23:23:03.706 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Suspending current transaction, creating new transaction with name [com.wangshun.leaning.service.impl.StudentServiceImpl.saveOrUpdate]</span><br><span class="line">2018-12-20 23:23:03.706 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Acquired Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9] <span class="keyword">for</span> JDBC transaction</span><br><span class="line">2018-12-20 23:23:03.706 DEBUG 16640 --- [nio-8080-exec-1] o.s.jdbc.datasource.DataSourceUtils      : Changing isolation level of JDBC Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9] to 2</span><br><span class="line">2018-12-20 23:23:03.706 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Switching JDBC Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9] to manual commit</span><br><span class="line">2018-12-20 23:23:03.706 DEBUG 16640 --- [nio-8080-exec-1] c.w.l.dao.IStudentDao.saveOrUpdate       : ==&gt;  Preparing: insert into student(id,name,age,sex) VALUES(?,?,?,?)</span><br><span class="line">2018-12-20 23:23:03.707 DEBUG 16640 --- [nio-8080-exec-1] c.w.l.dao.IStudentDao.saveOrUpdate       : ==&gt; Parameters: 3(Integer), 张三3(String), 3(String), null</span><br><span class="line">2018-12-20 23:23:03.707 DEBUG 16640 --- [nio-8080-exec-1] c.w.l.dao.IStudentDao.saveOrUpdate       : &lt;==    Updates: 1</span><br><span class="line">2018-12-20 23:23:03.707 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Initiating transaction commit</span><br><span class="line">2018-12-20 23:23:03.707 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Committing JDBC transaction on Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9]</span><br><span class="line">2018-12-20 23:23:03.708 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Releasing JDBC Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@a888ec9] after transaction</span><br><span class="line">2018-12-20 23:23:03.708 DEBUG 16640 --- [nio-8080-exec-1] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource</span><br><span class="line">2018-12-20 23:23:03.708 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Resuming suspended transaction after completion of inner transaction</span><br><span class="line">2018-12-20 23:23:03.709 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Initiating transaction commit</span><br><span class="line">2018-12-20 23:23:03.709 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Committing JDBC transaction on Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@6ac5a885]</span><br><span class="line">2018-12-20 23:23:03.709 DEBUG 16640 --- [nio-8080-exec-1] o.s.j.d.DataSourceTransactionManager     : Releasing JDBC Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@6ac5a885] after transaction</span><br><span class="line">2018-12-20 23:23:03.709 DEBUG 16640 --- [nio-8080-exec-1] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource</span><br><span class="line">2018-12-20 23:23:03.721 DEBUG 16640 --- [nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Using <span class="string">'text/html'</span>, given [text/html, application/xhtml+xml, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8] and supported [text/plain, */*, text/plain, */*, application/json, application/*+json, application/json, application/*+json]</span><br><span class="line">2018-12-20 23:23:03.722 DEBUG 16640 --- [nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Writing [<span class="string">"success"</span>]</span><br><span class="line">2018-12-20 23:23:03.730 DEBUG 16640 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK</span><br><span class="line">2018-12-20 23:23:03.755 DEBUG 16640 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET <span class="string">"/favicon.ico"</span>, parameters=&#123;&#125;</span><br><span class="line">2018-12-20 23:23:03.757 DEBUG 16640 --- [nio-8080-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [class path resource [META-INF/resources/], class path resource [resources/], class path resource [static/], class path resource [public/], ServletContext resource [/], class path resource []]</span><br><span class="line">2018-12-20 23:23:03.790 DEBUG 16640 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK</span><br></pre></td></tr></table></figure>
+<p>通过上图的测试结果可以看出来，每次执行新增操作的时候，它都是启用一个新的数据库事务去执行这个saveOrUpdate方法，并且独立提交，完全脱离了原本事务的管控，每一个事务都可以拥有自己独立的隔离级别和锁。</p>
+<h4 id="Propagation-NESTED"><a href="#Propagation-NESTED" class="headerlink" title="Propagation.NESTED"></a>Propagation.NESTED</h4><p>修改的代码部分依旧只有传播行为的属性</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class StudentServiceImpl implements IStudneService&#123;</span><br><span class="line">       </span><br><span class="line">       @Autowired</span><br><span class="line">       IStudentDao studentDao;</span><br><span class="line">       </span><br><span class="line">       </span><br><span class="line">       @Override</span><br><span class="line">       @Transactional(isolation=Isolation.READ_COMMITTED,propagation = Propagation.NESTED)</span><br><span class="line">       public int saveOrUpdate(Student student) &#123;</span><br><span class="line">              <span class="built_in">return</span> studentDao.saveOrUpdate(student);</span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="测试结果-1"><a href="#测试结果-1" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">2018-12-20 23:42:59.252 DEBUG 6104 --- [nio-8080-exec-2] o.s.j.d.DataSourceTransactionManager     : Creating nested transaction with name [com.wangshun.leaning.service.impl.StudentServiceImpl.saveOrUpdate]</span><br><span class="line">2018-12-20 23:42:59.253 DEBUG 6104 --- [nio-8080-exec-2] c.w.l.dao.IStudentDao.saveOrUpdate       : ==&gt;  Preparing: insert into student(id,name,age,sex) VALUES(?,?,?,?)</span><br><span class="line">2018-12-20 23:42:59.253 DEBUG 6104 --- [nio-8080-exec-2] c.w.l.dao.IStudentDao.saveOrUpdate       : ==&gt; Parameters: 2(Integer), 张三2(String), 2(String), null</span><br><span class="line">2018-12-20 23:42:59.254 DEBUG 6104 --- [nio-8080-exec-2] c.w.l.dao.IStudentDao.saveOrUpdate       : &lt;==    Updates: 1</span><br><span class="line">2018-12-20 23:42:59.254 DEBUG 6104 --- [nio-8080-exec-2] o.s.j.d.DataSourceTransactionManager     : Releasing transaction savepoint</span><br><span class="line">2018-12-20 23:42:59.256 DEBUG 6104 --- [nio-8080-exec-2] o.s.j.d.JdbcTransactionObjectSupport     : Could not explicitly release JDBC savepoint</span><br><span class="line">java.sql.SQLFeatureNotSupportedException: 不支持的特性</span><br></pre></td></tr></table></figure>
+<p>虽然说不支持吧…但是可以看到SQL异常之前的的savepoint<br>这个的意思是标志位<br>他的意思就是说 每一条数据执行完之后都会设置一个标志位，如果后面的数据发生异常，那么就会回滚到当前标志位的数据状态，而不是让所有的数据也回滚。<br>这个标志位在数据库中的名词叫做保存点(save point)</p>
+<h4 id="最后说一点"><a href="#最后说一点" class="headerlink" title="最后说一点"></a>最后说一点</h4><p>NESTED和REQUIRES_NEW 还是有很大的区别的  前者会沿用之前设计的锁和隔离级别，而后者可以完全脱离原本自己设定新的锁和隔离级别</p>
+<p>参考文献<br>    《深入浅出SpringBoot2.x》——杨开振</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/springBoot/" rel="tag"># springBoot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/23/SpringBoot-4-访问数据库/" rel="next" title="SpringBoot(4)访问数据库">
+                <i class="fa fa-chevron-left"></i> SpringBoot(4)访问数据库
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/icon.png" alt="卡丘">
+            
+              <p class="site-author-name" itemprop="name">卡丘</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/zxc785009111" title="GitHub &rarr; https://github.com/zxc785009111" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.battcn.com/" title="https://blog.battcn.com/" rel="noopener" target="_blank">battch</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring声明式事务的使用"><span class="nav-number">1.</span> <span class="nav-text">Spring声明式事务的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring声明式数据库事务约定"><span class="nav-number">1.1.</span> <span class="nav-text">Spring声明式数据库事务约定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transactional的配置项"><span class="nav-number">1.2.</span> <span class="nav-text">@Transactional的配置项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隔离级别"><span class="nav-number">2.</span> <span class="nav-text">隔离级别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库事务的基本知识，数据库事务具有4个基本特征，也就是ACID："><span class="nav-number">2.1.</span> <span class="nav-text">数据库事务的基本知识，数据库事务具有4个基本特征，也就是ACID：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原子性（Atomicity）"><span class="nav-number">2.1.1.</span> <span class="nav-text">原子性（Atomicity）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一致性（Consistency）"><span class="nav-number">2.1.2.</span> <span class="nav-text">一致性（Consistency）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#隔离性（Isolation）"><span class="nav-number">2.1.3.</span> <span class="nav-text">隔离性（Isolation）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#持久性（Durability）"><span class="nav-number">2.1.4.</span> <span class="nav-text">持久性（Durability）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#两类丢失更新"><span class="nav-number">2.2.</span> <span class="nav-text">两类丢失更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4种隔离级别的区别："><span class="nav-number">2.3.</span> <span class="nav-text">4种隔离级别的区别：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#未提交读"><span class="nav-number">2.3.1.</span> <span class="nav-text">未提交读:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#读写提交"><span class="nav-number">2.3.2.</span> <span class="nav-text">读写提交:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可重复读："><span class="nav-number">2.3.3.</span> <span class="nav-text">可重复读：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#串行化："><span class="nav-number">2.3.4.</span> <span class="nav-text">串行化：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用隔离级别"><span class="nav-number">2.4.</span> <span class="nav-text">使用隔离级别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传播行为"><span class="nav-number">3.</span> <span class="nav-text">传播行为</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#REQUIRED"><span class="nav-number">3.0.1.</span> <span class="nav-text">REQUIRED:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mapper文件编写"><span class="nav-number">3.0.2.</span> <span class="nav-text">Mapper文件编写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#entity"><span class="nav-number">3.0.3.</span> <span class="nav-text">entity</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置文件"><span class="nav-number">3.0.4.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dao接口"><span class="nav-number">3.0.5.</span> <span class="nav-text">dao接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#service实现类"><span class="nav-number">3.0.6.</span> <span class="nav-text">service实现类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#批量类BatchService"><span class="nav-number">3.0.7.</span> <span class="nav-text">批量类BatchService</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controller"><span class="nav-number">3.0.8.</span> <span class="nav-text">Controller</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Propagation-REQUIRES-NEW"><span class="nav-number">3.0.9.</span> <span class="nav-text">Propagation.REQUIRES_NEW</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试结果"><span class="nav-number">3.0.10.</span> <span class="nav-text">测试结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Propagation-NESTED"><span class="nav-number">3.0.11.</span> <span class="nav-text">Propagation.NESTED</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试结果-1"><span class="nav-number">3.0.12.</span> <span class="nav-text">测试结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最后说一点"><span class="nav-number">3.0.13.</span> <span class="nav-text">最后说一点</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">卡丘</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "OdVJyQ0RufHbP3IGm64pLGTR-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "OdVJyQ0RufHbP3IGm64pLGTR-gzGzoHsz",
+                'X-LC-Key': "GM8FS2xjI83IuuP9Frddmv3s",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
