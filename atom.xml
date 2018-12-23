@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-12-23T02:00:13.905Z</updated>
+  <updated>2018-12-23T03:01:18.682Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,21 +17,40 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>springBoot(1)使用MyEclipse构建一个SpringBoot</title>
+    <link href="http://yoursite.com/2018/12/23/springBoot-1-%E4%BD%BF%E7%94%A8MyEclipse%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AASpringBoot/"/>
+    <id>http://yoursite.com/2018/12/23/springBoot-1-使用MyEclipse构建一个SpringBoot/</id>
+    <published>2018-12-23T02:38:56.000Z</published>
+    <updated>2018-12-23T03:01:18.682Z</updated>
+    
+    <content type="html"><![CDATA[<p>简介：SpringBoot 是为了简化 Spring 应用的创建、运行、调试、部署等一系列问题而诞生的产物，自动装配的特性让我们可以更好的关注业务本身而不是外部的XML配置，我们只需遵循规范，引入相关的依赖就可以轻易的搭建出一个 WEB 工程</p><p>我使用的是MyEclipse2018，接下来就说一下如何使用MyEclipse构建一个SpringBoot项目……<a id="more"></a></p><h3 id="新建Spring-项目"><a href="#新建Spring-项目" class="headerlink" title="新建Spring 项目"></a>新建Spring 项目</h3><p>右击新建一个Spring 项目，搜索Spring，选择Spring Starter Project<br><img src="/images/SpringBoot/SpringBoot1/sp1-1.png"></p><h3 id="输入项目名称-分组-描述-以及起始包"><a href="#输入项目名称-分组-描述-以及起始包" class="headerlink" title="输入项目名称/分组/描述/以及起始包"></a>输入项目名称/分组/描述/以及起始包</h3><p><img src="/images/SpringBoot/SpringBoot1/p2.png"></p><h3 id="选择SpringBoot的版本以及相应的组件-比如web-mybatis等等"><a href="#选择SpringBoot的版本以及相应的组件-比如web-mybatis等等" class="headerlink" title="选择SpringBoot的版本以及相应的组件(比如web/mybatis等等)"></a>选择SpringBoot的版本以及相应的组件(比如web/mybatis等等)</h3><p><img src="/images/SpringBoot/SpringBoot1/p3.png"></p><h3 id="点击finishe即可，其中首次创建会比较慢，因为需要下载jar包-需要提前配置好Maven-。"><a href="#点击finishe即可，其中首次创建会比较慢，因为需要下载jar包-需要提前配置好Maven-。" class="headerlink" title="点击finishe即可，其中首次创建会比较慢，因为需要下载jar包(需要提前配置好Maven)。"></a>点击finishe即可，其中首次创建会比较慢，因为需要下载jar包(需要提前配置好Maven)。</h3><h3 id="可选-为了以后的方便的话，可以去网上安装一些插件，比如说中文propertise-插件参考地址"><a href="#可选-为了以后的方便的话，可以去网上安装一些插件，比如说中文propertise-插件参考地址" class="headerlink" title="(可选) 为了以后的方便的话，可以去网上安装一些插件，比如说中文propertise 插件参考地址"></a>(可选) 为了以后的方便的话，可以去网上安装一些插件，比如说中文propertise 插件<a href="https://blog.csdn.net/qq_31151929/article/details/51121750" target="_blank" rel="noopener">参考地址</a></h3><pre><code>安装完成之后，在windows-&gt;propertise里面选择一下默认即可：</code></pre><p><img src="/images/SpringBoot/SpringBoot1/p4.png"></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;简介：SpringBoot 是为了简化 Spring 应用的创建、运行、调试、部署等一系列问题而诞生的产物，自动装配的特性让我们可以更好的关注业务本身而不是外部的XML配置，我们只需遵循规范，引入相关的依赖就可以轻易的搭建出一个 WEB 工程&lt;/p&gt;
+&lt;p&gt;我使用的是MyEclipse2018，接下来就说一下如何使用MyEclipse构建一个SpringBoot项目……
+    
+    </summary>
+    
+      <category term="SpringBoot学习" scheme="http://yoursite.com/categories/SpringBoot%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="springBoot" scheme="http://yoursite.com/tags/springBoot/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Hexo学习(1)：使用Hexo搭建博客</title>
     <link href="http://yoursite.com/2018/12/21/hello-world/"/>
     <id>http://yoursite.com/2018/12/21/hello-world/</id>
     <published>2018-12-21T15:41:39.000Z</published>
-    <updated>2018-12-23T02:00:13.905Z</updated>
+    <updated>2018-12-23T02:51:46.136Z</updated>
     
-    <content type="html"><![CDATA[<p>经过一次偶然的机会，我发现了Hexo这个简单快捷的博客框架，这让我想搭建一个博客自己写东西的想法更近了一步，接下来来说说如何使用Hexo 搭建博客</p><h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><h3 id="安装Hexo必要的环境"><a href="#安装Hexo必要的环境" class="headerlink" title="安装Hexo必要的环境"></a>安装Hexo必要的环境</h3><h4 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h4><p>安装node.js过程暂时省略额<br>确认自己电脑是否安装node.js命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ node --version</span><br></pre></td></tr></table></figure></p><h4 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h4><p>安装git过程暂时省略<br>确认自己电脑是否安装git命令：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git version</span><br></pre></td></tr></table></figure><h3 id="开始安装Hexo"><a href="#开始安装Hexo" class="headerlink" title="开始安装Hexo"></a>开始安装Hexo</h3><h4 id="使用指令安装Hexo"><a href="#使用指令安装Hexo" class="headerlink" title="使用指令安装Hexo"></a>使用指令安装Hexo</h4><p>确认node  和git 均安装完成后，开始我们的Hexo安装<br>安装的指令也是十分的简单：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g hexo-cli</span><br></pre></td></tr></table></figure><p>安装的过程可能会比较的缓慢，请耐心等待，因为是从gitHub上面下载。<br><img src="/images/HexoExample1/p1.png"><br>2个警告可以不用管</p><h4 id="hexo-初始化"><a href="#hexo-初始化" class="headerlink" title="hexo 初始化"></a>hexo 初始化</h4><p>安装完成后，可以进入指定目录  执行hexo init 也就是初始化，这样它就会在对应的文件夹下，通过git 去下载Hexo所需要的资源，这些资源也是从gitHub上下载的。<br><img src="/images/HexoExample1/p2.png"></p><p>几个警告同样可以不用管，如果是想在当前workspace的下一个文件夹中创建hexo 也可以使用 hexo init test(test就是文件夹的名称)，这样他就会把资源下载到当前目录的test文件夹中，因为一个workspace可能存在多个项目。<br>下载完成后，我们可以使用dir指令来查看究竟下载了那些东西<br><img src="/images/HexoExample1/p3.png">，这些资源是和gitHub上一致的。</p><h4 id="生成Hexo静态页面"><a href="#生成Hexo静态页面" class="headerlink" title="生成Hexo静态页面"></a>生成Hexo静态页面</h4><p>然后使用hexo g 去生成那些个静态页面。<br><img src="/images/HexoExample1/p4.png"></p><p>完成之后可以再次使用dir命令，就可以看到对比刚才，多了一个public文件夹，所有的静态页面的资源都放到这里面了。<br><img src="/images/HexoExample1/p5.png"></p><h4 id="启动Hexo"><a href="#启动Hexo" class="headerlink" title="启动Hexo"></a>启动Hexo</h4><p>最后输入以下指令来启动hexo<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s</span><br></pre></td></tr></table></figure></p><p><img src="/images/HexoExample1/p6.png"><br>复制开启后显示的地址，打开浏览器访问即可。<br>就可以看到默认的博客样式了。<br><img src="/images/HexoExample1/p7.png"><br>如果希望更改自己主题以及一些其他的设定请参考<br><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">官方文档</a></p><p>参考文档:<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">https://hexo.io/zh-cn/docs/</a></p>]]></content>
+    <content type="html"><![CDATA[<p>经过一次偶然的机会，我发现了Hexo这个简单快捷的博客框架，这让我想搭建一个博客自己写东西的想法更近了一步，接下来来说说如何使用Hexo 搭建博客…..<a id="more"></a></p><h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><h3 id="安装Hexo必要的环境"><a href="#安装Hexo必要的环境" class="headerlink" title="安装Hexo必要的环境"></a>安装Hexo必要的环境</h3><h4 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h4><p>安装node.js过程暂时省略额<br>确认自己电脑是否安装node.js命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ node --version</span><br></pre></td></tr></table></figure></p><h4 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h4><p>安装git过程暂时省略<br>确认自己电脑是否安装git命令：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git version</span><br></pre></td></tr></table></figure><h3 id="开始安装Hexo"><a href="#开始安装Hexo" class="headerlink" title="开始安装Hexo"></a>开始安装Hexo</h3><h4 id="使用指令安装Hexo"><a href="#使用指令安装Hexo" class="headerlink" title="使用指令安装Hexo"></a>使用指令安装Hexo</h4><p>确认node  和git 均安装完成后，开始我们的Hexo安装<br>安装的指令也是十分的简单：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g hexo-cli</span><br></pre></td></tr></table></figure><p>安装的过程可能会比较的缓慢，请耐心等待，因为是从gitHub上面下载。<br><img src="/images/HexoExample1/p1.png"><br>2个警告可以不用管</p><h4 id="hexo-初始化"><a href="#hexo-初始化" class="headerlink" title="hexo 初始化"></a>hexo 初始化</h4><p>安装完成后，可以进入指定目录  执行hexo init 也就是初始化，这样它就会在对应的文件夹下，通过git 去下载Hexo所需要的资源，这些资源也是从gitHub上下载的。<br><img src="/images/HexoExample1/p2.png"></p><p>几个警告同样可以不用管，如果是想在当前workspace的下一个文件夹中创建hexo 也可以使用 hexo init test(test就是文件夹的名称)，这样他就会把资源下载到当前目录的test文件夹中，因为一个workspace可能存在多个项目。<br>下载完成后，我们可以使用dir指令来查看究竟下载了那些东西<br><img src="/images/HexoExample1/p3.png">，这些资源是和gitHub上一致的。</p><h4 id="生成Hexo静态页面"><a href="#生成Hexo静态页面" class="headerlink" title="生成Hexo静态页面"></a>生成Hexo静态页面</h4><p>然后使用hexo g 去生成那些个静态页面。<br><img src="/images/HexoExample1/p4.png"></p><p>完成之后可以再次使用dir命令，就可以看到对比刚才，多了一个public文件夹，所有的静态页面的资源都放到这里面了。<br><img src="/images/HexoExample1/p5.png"></p><h4 id="启动Hexo"><a href="#启动Hexo" class="headerlink" title="启动Hexo"></a>启动Hexo</h4><p>最后输入以下指令来启动hexo<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s</span><br></pre></td></tr></table></figure></p><p><img src="/images/HexoExample1/p6.png"><br>复制开启后显示的地址，打开浏览器访问即可。<br>就可以看到默认的博客样式了。<br><img src="/images/HexoExample1/p7.png"><br>如果希望更改自己主题以及一些其他的设定请参考<br><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">官方文档</a></p><p>参考文档:<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">https://hexo.io/zh-cn/docs/</a></p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;经过一次偶然的机会，我发现了Hexo这个简单快捷的博客框架，这让我想搭建一个博客自己写东西的想法更近了一步，接下来来说说如何使用Hexo 搭建博客&lt;/p&gt;
-&lt;h2 id=&quot;快速开始&quot;&gt;&lt;a href=&quot;#快速开始&quot; class=&quot;headerlink&quot; title=&quot;快速开
-      
+      &lt;p&gt;经过一次偶然的机会，我发现了Hexo这个简单快捷的博客框架，这让我想搭建一个博客自己写东西的想法更近了一步，接下来来说说如何使用Hexo 搭建博客…..
     
     </summary>
     
