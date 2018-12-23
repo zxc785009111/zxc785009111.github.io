@@ -115,7 +115,7 @@
 <meta property="og:image" content="http://yoursite.com/images/SpringBoot/SpringBoot3/sp3-1.png">
 <meta property="og:image" content="http://yoursite.com/images/SpringBoot/SpringBoot3/sp3-2.png">
 <meta property="og:image" content="http://yoursite.com/images/SpringBoot/SpringBoot3/sp3-3.png">
-<meta property="og:updated_time" content="2018-12-23T04:08:01.021Z">
+<meta property="og:updated_time" content="2018-12-23T11:51:16.238Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringBoot(3)AOP编程">
 <meta name="twitter:description" content="AOP理论AOP的概念：面向切面编程，其实也就是一定的规则，我就可以把代码织入到事先约定好的流程中。实际上Spring AOP 也是一种约定流程编程…..">
@@ -394,7 +394,7 @@
                 
               
 
-              <time title="创建时间：2018-12-23 11:29:24 / 修改时间：12:08:01" itemprop="dateCreated datePublished" datetime="2018-12-23T11:29:24+08:00">2018-12-23</time>
+              <time title="创建时间：2018-12-23 11:29:24 / 修改时间：19:51:16" itemprop="dateCreated datePublished" datetime="2018-12-23T11:29:24+08:00">2018-12-23</time>
             
 
             
@@ -488,7 +488,7 @@
 <h3 id="在Aspect代码中加入以下部分"><a href="#在Aspect代码中加入以下部分" class="headerlink" title="在Aspect代码中加入以下部分"></a>在Aspect代码中加入以下部分</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Around(<span class="string">"pointCut()"</span>)</span><br><span class="line">       public void around(ProceedingJoinPoint jp) throws Throwable &#123;</span><br><span class="line">             System.out.println(<span class="string">"around.....before"</span>);</span><br><span class="line">             //回调目标对象的原有方法</span><br><span class="line">             jp.proceed();</span><br><span class="line">             System.out.println(<span class="string">"around.....after"</span>);</span><br><span class="line">             </span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
 <h3 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h3><p><img src="/images/SpringBoot/SpringBoot3/sp3-3.png"><br>emmmmm这个和我想要的结果好像不太一样，想的应该是先执行before再执行这个，所以说….谨慎使用吧..要改的逻辑好像挺多的…</p>
 <h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p>在测试AOP的时候，我们打印了用户信息，如果信息为空，则抛出异常，事实上，假设改一下需求，如果信息为空则不打印，假设这里userService不是自己写的，是外部提供的，我们不能修改他，这时Spring允许增强这个接口的功能，我们可以为这个接口引入新的接口，例如要引入一个用户检测的接口<strong>UserValidator</strong></p>
-<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* 测试AOP引入接口</span><br><span class="line">* @author wangshun  </span><br><span class="line">* @date 2018年9月23日  </span><br><span class="line">* @version 1.0</span><br><span class="line">*/</span><br><span class="line">public interface UserValidator &#123;</span><br><span class="line">       </span><br><span class="line">       public boolean validator(User user);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public interface UserValidator &#123;</span><br><span class="line">       </span><br><span class="line">       public boolean validator(User user);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="实现类-1"><a href="#实现类-1" class="headerlink" title="实现类"></a>实现类</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class UserValidatorImpl implements UserValidator &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean validator(User user) &#123;</span><br><span class="line">        System.out.println(<span class="string">"引入新的接口"</span> + UserValidator.class.getSimpleName());</span><br><span class="line">        <span class="built_in">return</span> user !=null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="在MyAspect-里面引入新接口"><a href="#在MyAspect-里面引入新接口" class="headerlink" title="在MyAspect 里面引入新接口"></a>在MyAspect 里面引入新接口</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">       * 引入新接口</span><br><span class="line">       */</span><br><span class="line">      @DeclareParents(value=<span class="string">"com.wangshun.leaning.chapter4.service.impl.UserServiceImpl+"</span>,</span><br><span class="line">                   defaultImpl=UserValidatorImpl.class)</span><br><span class="line">      public UserValidator userValidatorService;</span><br></pre></td></tr></table></figure>
 <p><strong>@DeclareParents</strong> 这个注解的意思就是，它的作用就是引入新的类来增强服务，它有2个必须的属性<strong>value</strong>和<strong>defaultImpl</strong>。</p>
@@ -502,6 +502,7 @@
 <h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Before(<span class="string">"pointCut() &amp;&amp;args(user)"</span>)</span><br><span class="line">       public boolean before(JoinPoint point,User user) &#123;</span><br><span class="line">              Object[] args = point.getArgs();</span><br><span class="line">              System.out.println(<span class="string">"before...."</span>);</span><br><span class="line">              <span class="built_in">return</span> <span class="literal">true</span>;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
 <p><strong>ps：对于非环绕通知的参数，JoinPoint 是可行的，SpringAOP会把它自动传递到通知中，如果是环绕行通知，则可以使用ProceedingJoinPoint</strong></p>
 <p><strong>对于多个切面同时拦截一个接口的时候 可以使用@order注解去进行排序 ，来决定 多个切面的执行顺序。</strong></p>
+<p>参考文献<br>    《深入浅出SpringBoot2.x》——杨开振</p>
 
       
     </div>
@@ -547,6 +548,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/23/SpringBoot-4-访问数据库/" rel="prev" title="SpringBoot(4)访问数据库">
+                SpringBoot(4)访问数据库 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -618,7 +623,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

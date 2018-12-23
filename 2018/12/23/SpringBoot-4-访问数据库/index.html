@@ -104,18 +104,18 @@
 
 
 
-  <meta name="description" content="简介：SpringBoot 是为了简化 Spring 应用的创建、运行、调试、部署等一系列问题而诞生的产物，自动装配的特性让我们可以更好的关注业务本身而不是外部的XML配置，我们只需遵循规范，引入相关的依赖就可以轻易的搭建出一个 WEB 工程 很多情况下，我们会需要使用一些日志来查看SpringBoot中的一些东西，比如最常用的就是打印Sql了，在后台显示Sql也可以帮助我们迅速的解决出现的一些S">
-<meta name="keywords" content="SpringBoot">
+  <meta name="description" content="关于持久层框架  常用的比如说Hibernate、Mybatis由于现在主流的框架是MyBatis，所以这里就简单说一下MyBatis 简介：    MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。MyBatis 可以使用简单的 XML 或注解来配置和映射原生信息，将接口和 Java">
+<meta name="keywords" content="springBoot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="springBoot(2)SpringBoot日志配置">
-<meta property="og:url" content="http://yoursite.com/2018/12/23/springBoot-2-SpringBoot日志配置/index.html">
+<meta property="og:title" content="SpringBoot(4)访问数据库">
+<meta property="og:url" content="http://yoursite.com/2018/12/23/SpringBoot-4-访问数据库/index.html">
 <meta property="og:site_name" content="卡丘的博客">
-<meta property="og:description" content="简介：SpringBoot 是为了简化 Spring 应用的创建、运行、调试、部署等一系列问题而诞生的产物，自动装配的特性让我们可以更好的关注业务本身而不是外部的XML配置，我们只需遵循规范，引入相关的依赖就可以轻易的搭建出一个 WEB 工程 很多情况下，我们会需要使用一些日志来查看SpringBoot中的一些东西，比如最常用的就是打印Sql了，在后台显示Sql也可以帮助我们迅速的解决出现的一些S">
+<meta property="og:description" content="关于持久层框架  常用的比如说Hibernate、Mybatis由于现在主流的框架是MyBatis，所以这里就简单说一下MyBatis 简介：    MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。MyBatis 可以使用简单的 XML 或注解来配置和映射原生信息，将接口和 Java">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-12-23T03:27:25.150Z">
+<meta property="og:updated_time" content="2018-12-23T11:50:59.005Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="springBoot(2)SpringBoot日志配置">
-<meta name="twitter:description" content="简介：SpringBoot 是为了简化 Spring 应用的创建、运行、调试、部署等一系列问题而诞生的产物，自动装配的特性让我们可以更好的关注业务本身而不是外部的XML配置，我们只需遵循规范，引入相关的依赖就可以轻易的搭建出一个 WEB 工程 很多情况下，我们会需要使用一些日志来查看SpringBoot中的一些东西，比如最常用的就是打印Sql了，在后台显示Sql也可以帮助我们迅速的解决出现的一些S">
+<meta name="twitter:title" content="SpringBoot(4)访问数据库">
+<meta name="twitter:description" content="关于持久层框架  常用的比如说Hibernate、Mybatis由于现在主流的框架是MyBatis，所以这里就简单说一下MyBatis 简介：    MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。MyBatis 可以使用简单的 XML 或注解来配置和映射原生信息，将接口和 Java">
 
 
 
@@ -124,7 +124,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/12/23/springBoot-2-SpringBoot日志配置/">
+  <link rel="canonical" href="http://yoursite.com/2018/12/23/SpringBoot-4-访问数据库/">
 
 
 
@@ -134,7 +134,7 @@
   };
 </script>
 
-  <title>springBoot(2)SpringBoot日志配置 | 卡丘的博客</title>
+  <title>SpringBoot(4)访问数据库 | 卡丘的博客</title>
   
 
 
@@ -347,7 +347,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/23/springBoot-2-SpringBoot日志配置/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/23/SpringBoot-4-访问数据库/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="卡丘">
@@ -364,7 +364,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">springBoot(2)SpringBoot日志配置
+          <h1 class="post-title" itemprop="name headline">SpringBoot(4)访问数据库
 
               
             
@@ -390,7 +390,7 @@
                 
               
 
-              <time title="创建时间：2018-12-23 11:14:06 / 修改时间：11:27:25" itemprop="dateCreated datePublished" datetime="2018-12-23T11:14:06+08:00">2018-12-23</time>
+              <time title="创建时间：2018-12-23 19:24:11 / 修改时间：19:50:59" itemprop="dateCreated datePublished" datetime="2018-12-23T19:24:11+08:00">2018-12-23</time>
             
 
             
@@ -426,7 +426,7 @@
 
           
           
-             <span id="/2018/12/23/springBoot-2-SpringBoot日志配置/" class="leancloud_visitors" data-flag-title="springBoot(2)SpringBoot日志配置">
+             <span id="/2018/12/23/SpringBoot-4-访问数据库/" class="leancloud_visitors" data-flag-title="SpringBoot(4)访问数据库">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -457,13 +457,27 @@
       
 
       
-        <p>简介：SpringBoot 是为了简化 Spring 应用的创建、运行、调试、部署等一系列问题而诞生的产物，自动装配的特性让我们可以更好的关注业务本身而不是外部的XML配置，我们只需遵循规范，引入相关的依赖就可以轻易的搭建出一个 WEB 工程</p>
-<p>很多情况下，我们会需要使用一些日志来查看SpringBoot中的一些东西，比如最常用的就是打印Sql了，在后台显示Sql也可以帮助我们迅速的解决出现的一些Sql问题等等，下面来说说如何在SpringBoot中配置日志……<a id="more"></a></p>
-<h3 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><p>首先SpringBoot的日志配置是通过配置文件来完成的，默认支持的两种配置文件分别是properties 和yml。这里推荐使用yml，因为看起来更加简洁、舒适</p>
-<p>显示日志只需要在配置文件中添加以下内容即可：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##日志配置,这里只是写了显示日志，后面服务器需要可能需要记录日志可以参考battch的博客</span></span><br><span class="line">logging:</span><br><span class="line">  level:</span><br><span class="line">    <span class="comment">#root: warn</span></span><br><span class="line">    <span class="comment">#设置Mybatis打印Sql,下面的包是dao层的包路径，不是mapper的路径</span></span><br><span class="line">    com.ithwua.dao: DEBUG</span><br><span class="line">    <span class="comment">#org:</span></span><br><span class="line">      <span class="comment">#hibernate: ERROR</span></span><br><span class="line">      mybatis: INFO</span><br><span class="line">      springframework:</span><br><span class="line">        web: debug</span><br></pre></td></tr></table></figure>
-<h3 id="propertise文件的写法"><a href="#propertise文件的写法" class="headerlink" title="propertise文件的写法:"></a>propertise文件的写法:</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">logging.level.root = WARN</span><br><span class="line">logging.level.org.springframework.web = DEBUG</span><br><span class="line">logging.level.org.hibernate = ERROR</span><br><span class="line"></span><br><span class="line"><span class="comment">#比如 mybatis sql日志</span></span><br><span class="line">logging.level.org.mybatis = INFO</span><br><span class="line">logging.level.mapper的Dao所在的包 = DEBUG</span><br></pre></td></tr></table></figure>
-<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><a href="http://blog.battcn.com/2018/04/23/springboot/v2-config-logs/" target="_blank" rel="noopener">http://blog.battcn.com/2018/04/23/springboot/v2-config-logs/</a></p>
+        <p>关于持久层框架  常用的比如说Hibernate、Mybatis<br>由于现在主流的框架是MyBatis，所以这里就简单说一下MyBatis</p>
+<p>简介：<br>    MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。MyBatis 可以使用简单的 XML 或注解来配置和映射原生信息，将接口和 Java 的 POJOs(Plain Old Java Objects,普通的 Java对象)映射成数据库中的记录。</p>
+<p>默认的Spring是不支持Mybatis的，但是Mybatis社区自己整合了Spring并提供出来jar包，所以我们可以在POM文件中添加依赖来使用MyBatis</p>
+<h3 id="在pom文件中添加依赖"><a href="#在pom文件中添加依赖" class="headerlink" title="在pom文件中添加依赖"></a>在pom文件中添加依赖</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--MyBatis基础包  --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;1.3.2&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>MyBatis是一种基于SqlSessionFactory构建的框架。对于SqlSessionFactory而言，它的作用是生成SqlSession接口对象，这个对象是MyBatis操作的核心 </p>
+<h3 id="属性文件配置"><a href="#属性文件配置" class="headerlink" title="属性文件配置"></a>属性文件配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 该配置节点为独立的节点，不在spring的节点下</span></span><br><span class="line"><span class="comment">## Mybatis 配置</span></span><br><span class="line">mybatis:</span><br><span class="line">  mapper-locations: classpath:mapper/*.xml  <span class="comment">#注意：一定要对应mapper映射xml文件的所在路径</span></span><br><span class="line">  <span class="built_in">type</span>-aliases-package: com.ithwua.entity  <span class="comment"># 注意：对应实体类的路径,配合@Alias注解使用</span></span><br><span class="line">  <span class="comment">#驼峰命名规范 如：数据库字段是  order_id 那么 实体字段就要写成 orderId，</span></span><br><span class="line">  <span class="comment">#这个配置是为我们简化ResultMap的配置</span></span><br><span class="line">  configuration:</span><br><span class="line">    map-underscore-to-camel-case: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h3 id="使用Mybatis注解实现类别名"><a href="#使用Mybatis注解实现类别名" class="headerlink" title="使用Mybatis注解实现类别名"></a>使用Mybatis注解实现类别名</h3><p>类别名也就是在类的上方使用@Alias(“别名”)，这样的话在对应的mapper文件中 resultType 就可以写成别名了，就不需要从包开始全部写完了。</p>
+<h4 id="例子："><a href="#例子：" class="headerlink" title="例子："></a>例子：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Alias(<span class="string">"user"</span>)</span><br><span class="line">public class User &#123;</span><br><span class="line">       </span><br><span class="line">       private Long id;</span><br><span class="line">       private String user_name;</span><br><span class="line">       private String password;</span><br><span class="line">       //省略get  <span class="built_in">set</span> 方法</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="编写Mapper文件"><a href="#编写Mapper文件" class="headerlink" title="编写Mapper文件"></a>编写Mapper文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span> ?&gt;</span><br><span class="line">&lt;!DOCTYPE mapper PUBLIC <span class="string">"-//mybatis.org//DTD Mapper 3.0//EN"</span> <span class="string">"http://mybatis.org/dtd/mybatis-3-mapper.dtd"</span> &gt;</span><br><span class="line">&lt;mapper namespace=<span class="string">"com.ekingwin.bas.cloud.project.basi.srvgov.dao.PrepareServiceInfoDao"</span> &gt;</span><br><span class="line"></span><br><span class="line">  &lt;select id=<span class="string">"selectAll"</span> resultType=<span class="string">"user"</span>&gt;</span><br><span class="line">       select id,user_name as userName,password from User</span><br><span class="line">  &lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><p>这里的Mapper 中有几个需要注意的</p>
+<p>1.<strong>namespace</strong>:   这个就是指接口的路径，下面的ID就会和这个接口中的方法名进行匹配。</p>
+<p>2.<strong>select</strong> : 标明这是一个查询SQL</p>
+<p>3.<strong>select</strong>中的id：与上面namespace指的接口中的方法名对应</p>
+<p>4.<strong>resultType</strong>：指定返回集的类型，默认应该是写全名的，这里由于加了@Alias注解，所以可以使用别名user；</p>
+<h3 id="自定义Mybatis插件"><a href="#自定义Mybatis插件" class="headerlink" title="自定义Mybatis插件"></a>自定义Mybatis插件</h3><p>假设存在一个Mybatis插件，其代码如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">@Intercepts(&#123;@Signature(<span class="built_in">type</span>=StatementHandler.class,method=<span class="string">"prepare"</span>,args= &#123;Connection.class,Integer.class&#125;)&#125;)</span><br><span class="line">public class MyPlugin implements Interceptor&#123;</span><br><span class="line">       </span><br><span class="line">       Properties propertise = null;</span><br><span class="line">       </span><br><span class="line">       //拦截器逻辑</span><br><span class="line">       @Override</span><br><span class="line">       public Object intercept(Invocation invocation) throws Throwable &#123;</span><br><span class="line">              System.out.println(<span class="string">"插件拦截方法"</span>);</span><br><span class="line">              <span class="built_in">return</span> invocation.proceed();//回调方法</span><br><span class="line">       &#125;</span><br><span class="line">       //生成MyBatis拦截器代理对象</span><br><span class="line">       @Override</span><br><span class="line">       public Object plugin(Object target) &#123;</span><br><span class="line">              <span class="built_in">return</span> Plugin.wrap(target, this);</span><br><span class="line">       &#125;</span><br><span class="line">       //设置插件属性</span><br><span class="line">       @Override</span><br><span class="line">       public void setProperties(Properties properties) &#123;</span><br><span class="line">              this.propertise = properties;</span><br><span class="line">              </span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样一个Mybatis插件就创建出来了，但是没有把他配置到MyBatis中，这个时候完全可以通过application.yml文件中添加以下配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mybatis:</span><br><span class="line">  config-location: classpath:mybatis/mybatis-config.xml</span><br></pre></td></tr></table></figure>
+<p>这样就指定了配置文件的位置，这样我们在对应的路径下创建这个配置值文件即可。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;!DOCTYPE mapper PUBLIC <span class="string">"-//mybatis.org//DTD Mapper 3.0//EN"</span> <span class="string">"http://mybatis.org/dtd/mybatis-3-mapper.dtd"</span> &gt;</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">       &lt;plguins&gt;</span><br><span class="line">              &lt;plugin interceptor = <span class="string">"com.wangshun.leaning.plugin.MyPlugin"</span>&gt;</span><br><span class="line">                     &lt;property name=<span class="string">"key1"</span> value=<span class="string">"value1"</span>&gt;&lt;/property&gt;</span><br><span class="line">                     &lt;property name=<span class="string">"key2"</span> value=<span class="string">"value2"</span>&gt;&lt;/property&gt;</span><br><span class="line">                     &lt;property name=<span class="string">"key3"</span> value=<span class="string">"value3"</span>&gt;&lt;/property&gt;</span><br><span class="line">              &lt;/plugin&gt;</span><br><span class="line">       &lt;/plguins&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+<p>这样就可以完成对于mybatis 一些组件的配置了，实际编写中可以按照实际的需求来进行编写。</p>
+<p>参考文献<br>    《深入浅出SpringBoot2.x》——杨开振</p>
 
       
     </div>
@@ -487,7 +501,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
+            <a href="/tags/springBoot/" rel="tag"># springBoot</a>
           
         </div>
       
@@ -500,8 +514,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/23/springBoot-1-使用MyEclipse构建一个SpringBoot/" rel="next" title="springBoot(1)使用MyEclipse构建一个SpringBoot">
-                <i class="fa fa-chevron-left"></i> springBoot(1)使用MyEclipse构建一个SpringBoot
+              <a href="/2018/12/23/SpringBoot-3-AOP编程/" rel="next" title="SpringBoot(3)AOP编程">
+                <i class="fa fa-chevron-left"></i> SpringBoot(3)AOP编程
               </a>
             
           </div>
@@ -509,10 +523,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/12/23/SpringBoot-3-AOP编程/" rel="prev" title="SpringBoot(3)AOP编程">
-                SpringBoot(3)AOP编程 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -689,7 +699,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#修改配置文件"><span class="nav-number">1.</span> <span class="nav-text">修改配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#propertise文件的写法"><span class="nav-number">2.</span> <span class="nav-text">propertise文件的写法:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">3.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#在pom文件中添加依赖"><span class="nav-number">1.</span> <span class="nav-text">在pom文件中添加依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性文件配置"><span class="nav-number">2.</span> <span class="nav-text">属性文件配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Mybatis注解实现类别名"><span class="nav-number">3.</span> <span class="nav-text">使用Mybatis注解实现类别名</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#例子："><span class="nav-number">3.1.</span> <span class="nav-text">例子：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写Mapper文件"><span class="nav-number">4.</span> <span class="nav-text">编写Mapper文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注意事项"><span class="nav-number">4.1.</span> <span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义Mybatis插件"><span class="nav-number">5.</span> <span class="nav-text">自定义Mybatis插件</span></a></li></ol></div>
             
 
           </div>
