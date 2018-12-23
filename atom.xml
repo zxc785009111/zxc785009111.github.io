@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-12-23T12:59:53.678Z</updated>
+  <updated>2018-12-23T14:53:13.356Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>linux启动Oracle数据库</title>
+    <link href="http://yoursite.com/2018/12/23/linux%E5%90%AF%E5%8A%A8Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    <id>http://yoursite.com/2018/12/23/linux启动Oracle数据库/</id>
+    <published>2018-12-23T14:33:36.000Z</published>
+    <updated>2018-12-23T14:53:13.356Z</updated>
+    
+    <content type="html"><![CDATA[<p>昨天公司服务器重启了….今天数据库连不上了…第一次手动启动服务器 记下一笔….<a id="more"></a></p><h4 id="登录root账户"><a href="#登录root账户" class="headerlink" title="登录root账户"></a>登录root账户</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ su - oracle</span><br></pre></td></tr></table></figure><p><strong>注意:</strong> 注意中间这个 <strong>-</strong> 一定要加，不加的话会报错 command not found</p><p>因为su只是切换了root身份，但Shell环境仍然是普通用户的Shell；而su -连用户和Shell环境一起切换成root身份了。只有切换了Shell环境才不会出现PATH环境变量错误，报command not found的错误<br>当然  直接登录oracle 用户就不会有这个问题</p><h4 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sqlplus / as sysdba</span><br></pre></td></tr></table></figure><h4 id="启动数据库"><a href="#启动数据库" class="headerlink" title="启动数据库"></a>启动数据库</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ startup</span><br></pre></td></tr></table></figure><h4 id="退出数据库"><a href="#退出数据库" class="headerlink" title="退出数据库"></a>退出数据库</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">exit</span></span><br></pre></td></tr></table></figure><h4 id="检查oracle-监听状态"><a href="#检查oracle-监听状态" class="headerlink" title="检查oracle 监听状态"></a>检查oracle 监听状态</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ lsnrctl status</span><br></pre></td></tr></table></figure><h4 id="启动oracle-监听"><a href="#启动oracle-监听" class="headerlink" title="启动oracle 监听"></a>启动oracle 监听</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ lsnrctl start</span><br></pre></td></tr></table></figure><h4 id="撒花截图"><a href="#撒花截图" class="headerlink" title="撒花截图"></a>撒花截图</h4><p><img src="/images/linux/startOracleDatabase/success.png"></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;昨天公司服务器重启了….今天数据库连不上了…第一次手动启动服务器 记下一笔….
+    
+    </summary>
+    
+      <category term="linux学习" scheme="http://yoursite.com/categories/linux%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+  </entry>
   
   <entry>
     <title>SpringBoot(5)数据库事务处理</title>
