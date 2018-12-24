@@ -105,16 +105,16 @@
 
 
   <meta property="og:type" content="website">
-<meta property="og:title" content="卡丘的博客">
+<meta property="og:title" content="王瞬|卡丘">
 <meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="卡丘的博客">
+<meta property="og:site_name" content="王瞬|卡丘">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="卡丘的博客">
+<meta name="twitter:title" content="王瞬|卡丘">
 
 
 
-  <link rel="alternate" href="/atom.xml" title="卡丘的博客" type="application/atom+xml">
+  <link rel="alternate" href="/atom.xml" title="王瞬|卡丘" type="application/atom+xml">
 
 
 
@@ -129,7 +129,7 @@
   };
 </script>
 
-  <title>卡丘的博客</title>
+  <title>王瞬|卡丘</title>
   
 
 
@@ -199,13 +199,13 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">卡丘的博客</span>
+        <span class="site-title">王瞬|卡丘</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
     
       
-        <p class="site-subtitle">java新手</p>
+        <p class="site-subtitle">王瞬的私人博客</p>
       
     
     
@@ -343,16 +343,205 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/23/linux启动Oracle数据库/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/24/SprongBoot-6-redis/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="卡丘">
+      <meta itemprop="name" content="王瞬|卡丘">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/icon.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="卡丘的博客">
+      <meta itemprop="name" content="王瞬|卡丘">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/12/24/SprongBoot-6-redis/" class="post-title-link" itemprop="http://yoursite.com/index.html">SprongBoot(6)Redis</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-24 20:05:50" itemprop="dateCreated datePublished" datetime="2018-12-24T20:05:50+08:00">2018-12-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-25 00:14:45" itemprop="dateModified" datetime="2018-12-25T00:14:45+08:00">2018-12-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/SpringBoot学习/" itemprop="url" rel="index"><span itemprop="name">SpringBoot学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/12/24/SprongBoot-6-redis/" class="leancloud_visitors" data-flag-title="SprongBoot(6)Redis">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>  在如今互联网中，缓存的应用已经很广泛了，它能在互联网中起到加速系统的作用，有两种缓存使用最广泛，那就是Redis和MongoDB，下面就简单来说说Redis<br>  redis是一种运行在内存中的数据库，支持其中数据类型的存储，Redis是一个开源的、使用ANSIC语言编写、遵守BSD协议、支持网络、可基于内存也可以持久化的日志型、键值对数据库，并提供了多种语言API。由于Redis基于内存，所以运行速度很快，大概是关系型数据库的几倍到几十倍，使用Redis来代替关系数据库的查询访问，网站性能将得到很大的提升……
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/12/24/SprongBoot-6-redis/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+         
+          <!--/noindex-->
+        
+      
+    </p></div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/23/linux启动Oracle数据库/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王瞬|卡丘">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/icon.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王瞬|卡丘">
     </span>
 
     
@@ -523,13 +712,13 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/23/SpringBoot-5-数据库事务处理/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="卡丘">
+      <meta itemprop="name" content="王瞬|卡丘">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/icon.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="卡丘的博客">
+      <meta itemprop="name" content="王瞬|卡丘">
     </span>
 
     
@@ -565,12 +754,24 @@
                 
               
 
-              <time title="创建时间：2018-12-23 20:03:59 / 修改时间：20:59:53" itemprop="dateCreated datePublished" datetime="2018-12-23T20:03:59+08:00">2018-12-23</time>
+              <time title="创建时间：2018-12-23 20:03:59" itemprop="dateCreated datePublished" datetime="2018-12-23T20:03:59+08:00">2018-12-23</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-24 21:47:42" itemprop="dateModified" datetime="2018-12-24T21:47:42+08:00">2018-12-24</time>
               
             
           </span>
@@ -702,13 +903,13 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/23/SpringBoot-4-访问数据库/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="卡丘">
+      <meta itemprop="name" content="王瞬|卡丘">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/icon.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="卡丘的博客">
+      <meta itemprop="name" content="王瞬|卡丘">
     </span>
 
     
@@ -880,13 +1081,13 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/23/SpringBoot-3-AOP编程/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="卡丘">
+      <meta itemprop="name" content="王瞬|卡丘">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/icon.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="卡丘的博客">
+      <meta itemprop="name" content="王瞬|卡丘">
     </span>
 
     
@@ -1057,13 +1258,13 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/23/springBoot-2-SpringBoot日志配置/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="卡丘">
+      <meta itemprop="name" content="王瞬|卡丘">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/icon.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="卡丘的博客">
+      <meta itemprop="name" content="王瞬|卡丘">
     </span>
 
     
@@ -1235,13 +1436,13 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/23/springBoot-1-使用MyEclipse构建一个SpringBoot/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="卡丘">
+      <meta itemprop="name" content="王瞬|卡丘">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/icon.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="卡丘的博客">
+      <meta itemprop="name" content="王瞬|卡丘">
     </span>
 
     
@@ -1413,13 +1614,13 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/21/hello-world/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="卡丘">
+      <meta itemprop="name" content="王瞬|卡丘">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/icon.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="卡丘的博客">
+      <meta itemprop="name" content="王瞬|卡丘">
     </span>
 
     
@@ -1616,9 +1817,9 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/icon.png" alt="卡丘">
+              <img class="site-author-image" itemprop="image" src="/images/icon.png" alt="王瞬|卡丘">
             
-              <p class="site-author-name" itemprop="name">卡丘</p>
+              <p class="site-author-name" itemprop="name">王瞬|卡丘</p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
@@ -1629,7 +1830,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1746,7 +1947,7 @@
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">卡丘</span>
+  <span class="author" itemprop="copyrightHolder">王瞬|卡丘</span>
 
   
 
