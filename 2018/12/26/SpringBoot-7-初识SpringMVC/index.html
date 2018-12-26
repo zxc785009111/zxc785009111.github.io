@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="SpringMVC 的定位是一个比较松散的组合，展示给用户的视图(View),控制器返回的数据模型(Model),定位视图的视图解析器(ViewResolver)和处理适配器(HandlerAdapter)等内容都是独立的。换句话说，通过SpringMVC很容易把后台的数据转换成各种类型的数据，以满足互联网多样化的需求，比如目前用的最多的JSON格式，也可以转换成PDF、Excel和XML，再加上">
+<meta name="keywords" content="springBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot(7)初识SpringMVC">
+<meta property="og:url" content="http://yoursite.com/2018/12/26/SpringBoot-7-初识SpringMVC/index.html">
+<meta property="og:site_name" content="王瞬|卡丘">
+<meta property="og:description" content="SpringMVC 的定位是一个比较松散的组合，展示给用户的视图(View),控制器返回的数据模型(Model),定位视图的视图解析器(ViewResolver)和处理适配器(HandlerAdapter)等内容都是独立的。换句话说，通过SpringMVC很容易把后台的数据转换成各种类型的数据，以满足互联网多样化的需求，比如目前用的最多的JSON格式，也可以转换成PDF、Excel和XML，再加上">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/SpringBoot/SpringBoot7/sp7-1.png">
+<meta property="og:image" content="http://yoursite.com/images/SpringBoot/SpringBoot7/sp7-2.png">
+<meta property="og:updated_time" content="2018-12-26T13:55:05.247Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringBoot(7)初识SpringMVC">
+<meta name="twitter:description" content="SpringMVC 的定位是一个比较松散的组合，展示给用户的视图(View),控制器返回的数据模型(Model),定位视图的视图解析器(ViewResolver)和处理适配器(HandlerAdapter)等内容都是独立的。换句话说，通过SpringMVC很容易把后台的数据转换成各种类型的数据，以满足互联网多样化的需求，比如目前用的最多的JSON格式，也可以转换成PDF、Excel和XML，再加上">
+<meta name="twitter:image" content="http://yoursite.com/images/SpringBoot/SpringBoot7/sp7-1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="王瞬|卡丘" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/26/SpringBoot-7-初识SpringMVC/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>SpringBoot(7)初识SpringMVC | 王瞬|卡丘</title>
+  
+
+
+
+
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?39f133557477ec32790de624cc6b48a6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王瞬|卡丘</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">王瞬的私人博客</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/26/SpringBoot-7-初识SpringMVC/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王瞬|卡丘">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/icon.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王瞬|卡丘">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SpringBoot(7)初识SpringMVC
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-26 19:13:55 / 修改时间：21:55:05" itemprop="dateCreated datePublished" datetime="2018-12-26T19:13:55+08:00">2018-12-26</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/SpringBoot学习/" itemprop="url" rel="index"><span itemprop="name">SpringBoot学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/12/26/SpringBoot-7-初识SpringMVC/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2018/12/26/SpringBoot-7-初识SpringMVC/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/12/26/SpringBoot-7-初识SpringMVC/" class="leancloud_visitors" data-flag-title="SpringBoot(7)初识SpringMVC">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>SpringMVC 的定位是一个比较松散的组合，展示给用户的视图(View),控制器返回的数据模型(Model),定位视图的视图解析器(ViewResolver)和处理适配器(HandlerAdapter)等内容都是独立的。换句话说，通过SpringMVC很容易把后台的数据转换成各种类型的数据，以满足互联网多样化的需求，比如目前用的最多的JSON格式，也可以转换成PDF、Excel和XML，再加上SpringMVC是基于Spring基础框架派生出来的Web框架，所以它可以十分方便的就整合到Spring框架中…..<a id="more"></a></p>
+<h2 id="SpringMVC的框架设计"><a href="#SpringMVC的框架设计" class="headerlink" title="SpringMVC的框架设计"></a>SpringMVC的框架设计</h2><p>SpringMVC ，也就是我们常说的三层架构(controller、Service、dao),下面用一张图来简单说一下SpringMVC的框架设计<br><img src="/images/SpringBoot/SpringBoot7/sp7-1.png"></p>
+<p>简单点来说 就是发起请求–&gt;controller–&gt;service–&gt;Redis–&gt;dao–&gt;数据库–&gt;dao–&gt;service–&gt;controller–&gt;view<br>这里如果缓存中存在数据就不会访问dao层进而访问数据库了</p>
+<h2 id="SpringMVC流程"><a href="#SpringMVC流程" class="headerlink" title="SpringMVC流程"></a>SpringMVC流程</h2><p>尽管在SpringBoot的开发中，我们可以很快速的通过配置去实现SpringMVC的开发，但是为了解决实际问题，我们还是很有必要去了解一下SpringMVC中运行流程和组件，否则很难理解SpringBoot自动为我们生成了啥，配置了什么，这有什么用。<br>流程和组件是SpriingMVC的核心，SpringMVC的流程是围绕DispatcherServlet而工作的，所以在SpringMVC中DispatcherServlet就是最最重要的内容。在其基础上，还有其他的组件，掌握流程和组件就是SpringMVC开发的基础。</p>
+<h3 id="SpringMVC全过程图"><a href="#SpringMVC全过程图" class="headerlink" title="SpringMVC全过程图"></a>SpringMVC全过程图</h3><p><img src="/images/SpringBoot/SpringBoot7/sp7-2.png"></p>
+<p><strong>注意:</strong> SpringMVC的流程图中，并非每次都需要走完全过程，比如说我们常用的一个注解@ResponseBody<br>这个注解的表演意思也就是把返回的内容不作为页面进行返回，否则你默认返回的index字符串的话，它默认就会返回一个index.html</p>
+<h3 id="SpringMVC初始化"><a href="#SpringMVC初始化" class="headerlink" title="SpringMVC初始化"></a>SpringMVC初始化</h3><p>首先，在Web服务器的启动过程中，如果在SpringBoot机制下启动SpringMVC，它就开始初始化一些重要组件，比如DispactherServelt、HandlerAdapter的实现类RequestMappingHandlerAdapter等组件对象。</p>
+<p>关于这些组件的初始化，我们可以看到spring-webmvc-xxx.jar包中的属性文件DispatcherServlet.properties,它定义的对象都是在SprngMVC开始时就初始化，并且存放在Spring IoC容器中，其源代码如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Default implementation classes for DispatcherServlet's strategy interfaces.</span></span><br><span class="line"><span class="comment"># Used as fallback when no matching beans are found in the DispatcherServlet context.</span></span><br><span class="line"><span class="comment"># Not meant to be customized by application developers.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#国际化解析器</span></span><br><span class="line">org.springframework.web.servlet.LocaleResolver=org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver</span><br><span class="line"><span class="comment">#主题解析器</span></span><br><span class="line">org.springframework.web.servlet.ThemeResolver=org.springframework.web.servlet.theme.FixedThemeResolver</span><br><span class="line"><span class="comment">#HandlerMapping实例</span></span><br><span class="line">org.springframework.web.servlet.HandlerMapping=org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping,\</span><br><span class="line">	org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping</span><br><span class="line"><span class="comment">#处理器适配器</span></span><br><span class="line">org.springframework.web.servlet.HandlerAdapter=org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter,\</span><br><span class="line">	org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter,\</span><br><span class="line">	org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter</span><br><span class="line"><span class="comment">#处理器异常解析器</span></span><br><span class="line">org.springframework.web.servlet.HandlerExceptionResolver=org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver,\</span><br><span class="line">	org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver,\</span><br><span class="line">	org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver</span><br><span class="line"><span class="comment">#策略视图解析器，当你没有返回视图逻辑名称的时候，通过它可以生成默认的视图名称</span></span><br><span class="line">org.springframework.web.servlet.RequestToViewNameTranslator=org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator</span><br><span class="line"><span class="comment">#视图解析器</span></span><br><span class="line">org.springframework.web.servlet.ViewResolver=org.springframework.web.servlet.view.InternalResourceViewResolver</span><br><span class="line"><span class="comment">#FlashMap管理器。不常用.......</span></span><br><span class="line">org.springframework.web.servlet.FlashMapManager=org.springframework.web.servlet.support.SessionFlashMapManager</span><br></pre></td></tr></table></figure></p>
+<p>以上的这些组件，会在SpringMVC初始化的时候进行初始化，这也是为什么我们不需要进行很多配置就可以开发SpringMVC程序，尤其是在SpringBoot中，更是如此，我们可以通过SpringBoot中的配置来定制这些组件的初始化。接来下通过代码我们来聊聊它的运行流程。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">@RequestMapping(<span class="string">"/student"</span>)</span><br><span class="line">public class StudentController &#123;</span><br><span class="line">	@Autowired</span><br><span class="line">	IStudentService batchStudent;</span><br><span class="line">	</span><br><span class="line">	/**</span><br><span class="line">	 * 展示学生详情</span><br><span class="line">	 * @<span class="built_in">return</span></span><br><span class="line">	 */</span><br><span class="line">	@GetMapping(<span class="string">"/details.do"</span>)</span><br><span class="line">	public ModelAndView insert(Long id) &#123;</span><br><span class="line">		//访问模型获取数据</span><br><span class="line">		Student student = batchStudent.get(id);</span><br><span class="line">		//模型和试图</span><br><span class="line">		ModelAndView mv = new ModelAndView();</span><br><span class="line">		//定义模型视图</span><br><span class="line">		mv.setViewName(<span class="string">"student/details"</span>);</span><br><span class="line">		//加入数据模型</span><br><span class="line">		mv.addObject(<span class="string">"student"</span>,student);</span><br><span class="line">		//返回模型和视图</span><br><span class="line">		<span class="built_in">return</span> mv;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>@Controller 表示这是一个控制器，@RequestMapping代表请求路径和控制器(或者其方法)的映射关系，它会在Web服务器启动SpringMVC时，就被扫描到HandlerMapping的机制中存储，之后用户在法器请求被DispatcherServlet拦截后，通过URI或者其他条件，通过HandlerMapping机制就能找到对应的控制器(或者方法)进行相应，只是通过HandlerMapping返回的是一个HandlerExecutionChain对象，这个对象的源码如下：<br>ps:这也就说通了为啥新增一个接口必须要重启程序才能生效了~啦啦啦~<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class HandlerExecutionChain &#123;</span><br><span class="line">	//日志</span><br><span class="line">	private static final Log logger = LogFactory.getLog(HandlerExecutionChain.class);</span><br><span class="line">	//处理器</span><br><span class="line">	private final Object handler;</span><br><span class="line">	//拦截器数组</span><br><span class="line">	@Nullable</span><br><span class="line">	private HandlerInterceptor[] interceptors;</span><br><span class="line">	//拦截器列表</span><br><span class="line">	@Nullable</span><br><span class="line">	private List&lt;HandlerInterceptor&gt; interceptorList;</span><br><span class="line">	//拦截器当前下标</span><br><span class="line">	private int interceptorIndex = -1;</span><br><span class="line"></span><br><span class="line">........</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到在HandlerExecutionChain对象中，有一个处理器(handler),这里的处理器是对于Controller的包装，因为我们的控制器可能存在参数，那么处理器就会读取Http中和上下文相关的参数，并且传入给控制器中的方法。而且在控制器执行完成返回后，处理器又可以根据配置信息对控制器的返回结果进行处理。从这段话可以看出，处理器包含了控制器方法的逻辑以及处理器的拦截器(interceptor),这样就可以通过拦截处理器进一步增强处理器的功能。</p>
+<p>在处理器调用控制器时，它首先通过模型层获取数据，再放入数据模型中，最后将返回数据和视图的对象，这样就走到了视图解析器(ViewResolver)，去解析视图逻辑名称了。</p>
+<p>在DispatcherServlet.properties中，我们看到了视图解析器的自动初始化，为了定制InternalResourceViewResolver初始化，我们可在配置文件中添加以下属性(也就是指明页面路径以及默认后缀)<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#设置前缀</span></span><br><span class="line">spring.mvc.view.prefix=/WEB-INF/jsp/</span><br><span class="line"><span class="comment">#指定后缀</span></span><br><span class="line">spring.mvc.view.suffix=.jsp</span><br></pre></td></tr></table></figure></p>
+<p>这样的设置之后，上面的controller 返回的内容，就会定位到/WEB-INF/jsp/student/details.jsp<br>不过现在基本前后端分离…所以这种用的不多了….</p>
+<h2 id="定制SpringMVC初始化"><a href="#定制SpringMVC初始化" class="headerlink" title="定制SpringMVC初始化"></a>定制SpringMVC初始化</h2><p>正如SpringBoot承诺的那样，它会尽可能的配置Spring，SpringMVC也是如此。但是无论如何都有可能无法满足我们的需求，需要进一步的对SpringMVC进行定制。</p>
+<p>在Servlet3.0的规范中，web.xml不再是一个必须的配置文件。为了适应这个规范，SpringMVC从3.1开始也进行了支持，也就是我们再也不需要基于XML去对环境进行配置。</p>
+<p>为了支持SpringMVC的配置，SpringBoot提供了一个<strong>WebMvcConfigurer</strong>接口，这是一个基于Java8的接口，所以其大部分方法都是defalut类型的，但是它都是空实现，所以我们只需要<strong>实现这个接口，重写需要自定义的方法即可</strong>,它有一个静态内部类<strong><em>WebMvcAutoConfigurationAdapter</em></strong>,通过它SpringBoot就自动配置了MVC的初始化。</p>
+<p>在WebMvcAutoConfigurationAdapter类中，它会自动读取Spring中配置SpringMVC的属性来初始化对应组件，这样便在一定程度上可以实现自定义。</p>
+<p>参考文献<br>    《深入浅出SpringBoot2.x》——杨开振</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/springBoot/" rel="tag"># springBoot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/24/SprongBoot-6-redis/" rel="next" title="SprongBoot(6)Redis">
+                <i class="fa fa-chevron-left"></i> SprongBoot(6)Redis
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/icon.png" alt="王瞬|卡丘">
+            
+              <p class="site-author-name" itemprop="name">王瞬|卡丘</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/zxc785009111" title="GitHub &rarr; https://github.com/zxc785009111" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.battcn.com/" title="https://blog.battcn.com/" rel="noopener" target="_blank">battch</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringMVC的框架设计"><span class="nav-number">1.</span> <span class="nav-text">SpringMVC的框架设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringMVC流程"><span class="nav-number">2.</span> <span class="nav-text">SpringMVC流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringMVC全过程图"><span class="nav-number">2.1.</span> <span class="nav-text">SpringMVC全过程图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringMVC初始化"><span class="nav-number">2.2.</span> <span class="nav-text">SpringMVC初始化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定制SpringMVC初始化"><span class="nav-number">3.</span> <span class="nav-text">定制SpringMVC初始化</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王瞬|卡丘</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script>
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname,
+            owner: 'zxc785009111',
+            repo: 'https://github.com/zxc785009111/zxc785009111.github.io.git',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '93bed796dda14f2d435c2133e73f1d68868c0609',
+            
+                client_id: '5d067a58542e7dec0204'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "OdVJyQ0RufHbP3IGm64pLGTR-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "OdVJyQ0RufHbP3IGm64pLGTR-gzGzoHsz",
+                'X-LC-Key': "GM8FS2xjI83IuuP9Frddmv3s",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
