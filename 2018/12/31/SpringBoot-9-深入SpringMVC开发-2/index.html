@@ -116,7 +116,7 @@
 <meta property="og:image" content="http://yoursite.com/images/SpringBoot/SpringBoot9/sp9-2.png">
 <meta property="og:image" content="http://yoursite.com/images/SpringBoot/SpringBoot9/sp9-3.png">
 <meta property="og:image" content="http://yoursite.com/images/SpringBoot/SpringBoot9/sp9-4.png">
-<meta property="og:updated_time" content="2018-12-31T09:06:21.103Z">
+<meta property="og:updated_time" content="2018-12-31T09:10:25.009Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringBoot(9)深入SpringMVC开发-2">
 <meta name="twitter:description" content="上次说到可以使用@RequestBody等等一些注解来实现获取参数，包括自动封装成对应对象等等，当然，获取参数还有可能更复杂，比如和第三方系统合作，采用密文传输等等，这样的话其定义的参数规则SpringMVC就无法支持了，这时候就需要使用到自定义参数转换规则了。在之前的SpringMVC中，我们可以使用注解 甚至连注解都不使用就可以获取参数了。这是因为SpringMVC提供的处理器会优先使用一套规">
@@ -395,7 +395,7 @@
                 
               
 
-              <time title="创建时间：2018-12-31 12:53:16 / 修改时间：17:06:21" itemprop="dateCreated datePublished" datetime="2018-12-31T12:53:16+08:00">2018-12-31</time>
+              <time title="创建时间：2018-12-31 12:53:16 / 修改时间：17:10:25" itemprop="dateCreated datePublished" datetime="2018-12-31T12:53:16+08:00">2018-12-31</time>
             
 
             
@@ -509,6 +509,7 @@
 <p>有了这个验证器之后，Spring还是不能自动启动它，正如前面说的那样，@InitBinder注解可以实现在进入控制器方法之前更改WebDataBinder机制<br>所以在Controller 类中添加如下代码</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@InitBinder</span><br><span class="line">public void initBinder(WebDataBinder binder) &#123;</span><br><span class="line">	binder.setValidator(new StudentValidator());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="测试结果-1"><a href="#测试结果-1" class="headerlink" title="测试结果"></a>测试结果</h4><p><img src="/images/SpringBoot/SpringBoot9/sp9-4.png"></p>
+<p>这里留一个坑，如果自定义验证和注解验证同时存在，那么执行的先后顺序 是怎样的呢(应该不会只执行一个吧……)</p>
 <p>参考文献<br>    《深入浅出SpringBoot2.x》——杨开振</p>
 
       
