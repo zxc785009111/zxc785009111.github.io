@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在当前互联网应用中，存在电商和金融行业等企业，这些企业对于业务逻辑的严谨性要求特别高，因为他们的业务关系到用户和商家账户以及财产安全，对于数据的一致性非常高，所以一般情况下通过锁等其他机制保证数据的一致性，但是这也会造成性能的下降。对于另外一些互联网应用就不一样了，比如游戏，视频，新闻，门户，(毕业设计~=。=)，他们一般不会涉及操作财产和账户，相对更在意的是并发数和响应速度，而传统的开发模式会引">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring相关(2)Spring5新框架——WebFlux框架">
+<meta property="og:url" content="http://yoursite.com/2019/01/06/Spring相关-2-WebFlux框架/index.html">
+<meta property="og:site_name" content="王瞬|卡丘">
+<meta property="og:description" content="在当前互联网应用中，存在电商和金融行业等企业，这些企业对于业务逻辑的严谨性要求特别高，因为他们的业务关系到用户和商家账户以及财产安全，对于数据的一致性非常高，所以一般情况下通过锁等其他机制保证数据的一致性，但是这也会造成性能的下降。对于另外一些互联网应用就不一样了，比如游戏，视频，新闻，门户，(毕业设计~=。=)，他们一般不会涉及操作财产和账户，相对更在意的是并发数和响应速度，而传统的开发模式会引">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/Spring/Spring2/spring-1.png">
+<meta property="og:image" content="http://yoursite.com/images/Spring/Spring2/spring-2.png">
+<meta property="og:updated_time" content="2019-01-06T10:11:58.928Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring相关(2)Spring5新框架——WebFlux框架">
+<meta name="twitter:description" content="在当前互联网应用中，存在电商和金融行业等企业，这些企业对于业务逻辑的严谨性要求特别高，因为他们的业务关系到用户和商家账户以及财产安全，对于数据的一致性非常高，所以一般情况下通过锁等其他机制保证数据的一致性，但是这也会造成性能的下降。对于另外一些互联网应用就不一样了，比如游戏，视频，新闻，门户，(毕业设计~=。=)，他们一般不会涉及操作财产和账户，相对更在意的是并发数和响应速度，而传统的开发模式会引">
+<meta name="twitter:image" content="http://yoursite.com/images/Spring/Spring2/spring-1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="王瞬|卡丘" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/06/Spring相关-2-WebFlux框架/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Spring相关(2)Spring5新框架——WebFlux框架 | 王瞬|卡丘</title>
+  
+
+
+
+
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?39f133557477ec32790de624cc6b48a6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王瞬|卡丘</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">王瞬的私人博客</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/06/Spring相关-2-WebFlux框架/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王瞬|卡丘">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/icon.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王瞬|卡丘">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring相关(2)Spring5新框架——WebFlux框架
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-06 12:04:50 / 修改时间：18:11:58" itemprop="dateCreated datePublished" datetime="2019-01-06T12:04:50+08:00">2019-01-06</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Spring相关技术学习/" itemprop="url" rel="index"><span itemprop="name">Spring相关技术学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/06/Spring相关-2-WebFlux框架/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019/01/06/Spring相关-2-WebFlux框架/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/01/06/Spring相关-2-WebFlux框架/" class="leancloud_visitors" data-flag-title="Spring相关(2)Spring5新框架——WebFlux框架">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在当前互联网应用中，存在电商和金融行业等企业，这些企业对于业务逻辑的严谨性要求特别高，因为他们的业务关系到用户和商家账户以及财产安全，对于数据的一致性非常高，所以一般情况下通过锁等其他机制保证数据的一致性，但是这也会造成性能的下降。对于另外一些互联网应用就不一样了，比如游戏，视频，新闻，门户，(毕业设计~=。=)，他们一般不会涉及操作财产和账户，相对更在意的是并发数和响应速度，而传统的开发模式会引入一致性的机制，这也是造成他们性能瓶颈的原因之一，为此就提出了响应式编程的概念。</p>
+<p>在Servlet3.1规范开始，javaEE支持异步处理，即收到请求之后，Servlet线程可以将耗时的操作委派给另外一个线程来完成，在不生成响应的情况下返回给容器，使得Java可以更好的支持响应式编程，也就是在Spring5中发布了新的响应式Web框架——WebFlux,不过要注意的是，Spring2.X才支持WebFlux框架…..<a id="more"></a></p>
+<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="Spring-WebFlux-概述："><a href="#Spring-WebFlux-概述：" class="headerlink" title="Spring WebFlux 概述："></a>Spring WebFlux 概述：</h3><p>   在Servlet3.1之前，Web容器都是基于阻塞机制开发的，而Servlet3.1开始，就有了非阻塞的规范(异步)，对于高并发的网站，使用韩说是编程显得更为直观和简易，特别是那些需要高速响应并且对于业务逻辑要求并不十分严格的网站，如游戏，视频等等</p>
+<p>   在Java8 开始，引入了Lambda表达式和Functional接口等新特性，也使得java的语法更加丰富<br>   对于响应式编程而言，分为Router Functions、Spring Webflux和Http/Reactive Streams<br>   Router Functions 是一个路由分发，他会根据请求时间，决定采用什么类的什么方法来处理请求，也就是Selector，不参与实际业务逻辑的处理，只是起到一个分发的作用。</p>
+<p>   Spring WebFlux，也就是控制层，参与实际业务逻辑的处理及Stream 流的返回。</p>
+<p>   Http/ReactiveStream:将结果转换为流的过程。</p>
+<p>   Spring WebFlux 是需要支持Servlet3.1+的容器，比如Tomcat、Netty、Jetty等等， SpringBoot中默认的依赖是Netty库。<br>   最后，说一说数据流的封装，也就是Flux 和Mono。它们都是封装数据流的类，其中Flux 是存放的0~N个数据流序列，响应式编程会一个接一个的将它们发送给客户端；而对于Mono而言，它存放的是0~1个数据流序列，这就是它们之前的不同，当然，它们是可以相互转换的。</p>
+<h3 id="WebHandler接口"><a href="#WebHandler接口" class="headerlink" title="WebHandler接口"></a>WebHandler接口</h3><p>在SpringMVC中，是使用的DispatcherServlet来处理分发请求和响应的，在WebFlux中采用的是WebHandler，它和前者很相似。而对于WebHandler，最重要的就是DispatcherHandler，而在这其中，设计WebFlux流程的就是handle方法，下面放源码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public Mono&lt;Void&gt; handle(ServerWebExchange exchange) &#123;</span><br><span class="line">   //日志</span><br><span class="line">	<span class="keyword">if</span> (this.handlerMappings == null) &#123;</span><br><span class="line">		<span class="built_in">return</span> createNotFoundError();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">return</span> Flux</span><br><span class="line">       //Reactive框架封装的数据流类Flux</span><br><span class="line">       //循环HandlerMapping</span><br><span class="line">       .fromIterable(this.handlerMappings)</span><br><span class="line">	//找到合适的控制器		</span><br><span class="line">       .concatMap(mapping -&gt; mapping.getHandler(exchange))</span><br><span class="line">       //处理第一条合适的记录</span><br><span class="line">	.next()</span><br><span class="line">	//如果出现找不到处理器的情况</span><br><span class="line">       .switchIfEmpty(createNotFoundError())</span><br><span class="line">	//通过反射运行处理器</span><br><span class="line">       .flatMap(handler -&gt; invokeHandler(exchange, handler))</span><br><span class="line">	//解析结果，将其转换成对应的数据流序列</span><br><span class="line">       .flatMap(result -&gt; handleResult(exchange, result));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>和SpringMVC一样，都是从HanlerMapping找到对应的处理器，这也就是为什么可以使用@Controller等注解的原因，通过这些配置的路径能够通过getHandler方法找到对应的处理器(和MVC一致，处理器包含控制器逻辑)，找到处理器之后通过invokeHandler方法运行处理器最后将结果通过handlerResult返回，转换成对应的数据流。</p>
+<h2 id="使用SpringMVC开发WebFlux"><a href="#使用SpringMVC开发WebFlux" class="headerlink" title="使用SpringMVC开发WebFlux"></a>使用SpringMVC开发WebFlux</h2><h3 id="pom文件中添加依赖"><a href="#pom文件中添加依赖" class="headerlink" title="pom文件中添加依赖"></a>pom文件中添加依赖</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-webflux&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">	</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-data-mongodb-reactive&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>上面有3个依赖，一个是WebFlux所需要的依赖，一个是tomcat的依赖，主要说的是MongoDB的依赖，使用WebFlux主要目的就是异步请求相应，也就是非阻塞的数据响应，而目前主流数据库(Oracle、MySql等等都是不支持非阻塞开发的。)所以这里没办法使用工作中经常使用的数据库，这里就可以使用一个Spring-data-Reactive 支持的NoSql数据库(MongoDB)，所以引入的以上相关的一些jar</p>
+<h3 id="Entity"><a href="#Entity" class="headerlink" title="Entity"></a>Entity</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">package com.wangshun.leaning.entity;</span><br><span class="line"></span><br><span class="line">import java.io.Serializable;</span><br><span class="line"></span><br><span class="line">import org.springframework.data.annotation.Id;</span><br><span class="line"></span><br><span class="line">import org.springframework.data.mongodb.core.mapping.Document;</span><br><span class="line">import org.springframework.data.mongodb.core.mapping.Field;</span><br><span class="line">//标记未Mongo文档</span><br><span class="line">@Document</span><br><span class="line">public class User implements Serializable&#123;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * </span><br><span class="line">	 */</span><br><span class="line">	private static final long serialVersionUID = 939273844324506896L;</span><br><span class="line">	@Id</span><br><span class="line">	private String id;</span><br><span class="line">	</span><br><span class="line">	private String sex;</span><br><span class="line">	//在MongoDB中使用user_name 来保存</span><br><span class="line">	@Field(<span class="string">"user_name"</span>)</span><br><span class="line">	private String userName;</span><br><span class="line">	private String note;</span><br><span class="line">	/*省略get/<span class="built_in">set</span> 以及构造方法*/</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实体类没啥特别需要注意的，也就是需要实现序列化接口</p>
+<h3 id="Dao层"><a href="#Dao层" class="headerlink" title="Dao层"></a>Dao层</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">package com.wangshun.leaning.dao;</span><br><span class="line"></span><br><span class="line">import org.springframework.data.mongodb.repository.ReactiveMongoRepository;</span><br><span class="line">import org.springframework.stereotype.Repository;</span><br><span class="line"></span><br><span class="line">import com.wangshun.leaning.entity.User;</span><br><span class="line">/**</span><br><span class="line"> * 注意：这里需要继承ReactiveMongoRepository接口，这样就相当自动帮我们整合了增删改查</span><br><span class="line">* @author wangshun  </span><br><span class="line">* @date 2019年1月6日  </span><br><span class="line">* @version 1.0</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">import reactor.core.publisher.Flux;</span><br><span class="line">@Repository</span><br><span class="line">public interface IUserDao extends ReactiveMongoRepository&lt;User, Long&gt;&#123;</span><br><span class="line">	/**</span><br><span class="line">	 * 根据用户名和备注进行模糊查询</span><br><span class="line">	 * @param userName</span><br><span class="line">	 * @param note</span><br><span class="line">	 * @<span class="built_in">return</span></span><br><span class="line">	 */</span><br><span class="line">	Flux&lt;User&gt; findByUserNameLikeAndNoteLike(String userName,String note);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里需要继承ReactiveMongoRepository 接口，这样就相当于WebFlux为MongoDB封装好了的一个增删改查的接口</p>
+<h3 id="Service层"><a href="#Service层" class="headerlink" title="Service层"></a>Service层</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">package com.wangshun.leaning.service;</span><br><span class="line"></span><br><span class="line">import com.wangshun.leaning.entity.User;</span><br><span class="line"></span><br><span class="line">import reactor.core.publisher.Flux;</span><br><span class="line">import reactor.core.publisher.Mono;</span><br><span class="line"></span><br><span class="line">public interface IUserService &#123;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	Mono&lt;User&gt; insertUser(User user);</span><br><span class="line">	</span><br><span class="line">	Mono&lt;User&gt; updateUser(User user);</span><br><span class="line">	</span><br><span class="line">	Flux&lt;User&gt; findUsers(String userName,String note);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="实现类"><a href="#实现类" class="headerlink" title="实现类"></a>实现类</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">package com.wangshun.leaning.service.impl;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.context.annotation.Primary;</span><br><span class="line">import org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line">import com.wangshun.leaning.dao.IUserDao;</span><br><span class="line">import com.wangshun.leaning.entity.User;</span><br><span class="line">import com.wangshun.leaning.service.IUserService;</span><br><span class="line"></span><br><span class="line">import reactor.core.publisher.Flux;</span><br><span class="line">import reactor.core.publisher.Mono;</span><br><span class="line">@Service</span><br><span class="line">@Primary</span><br><span class="line">public class UserServiceImpl implements IUserService &#123;</span><br><span class="line">	@Autowired</span><br><span class="line">	IUserDao userDao;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public Mono&lt;User&gt; insertUser(User user) &#123;</span><br><span class="line">		<span class="built_in">return</span> userDao.save(user);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public Mono&lt;User&gt; updateUser(User user) &#123;</span><br><span class="line">		<span class="built_in">return</span> userDao.save(user);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public Flux&lt;User&gt; findUsers(String userName, String note) &#123;</span><br><span class="line">		<span class="built_in">return</span> userDao.findByUserNameLikeAndNoteLike(userName, note);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">package com.wangshun.leaning.controller;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.web.bind.annotation.DeleteMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.PathVariable;</span><br><span class="line">import org.springframework.web.bind.annotation.PostMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.PutMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestBody;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line">import com.wangshun.leaning.entity.User;</span><br><span class="line">import com.wangshun.leaning.service.IUserService;</span><br><span class="line"></span><br><span class="line">import reactor.core.publisher.Flux;</span><br><span class="line">import reactor.core.publisher.Mono;</span><br><span class="line"></span><br><span class="line">@RestController</span><br><span class="line">public class UserController &#123;</span><br><span class="line">	@Autowired</span><br><span class="line">	IUserService userService;</span><br><span class="line">	</span><br><span class="line">	/**</span><br><span class="line">	 * 更新用户</span><br><span class="line">	 * @param user</span><br><span class="line">	 * @<span class="built_in">return</span></span><br><span class="line">	 */</span><br><span class="line">	@PutMapping(<span class="string">"/user"</span>)</span><br><span class="line">	public Mono&lt;User&gt; updateUser(@RequestBody User user)&#123;</span><br><span class="line">		<span class="built_in">return</span> userService.updateUser(user);</span><br><span class="line">	&#125;</span><br><span class="line">	/**</span><br><span class="line">	 * 新增用户</span><br><span class="line">	 * @param user</span><br><span class="line">	 * @<span class="built_in">return</span></span><br><span class="line">	 */</span><br><span class="line">	@PostMapping(value=<span class="string">"/user"</span>)</span><br><span class="line">	public Mono&lt;User&gt; insertUser(@RequestBody User user)&#123;</span><br><span class="line">		<span class="built_in">return</span> userService.insertUser(user);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	@GetMapping(<span class="string">"/like/&#123;userName&#125;/&#123;note&#125;"</span>)</span><br><span class="line">	public Flux&lt;User&gt; <span class="built_in">test</span>(@PathVariable(<span class="string">"userName"</span>)String userName,@PathVariable(<span class="string">"note"</span>)String note)&#123;</span><br><span class="line">		<span class="built_in">return</span> userService.findUsers(userName, note);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  data:</span><br><span class="line">    mongodb:</span><br><span class="line">      host: localhost</span><br><span class="line">      username: weblogic</span><br><span class="line">      password: password1</span><br><span class="line">      port: 27017</span><br><span class="line">      database: springboot</span><br></pre></td></tr></table></figure>
+<h3 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h3><h4 id="模糊查询方法"><a href="#模糊查询方法" class="headerlink" title="模糊查询方法"></a>模糊查询方法</h4><p><img src="/images/Spring/Spring2/spring-1.png"></p>
+<h4 id="save方法："><a href="#save方法：" class="headerlink" title="save方法："></a>save方法：</h4><p><img src="/images/Spring/Spring2/spring-2.png"></p>
+<h2 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h2><h3 id="MongoDB-安装"><a href="#MongoDB-安装" class="headerlink" title="MongoDB 安装"></a>MongoDB 安装</h3><p>参考地址：<br><a href="http://www.runoob.com/mongodb/mongodb-tutorial.html" target="_blank" rel="noopener">http://www.runoob.com/mongodb/mongodb-tutorial.html</a></p>
+<h3 id="MongoDB-可视化界面使用-需要git"><a href="#MongoDB-可视化界面使用-需要git" class="headerlink" title="MongoDB 可视化界面使用(需要git)"></a>MongoDB 可视化界面使用(需要git)</h3><p>参考地址：<br><a href="https://www.cnblogs.com/shiweida/p/7692468.html" target="_blank" rel="noopener">https://www.cnblogs.com/shiweida/p/7692468.html</a></p>
+<h3 id="MongoDB创建用户"><a href="#MongoDB创建用户" class="headerlink" title="MongoDB创建用户"></a>MongoDB创建用户</h3><p>注意：需要切换到对应的数据库下进行创建才能连接<br>切换数据库命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use xxxxx（数据库名称）</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(&#123;</span><br><span class="line">	user: <span class="string">"weblogic"</span>,</span><br><span class="line">	<span class="built_in">pwd</span>: <span class="string">"password1"</span>,</span><br><span class="line">	roles: [&#123;</span><br><span class="line">		role: <span class="string">"userAdminAnyDatabase"</span>,</span><br><span class="line">		db: <span class="string">"admin"</span></span><br><span class="line">	&#125;],</span><br><span class="line">	mechanisms: [<span class="string">"SCRAM-SHA-1"</span>]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>整了一下午才弄好，踩了无数个坑，说几个常见的坑吧：</p>
+<h3 id="错误解决方案"><a href="#错误解决方案" class="headerlink" title="错误解决方案"></a>错误解决方案</h3><h4 id="com-mongodb-MongoSecurityException-Exception-authenticating-MongoCredential-mechanism-SCRAM-SHA-1-userName-’weblogic’-source-’springboot’-password-mechanismProperties-”"><a href="#com-mongodb-MongoSecurityException-Exception-authenticating-MongoCredential-mechanism-SCRAM-SHA-1-userName-’weblogic’-source-’springboot’-password-mechanismProperties-”" class="headerlink" title="com.mongodb.MongoSecurityException:Exception authenticating MongoCredential{mechanism=SCRAM-SHA-1, userName=’weblogic’, source=’springboot’, password=, mechanismProperties={}}”"></a>com.mongodb.MongoSecurityException:Exception authenticating MongoCredential{mechanism=SCRAM-SHA-1, userName=’weblogic’, source=’springboot’, password=<hidden>, mechanismProperties={}}”</hidden></h4><p>这个报错是因为你所配置的数据库不存在这个用户 或者用户名密码错误，正如上面我所说的那样，需要先切换到一些数据库之后再创建用户。</p>
+<h4 id="message”-“E11000-duplicate-key-error-collection-springboot-user-index-id-dup-key-0-nested-exception-is-com-mongodb-MongoWriteException-E11000-duplicate-key-error-collection-springboot-user-index-id-dup-key-0-”"><a href="#message”-“E11000-duplicate-key-error-collection-springboot-user-index-id-dup-key-0-nested-exception-is-com-mongodb-MongoWriteException-E11000-duplicate-key-error-collection-springboot-user-index-id-dup-key-0-”" class="headerlink" title="message”: “E11000 duplicate key error collection: springboot.user index: _id_ dup key: { : 0 }; nested exception is com.mongodb.MongoWriteException: E11000 duplicate key error collection: springboot.user index: _id_ dup key: { : 0 }”"></a>message”: “E11000 duplicate key error collection: springboot.user index: _id_ dup key: { : 0 }; nested exception is com.mongodb.MongoWriteException: E11000 duplicate key error collection: springboot.user index: _id_ dup key: { : 0 }”</h4><p>这个是因为主键冲突了，一般当你把ID定义成int 类型的时候使用@Id 注解之后它第一次确实会给你生成一个ID  是0，但是后续不会自增长，如果说你有需要使用数字主键请自行百度Mongo实现主键自增长，目前我还没有研究出来这个。</p>
+<p>ps：代码Service层没有写默认的根据ID查询的方法是因为  默认的接口中实现是采用Long 类型的参数查询的，而这里Long类型的参数由于没有自定义主键自增长，所以我暂时还没有实现，还有一种方法就是采用另外一种指定参数的查询，现没找到.<br>就先说这么多吧，时间也不早了，吃饭去……</p>
+<p>参考文献：<br>    《深入浅出SpringBoot2.x》——杨开振<br>    <a href="http://www.runoob.com/mongodb/mongodb-tutorial.html" target="_blank" rel="noopener">http://www.runoob.com/mongodb/mongodb-tutorial.html</a><br>    <a href="https://www.cnblogs.com/shiweida/p/7692468.html" target="_blank" rel="noopener">https://www.cnblogs.com/shiweida/p/7692468.html</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/05/Spring相关-1-异步线程池和jms/" rel="next" title="Spring相关(1)异步线程池和jms">
+                <i class="fa fa-chevron-left"></i> Spring相关(1)异步线程池和jms
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/icon.png" alt="王瞬|卡丘">
+            
+              <p class="site-author-name" itemprop="name">王瞬|卡丘</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/zxc785009111" title="GitHub &rarr; https://github.com/zxc785009111" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.battcn.com/" title="https://blog.battcn.com/" rel="noopener" target="_blank">battch</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础概念"><span class="nav-number">1.</span> <span class="nav-text">基础概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-WebFlux-概述："><span class="nav-number">1.1.</span> <span class="nav-text">Spring WebFlux 概述：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebHandler接口"><span class="nav-number">1.2.</span> <span class="nav-text">WebHandler接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用SpringMVC开发WebFlux"><span class="nav-number">2.</span> <span class="nav-text">使用SpringMVC开发WebFlux</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pom文件中添加依赖"><span class="nav-number">2.1.</span> <span class="nav-text">pom文件中添加依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Entity"><span class="nav-number">2.2.</span> <span class="nav-text">Entity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dao层"><span class="nav-number">2.3.</span> <span class="nav-text">Dao层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Service层"><span class="nav-number">2.4.</span> <span class="nav-text">Service层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现类"><span class="nav-number">2.5.</span> <span class="nav-text">实现类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Controller"><span class="nav-number">2.6.</span> <span class="nav-text">Controller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件"><span class="nav-number">2.7.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试结果"><span class="nav-number">2.8.</span> <span class="nav-text">测试结果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#模糊查询方法"><span class="nav-number">2.8.1.</span> <span class="nav-text">模糊查询方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#save方法："><span class="nav-number">2.8.2.</span> <span class="nav-text">save方法：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB"><span class="nav-number">3.</span> <span class="nav-text">MongoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MongoDB-安装"><span class="nav-number">3.1.</span> <span class="nav-text">MongoDB 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MongoDB-可视化界面使用-需要git"><span class="nav-number">3.2.</span> <span class="nav-text">MongoDB 可视化界面使用(需要git)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MongoDB创建用户"><span class="nav-number">3.3.</span> <span class="nav-text">MongoDB创建用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误解决方案"><span class="nav-number">3.4.</span> <span class="nav-text">错误解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#com-mongodb-MongoSecurityException-Exception-authenticating-MongoCredential-mechanism-SCRAM-SHA-1-userName-’weblogic’-source-’springboot’-password-mechanismProperties-”"><span class="nav-number">3.4.1.</span> <span class="nav-text">com.mongodb.MongoSecurityException:Exception authenticating MongoCredential{mechanism=SCRAM-SHA-1, userName=’weblogic’, source=’springboot’, password=, mechanismProperties={}}”</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#message”-“E11000-duplicate-key-error-collection-springboot-user-index-id-dup-key-0-nested-exception-is-com-mongodb-MongoWriteException-E11000-duplicate-key-error-collection-springboot-user-index-id-dup-key-0-”"><span class="nav-number">3.4.2.</span> <span class="nav-text">message”: “E11000 duplicate key error collection: springboot.user index: _id_ dup key: { : 0 }; nested exception is com.mongodb.MongoWriteException: E11000 duplicate key error collection: springboot.user index: _id_ dup key: { : 0 }”</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王瞬|卡丘</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script>
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname,
+            owner: 'zxc785009111',
+            repo: 'https://github.com/zxc785009111/zxc785009111.github.io.git',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '93bed796dda14f2d435c2133e73f1d68868c0609',
+            
+                client_id: '5d067a58542e7dec0204'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "OdVJyQ0RufHbP3IGm64pLGTR-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "OdVJyQ0RufHbP3IGm64pLGTR-gzGzoHsz",
+                'X-LC-Key': "GM8FS2xjI83IuuP9Frddmv3s",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
