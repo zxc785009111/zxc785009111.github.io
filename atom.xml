@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-01-07T16:16:37.732Z</updated>
+  <updated>2019-01-08T13:40:27.102Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>oracle数据库增加表空间</title>
+    <link href="http://yoursite.com/2019/01/08/oracle%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A2%9E%E5%8A%A0%E8%A1%A8%E7%A9%BA%E9%97%B4/"/>
+    <id>http://yoursite.com/2019/01/08/oracle数据库增加表空间/</id>
+    <published>2019-01-08T13:30:56.000Z</published>
+    <updated>2019-01-08T13:40:27.102Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天数据库表空间满了导致插入不了新的数据了，第一次扩容，记下一笔</p><h2 id="报错截图"><a href="#报错截图" class="headerlink" title="报错截图"></a>报错截图</h2><p><img src="/images/linux/oracleDatanaseAdd/reson.png"></p><p>原因大概在网上查了查，是指USERS这个表空间满了所以导致的新数据insert失败。</p><h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>注意：以下操作均需要DBA权限。</p><h3 id="查询表空间使用情况"><a href="#查询表空间使用情况" class="headerlink" title="查询表空间使用情况"></a>查询表空间使用情况</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">SELECT UPPER(F.TABLESPACE_NAME) <span class="string">"表空间名"</span>, </span><br><span class="line">D.TOT_GROOTTE_MB <span class="string">"表空间大小(M)"</span>, </span><br><span class="line">D.TOT_GROOTTE_MB - F.TOTAL_BYTES <span class="string">"已使用空间(M)"</span>, </span><br><span class="line">TO_CHAR(ROUND((D.TOT_GROOTTE_MB - F.TOTAL_BYTES) / D.TOT_GROOTTE_MB * 100,2),<span class="string">'990.99'</span>) <span class="string">"使用比"</span>, </span><br><span class="line">F.TOTAL_BYTES <span class="string">"空闲空间(M)"</span>, </span><br><span class="line">F.MAX_BYTES <span class="string">"最大块(M)"</span> </span><br><span class="line">FROM (SELECT TABLESPACE_NAME, </span><br><span class="line">ROUND(SUM(BYTES) / (1024 * 1024), 2) TOTAL_BYTES, </span><br><span class="line">ROUND(MAX(BYTES) / (1024 * 1024), 2) MAX_BYTES </span><br><span class="line">FROM SYS.DBA_FREE_SPACE </span><br><span class="line">GROUP BY TABLESPACE_NAME) F, </span><br><span class="line">(SELECT DD.TABLESPACE_NAME, </span><br><span class="line">ROUND(SUM(DD.BYTES) / (1024 * 1024), 2) TOT_GROOTTE_MB </span><br><span class="line">FROM SYS.DBA_DATA_FILES DD </span><br><span class="line">GROUP BY DD.TABLESPACE_NAME) D </span><br><span class="line">WHERE D.TABLESPACE_NAME = F.TABLESPACE_NAME </span><br><span class="line">ORDER BY 4 DESC;</span><br></pre></td></tr></table></figure><h3 id="查找表空间文件的路径"><a href="#查找表空间文件的路径" class="headerlink" title="查找表空间文件的路径"></a>查找表空间文件的路径</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT tablespace_name, </span><br><span class="line">file_id, </span><br><span class="line">file_name, </span><br><span class="line">round(bytes / (1024 * 1024), 0) total_space </span><br><span class="line">FROM dba_data_files </span><br><span class="line">ORDER BY tablespace_name;</span><br></pre></td></tr></table></figure><h3 id="新增表空间并开启自动扩容"><a href="#新增表空间并开启自动扩容" class="headerlink" title="新增表空间并开启自动扩容"></a>新增表空间并开启自动扩容</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter tablespace USERS</span><br><span class="line">     add datafile <span class="string">' /u02/ORCL/datafile/user02.dbf'</span> size 320000m AUTOEXTEND ON</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;今天数据库表空间满了导致插入不了新的数据了，第一次扩容，记下一笔&lt;/p&gt;
+&lt;h2 id=&quot;报错截图&quot;&gt;&lt;a href=&quot;#报错截图&quot; class=&quot;headerlink&quot; title=&quot;报错截图&quot;&gt;&lt;/a&gt;报错截图&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;/images/linu
+      
+    
+    </summary>
+    
+      <category term="linux学习" scheme="http://yoursite.com/categories/linux%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="oracle" scheme="http://yoursite.com/tags/oracle/"/>
+    
+  </entry>
   
   <entry>
     <title>Spring相关(3)深入学习Spring5新框架——WebFlux框架</title>

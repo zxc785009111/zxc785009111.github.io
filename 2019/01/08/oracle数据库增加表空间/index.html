@@ -104,23 +104,20 @@
 
 
 
-  <meta name="description" content="简介：SpringBoot 是为了简化 Spring 应用的创建、运行、调试、部署等一系列问题而诞生的产物，自动装配的特性让我们可以更好的关注业务本身而不是外部的XML配置，我们只需遵循规范，引入相关的依赖就可以轻易的搭建出一个 WEB 工程 我使用的是MyEclipse2018，接下来就说一下如何使用MyEclipse构建一个SpringBoot项目……">
-<meta name="keywords" content="springBoot">
+  <meta name="description" content="今天数据库表空间满了导致插入不了新的数据了，第一次扩容，记下一笔 报错截图 原因大概在网上查了查，是指USERS这个表空间满了所以导致的新数据insert失败。 解决办法注意：以下操作均需要DBA权限。 查询表空间使用情况1234567891011121314151617SELECT UPPER(F.TABLESPACE_NAME) &quot;表空间名&quot;, D.TOT_GROOTTE_MB &quot;表空间大小(">
+<meta name="keywords" content="oracle">
 <meta property="og:type" content="article">
-<meta property="og:title" content="springBoot(1)使用MyEclipse构建一个SpringBoot">
-<meta property="og:url" content="http://yoursite.com/2018/12/23/springBoot-1-使用MyEclipse构建一个SpringBoot/index.html">
+<meta property="og:title" content="oracle数据库增加表空间">
+<meta property="og:url" content="http://yoursite.com/2019/01/08/oracle数据库增加表空间/index.html">
 <meta property="og:site_name" content="王瞬|卡丘">
-<meta property="og:description" content="简介：SpringBoot 是为了简化 Spring 应用的创建、运行、调试、部署等一系列问题而诞生的产物，自动装配的特性让我们可以更好的关注业务本身而不是外部的XML配置，我们只需遵循规范，引入相关的依赖就可以轻易的搭建出一个 WEB 工程 我使用的是MyEclipse2018，接下来就说一下如何使用MyEclipse构建一个SpringBoot项目……">
+<meta property="og:description" content="今天数据库表空间满了导致插入不了新的数据了，第一次扩容，记下一笔 报错截图 原因大概在网上查了查，是指USERS这个表空间满了所以导致的新数据insert失败。 解决办法注意：以下操作均需要DBA权限。 查询表空间使用情况1234567891011121314151617SELECT UPPER(F.TABLESPACE_NAME) &quot;表空间名&quot;, D.TOT_GROOTTE_MB &quot;表空间大小(">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/images/SpringBoot/SpringBoot1/sp1-1.png">
-<meta property="og:image" content="http://yoursite.com/images/SpringBoot/SpringBoot1/p2.png">
-<meta property="og:image" content="http://yoursite.com/images/SpringBoot/SpringBoot1/p3.png">
-<meta property="og:image" content="http://yoursite.com/images/SpringBoot/SpringBoot1/p4.png">
-<meta property="og:updated_time" content="2018-12-23T03:01:18.682Z">
+<meta property="og:image" content="http://yoursite.com/images/linux/oracleDatanaseAdd/reson.png">
+<meta property="og:updated_time" content="2019-01-08T13:40:27.102Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="springBoot(1)使用MyEclipse构建一个SpringBoot">
-<meta name="twitter:description" content="简介：SpringBoot 是为了简化 Spring 应用的创建、运行、调试、部署等一系列问题而诞生的产物，自动装配的特性让我们可以更好的关注业务本身而不是外部的XML配置，我们只需遵循规范，引入相关的依赖就可以轻易的搭建出一个 WEB 工程 我使用的是MyEclipse2018，接下来就说一下如何使用MyEclipse构建一个SpringBoot项目……">
-<meta name="twitter:image" content="http://yoursite.com/images/SpringBoot/SpringBoot1/sp1-1.png">
+<meta name="twitter:title" content="oracle数据库增加表空间">
+<meta name="twitter:description" content="今天数据库表空间满了导致插入不了新的数据了，第一次扩容，记下一笔 报错截图 原因大概在网上查了查，是指USERS这个表空间满了所以导致的新数据insert失败。 解决办法注意：以下操作均需要DBA权限。 查询表空间使用情况1234567891011121314151617SELECT UPPER(F.TABLESPACE_NAME) &quot;表空间名&quot;, D.TOT_GROOTTE_MB &quot;表空间大小(">
+<meta name="twitter:image" content="http://yoursite.com/images/linux/oracleDatanaseAdd/reson.png">
 
 
 
@@ -129,7 +126,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/12/23/springBoot-1-使用MyEclipse构建一个SpringBoot/">
+  <link rel="canonical" href="http://yoursite.com/2019/01/08/oracle数据库增加表空间/">
 
 
 
@@ -139,7 +136,7 @@
   };
 </script>
 
-  <title>springBoot(1)使用MyEclipse构建一个SpringBoot | 王瞬|卡丘</title>
+  <title>oracle数据库增加表空间 | 王瞬|卡丘</title>
   
 
 
@@ -352,7 +349,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/23/springBoot-1-使用MyEclipse构建一个SpringBoot/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/08/oracle数据库增加表空间/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="王瞬|卡丘">
@@ -369,7 +366,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">springBoot(1)使用MyEclipse构建一个SpringBoot
+          <h1 class="post-title" itemprop="name headline">oracle数据库增加表空间
 
               
             
@@ -395,7 +392,7 @@
                 
               
 
-              <time title="创建时间：2018-12-23 10:38:56 / 修改时间：11:01:18" itemprop="dateCreated datePublished" datetime="2018-12-23T10:38:56+08:00">2018-12-23</time>
+              <time title="创建时间：2019-01-08 21:30:56 / 修改时间：21:40:27" itemprop="dateCreated datePublished" datetime="2019-01-08T21:30:56+08:00">2019-01-08</time>
             
 
             
@@ -417,7 +414,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/SpringBoot学习/" itemprop="url" rel="index"><span itemprop="name">SpringBoot学习</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/linux学习/" itemprop="url" rel="index"><span itemprop="name">linux学习</span></a></span>
 
                 
                 
@@ -432,8 +429,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/12/23/springBoot-1-使用MyEclipse构建一个SpringBoot/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2018/12/23/springBoot-1-使用MyEclipse构建一个SpringBoot/" itemprop="commentsCount"></span>
+                <a href="/2019/01/08/oracle数据库增加表空间/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019/01/08/oracle数据库增加表空间/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -441,7 +438,7 @@
 
           
           
-             <span id="/2018/12/23/springBoot-1-使用MyEclipse构建一个SpringBoot/" class="leancloud_visitors" data-flag-title="springBoot(1)使用MyEclipse构建一个SpringBoot">
+             <span id="/2019/01/08/oracle数据库增加表空间/" class="leancloud_visitors" data-flag-title="oracle数据库增加表空间">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -472,14 +469,13 @@
       
 
       
-        <p>简介：SpringBoot 是为了简化 Spring 应用的创建、运行、调试、部署等一系列问题而诞生的产物，自动装配的特性让我们可以更好的关注业务本身而不是外部的XML配置，我们只需遵循规范，引入相关的依赖就可以轻易的搭建出一个 WEB 工程</p>
-<p>我使用的是MyEclipse2018，接下来就说一下如何使用MyEclipse构建一个SpringBoot项目……<a id="more"></a></p>
-<h3 id="新建Spring-项目"><a href="#新建Spring-项目" class="headerlink" title="新建Spring 项目"></a>新建Spring 项目</h3><p>右击新建一个Spring 项目，搜索Spring，选择Spring Starter Project<br><img src="/images/SpringBoot/SpringBoot1/sp1-1.png"></p>
-<h3 id="输入项目名称-分组-描述-以及起始包"><a href="#输入项目名称-分组-描述-以及起始包" class="headerlink" title="输入项目名称/分组/描述/以及起始包"></a>输入项目名称/分组/描述/以及起始包</h3><p><img src="/images/SpringBoot/SpringBoot1/p2.png"></p>
-<h3 id="选择SpringBoot的版本以及相应的组件-比如web-mybatis等等"><a href="#选择SpringBoot的版本以及相应的组件-比如web-mybatis等等" class="headerlink" title="选择SpringBoot的版本以及相应的组件(比如web/mybatis等等)"></a>选择SpringBoot的版本以及相应的组件(比如web/mybatis等等)</h3><p><img src="/images/SpringBoot/SpringBoot1/p3.png"></p>
-<h3 id="点击finishe即可，其中首次创建会比较慢，因为需要下载jar包-需要提前配置好Maven-。"><a href="#点击finishe即可，其中首次创建会比较慢，因为需要下载jar包-需要提前配置好Maven-。" class="headerlink" title="点击finishe即可，其中首次创建会比较慢，因为需要下载jar包(需要提前配置好Maven)。"></a>点击finishe即可，其中首次创建会比较慢，因为需要下载jar包(需要提前配置好Maven)。</h3><h3 id="可选-为了以后的方便的话，可以去网上安装一些插件，比如说中文propertise-插件参考地址"><a href="#可选-为了以后的方便的话，可以去网上安装一些插件，比如说中文propertise-插件参考地址" class="headerlink" title="(可选) 为了以后的方便的话，可以去网上安装一些插件，比如说中文propertise 插件参考地址"></a>(可选) 为了以后的方便的话，可以去网上安装一些插件，比如说中文propertise 插件<a href="https://blog.csdn.net/qq_31151929/article/details/51121750" target="_blank" rel="noopener">参考地址</a></h3><pre><code>安装完成之后，在windows-&gt;propertise里面选择一下默认即可：
-</code></pre><p><img src="/images/SpringBoot/SpringBoot1/p4.png"></p>
-
+        <p>今天数据库表空间满了导致插入不了新的数据了，第一次扩容，记下一笔</p>
+<h2 id="报错截图"><a href="#报错截图" class="headerlink" title="报错截图"></a>报错截图</h2><p><img src="/images/linux/oracleDatanaseAdd/reson.png"></p>
+<p>原因大概在网上查了查，是指USERS这个表空间满了所以导致的新数据insert失败。</p>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>注意：以下操作均需要DBA权限。</p>
+<h3 id="查询表空间使用情况"><a href="#查询表空间使用情况" class="headerlink" title="查询表空间使用情况"></a>查询表空间使用情况</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">SELECT UPPER(F.TABLESPACE_NAME) <span class="string">"表空间名"</span>, </span><br><span class="line">D.TOT_GROOTTE_MB <span class="string">"表空间大小(M)"</span>, </span><br><span class="line">D.TOT_GROOTTE_MB - F.TOTAL_BYTES <span class="string">"已使用空间(M)"</span>, </span><br><span class="line">TO_CHAR(ROUND((D.TOT_GROOTTE_MB - F.TOTAL_BYTES) / D.TOT_GROOTTE_MB * 100,2),<span class="string">'990.99'</span>) <span class="string">"使用比"</span>, </span><br><span class="line">F.TOTAL_BYTES <span class="string">"空闲空间(M)"</span>, </span><br><span class="line">F.MAX_BYTES <span class="string">"最大块(M)"</span> </span><br><span class="line">FROM (SELECT TABLESPACE_NAME, </span><br><span class="line">ROUND(SUM(BYTES) / (1024 * 1024), 2) TOTAL_BYTES, </span><br><span class="line">ROUND(MAX(BYTES) / (1024 * 1024), 2) MAX_BYTES </span><br><span class="line">FROM SYS.DBA_FREE_SPACE </span><br><span class="line">GROUP BY TABLESPACE_NAME) F, </span><br><span class="line">(SELECT DD.TABLESPACE_NAME, </span><br><span class="line">ROUND(SUM(DD.BYTES) / (1024 * 1024), 2) TOT_GROOTTE_MB </span><br><span class="line">FROM SYS.DBA_DATA_FILES DD </span><br><span class="line">GROUP BY DD.TABLESPACE_NAME) D </span><br><span class="line">WHERE D.TABLESPACE_NAME = F.TABLESPACE_NAME </span><br><span class="line">ORDER BY 4 DESC;</span><br></pre></td></tr></table></figure>
+<h3 id="查找表空间文件的路径"><a href="#查找表空间文件的路径" class="headerlink" title="查找表空间文件的路径"></a>查找表空间文件的路径</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT tablespace_name, </span><br><span class="line">file_id, </span><br><span class="line">file_name, </span><br><span class="line">round(bytes / (1024 * 1024), 0) total_space </span><br><span class="line">FROM dba_data_files </span><br><span class="line">ORDER BY tablespace_name;</span><br></pre></td></tr></table></figure>
+<h3 id="新增表空间并开启自动扩容"><a href="#新增表空间并开启自动扩容" class="headerlink" title="新增表空间并开启自动扩容"></a>新增表空间并开启自动扩容</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter tablespace USERS</span><br><span class="line">     add datafile <span class="string">' /u02/ORCL/datafile/user02.dbf'</span> size 320000m AUTOEXTEND ON</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -502,7 +498,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/springBoot/" rel="tag"># springBoot</a>
+            <a href="/tags/oracle/" rel="tag"># oracle</a>
           
         </div>
       
@@ -515,8 +511,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/21/hello-world/" rel="next" title="Hexo学习(1)：使用Hexo搭建博客">
-                <i class="fa fa-chevron-left"></i> Hexo学习(1)：使用Hexo搭建博客
+              <a href="/2019/01/07/Spring相关-3-WebFlux框架-2/" rel="next" title="Spring相关(3)深入学习Spring5新框架——WebFlux框架">
+                <i class="fa fa-chevron-left"></i> Spring相关(3)深入学习Spring5新框架——WebFlux框架
               </a>
             
           </div>
@@ -524,10 +520,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/12/23/springBoot-2-SpringBoot日志配置/" rel="prev" title="springBoot(2)SpringBoot日志配置">
-                springBoot(2)SpringBoot日志配置 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -724,7 +716,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#新建Spring-项目"><span class="nav-number">1.</span> <span class="nav-text">新建Spring 项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入项目名称-分组-描述-以及起始包"><span class="nav-number">2.</span> <span class="nav-text">输入项目名称/分组/描述/以及起始包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择SpringBoot的版本以及相应的组件-比如web-mybatis等等"><span class="nav-number">3.</span> <span class="nav-text">选择SpringBoot的版本以及相应的组件(比如web/mybatis等等)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#点击finishe即可，其中首次创建会比较慢，因为需要下载jar包-需要提前配置好Maven-。"><span class="nav-number">4.</span> <span class="nav-text">点击finishe即可，其中首次创建会比较慢，因为需要下载jar包(需要提前配置好Maven)。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可选-为了以后的方便的话，可以去网上安装一些插件，比如说中文propertise-插件参考地址"><span class="nav-number">5.</span> <span class="nav-text">(可选) 为了以后的方便的话，可以去网上安装一些插件，比如说中文propertise 插件参考地址</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#报错截图"><span class="nav-number">1.</span> <span class="nav-text">报错截图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决办法"><span class="nav-number">2.</span> <span class="nav-text">解决办法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查询表空间使用情况"><span class="nav-number">2.1.</span> <span class="nav-text">查询表空间使用情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找表空间文件的路径"><span class="nav-number">2.2.</span> <span class="nav-text">查找表空间文件的路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新增表空间并开启自动扩容"><span class="nav-number">2.3.</span> <span class="nav-text">新增表空间并开启自动扩容</span></a></li></ol></li></ol></div>
             
 
           </div>
