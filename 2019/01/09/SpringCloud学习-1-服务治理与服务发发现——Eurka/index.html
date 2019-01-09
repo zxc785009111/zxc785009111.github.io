@@ -104,20 +104,20 @@
 
 
 
-  <meta name="description" content="Eureka简介1.是纯正的 servlet 应用，需构建成jar/war包部署 2.使用了 Jersey 框架实现自身的 RESTful HTTP接口 3.peer之间的同步与服务的注册全部通过 HTTP 协议实现 4.定时任务(发送心跳、定时清理过期服务、节点同步等)通过 JDK 自带的 Timer 实现 5.内存缓存使用Google的guava包实现 Eureka Server引入依赖123">
+  <meta name="description" content="Eureka简介1.是纯正的 servlet 应用，需构建成jar/war包部署 2.使用了 Jersey 框架实现自身的 RESTful HTTP接口 3.peer之间的同步与服务的注册全部通过 HTTP 协议实现 4.定时任务(发送心跳、定时清理过期服务、节点同步等)通过 JDK 自带的 Timer 实现 5.内存缓存使用Google的guava包实现….">
 <meta name="keywords" content="SpringCloud">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringCloud学习(1)服务治理与服务发现——Eurka">
 <meta property="og:url" content="http://yoursite.com/2019/01/09/SpringCloud学习-1-服务治理与服务发发现——Eurka/index.html">
 <meta property="og:site_name" content="王瞬|卡丘">
-<meta property="og:description" content="Eureka简介1.是纯正的 servlet 应用，需构建成jar/war包部署 2.使用了 Jersey 框架实现自身的 RESTful HTTP接口 3.peer之间的同步与服务的注册全部通过 HTTP 协议实现 4.定时任务(发送心跳、定时清理过期服务、节点同步等)通过 JDK 自带的 Timer 实现 5.内存缓存使用Google的guava包实现 Eureka Server引入依赖123">
+<meta property="og:description" content="Eureka简介1.是纯正的 servlet 应用，需构建成jar/war包部署 2.使用了 Jersey 框架实现自身的 RESTful HTTP接口 3.peer之间的同步与服务的注册全部通过 HTTP 协议实现 4.定时任务(发送心跳、定时清理过期服务、节点同步等)通过 JDK 自带的 Timer 实现 5.内存缓存使用Google的guava包实现….">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/SpringCloud/Eureka/eureka-1.png">
 <meta property="og:image" content="http://yoursite.com/images/SpringCloud/Eureka/eureka-2.png">
-<meta property="og:updated_time" content="2019-01-09T16:00:39.188Z">
+<meta property="og:updated_time" content="2019-01-09T16:29:17.222Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringCloud学习(1)服务治理与服务发现——Eurka">
-<meta name="twitter:description" content="Eureka简介1.是纯正的 servlet 应用，需构建成jar/war包部署 2.使用了 Jersey 框架实现自身的 RESTful HTTP接口 3.peer之间的同步与服务的注册全部通过 HTTP 协议实现 4.定时任务(发送心跳、定时清理过期服务、节点同步等)通过 JDK 自带的 Timer 实现 5.内存缓存使用Google的guava包实现 Eureka Server引入依赖123">
+<meta name="twitter:description" content="Eureka简介1.是纯正的 servlet 应用，需构建成jar/war包部署 2.使用了 Jersey 框架实现自身的 RESTful HTTP接口 3.peer之间的同步与服务的注册全部通过 HTTP 协议实现 4.定时任务(发送心跳、定时清理过期服务、节点同步等)通过 JDK 自带的 Timer 实现 5.内存缓存使用Google的guava包实现….">
 <meta name="twitter:image" content="http://yoursite.com/images/SpringCloud/Eureka/eureka-1.png">
 
 
@@ -410,7 +410,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-10 00:00:39" itemprop="dateModified" datetime="2019-01-10T00:00:39+08:00">2019-01-10</time>
+                <time title="修改时间：2019-01-10 00:29:17" itemprop="dateModified" datetime="2019-01-10T00:29:17+08:00">2019-01-10</time>
               
             
           </span>
@@ -486,7 +486,7 @@
 <p>2.使用了 Jersey 框架实现自身的 RESTful HTTP接口</p>
 <p>3.peer之间的同步与服务的注册全部通过 HTTP 协议实现</p>
 <p>4.定时任务(发送心跳、定时清理过期服务、节点同步等)通过 JDK 自带的 Timer 实现</p>
-<p>5.内存缓存使用Google的guava包实现</p>
+<p>5.内存缓存使用Google的guava包实现….<a id="more"></a></p>
 <h2 id="Eureka-Server"><a href="#Eureka-Server" class="headerlink" title="Eureka Server"></a>Eureka Server</h2><h3 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">	&lt;scope&gt;<span class="built_in">test</span>&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line"> 			&lt;groupId&gt;javax.xml.bind&lt;/groupId&gt;</span><br><span class="line">  		&lt;artifactId&gt;jaxb-api&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">  		&lt;groupId&gt;com.sun.xml.bind&lt;/groupId&gt;</span><br><span class="line">  		&lt;artifactId&gt;jaxb-impl&lt;/artifactId&gt;</span><br><span class="line">  		&lt;version&gt;2.3.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">  		&lt;groupId&gt;org.glassfish.jaxb&lt;/groupId&gt;</span><br><span class="line">  		&lt;artifactId&gt;jaxb-runtime&lt;/artifactId&gt;</span><br><span class="line">  		&lt;version&gt;2.3.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line"> 		 	&lt;groupId&gt;javax.activation&lt;/groupId&gt;</span><br><span class="line">  		&lt;artifactId&gt;activation&lt;/artifactId&gt;</span><br><span class="line">  		&lt;version&gt;1.1.1&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
 <p>之所以要引入除了eureka之外的包，是因为我只引入这一个包的时候启动项目报错了<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Caused by: java.lang.ClassNotFoundException: javax.xml.bind.JAXBContext</span><br></pre></td></tr></table></figure></p>
 <p>网上查了一下，说是jdk9的新特性不再默认加载这些包，好，那和我JDK8有鸡毛关系！（鄙视MyEclipse）<br>鄙视归鄙视，该需要的包还是要加上去的..</p>
