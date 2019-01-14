@@ -113,7 +113,7 @@
 <meta property="og:description" content="Hystrix简介Hystrix是什么在分布式系统中，服务与服务之间的依赖错综复杂，不可避免的情况就是某些服务出现故障，导致依赖于它们的其他服务出现远程调用的线程阻塞，Hystrix是Netfix公司开源的一个项目，它提供了熔断器的功能，能够阻止分布式系统中出现联动故障。Hystrix是通过隔离服务的访问点阻止联动故障的，并提供了故障的解决方案，从而提高整个分布式系统的弹性。 Hystrix解决了">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/SpringCloud/Hystrix/hystrix-1.png">
-<meta property="og:updated_time" content="2019-01-13T07:13:11.730Z">
+<meta property="og:updated_time" content="2019-01-14T08:14:03.778Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringCloud学习(4)熔断器Hystrix">
 <meta name="twitter:description" content="Hystrix简介Hystrix是什么在分布式系统中，服务与服务之间的依赖错综复杂，不可避免的情况就是某些服务出现故障，导致依赖于它们的其他服务出现远程调用的线程阻塞，Hystrix是Netfix公司开源的一个项目，它提供了熔断器的功能，能够阻止分布式系统中出现联动故障。Hystrix是通过隔离服务的访问点阻止联动故障的，并提供了故障的解决方案，从而提高整个分布式系统的弹性。 Hystrix解决了">
@@ -392,12 +392,24 @@
                 
               
 
-              <time title="创建时间：2019-01-13 12:50:56 / 修改时间：15:13:11" itemprop="dateCreated datePublished" datetime="2019-01-13T12:50:56+08:00">2019-01-13</time>
+              <time title="创建时间：2019-01-13 12:50:56" itemprop="dateCreated datePublished" datetime="2019-01-13T12:50:56+08:00">2019-01-13</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-14 16:14:03" itemprop="dateModified" datetime="2019-01-14T16:14:03+08:00">2019-01-14</time>
               
             
           </span>
@@ -477,7 +489,7 @@
 <p>3.提供回退(fallback)方案，在请求发生故障时，提供设定好的回退方案</p>
 <p>4.使用熔断机制，防止故障扩散到其他服务</p>
 <p>5.提供熔断器的监控组件Hystrix Dashboard，可以实时监控熔断器的状态</p>
-<h3 id="Hystrix工作机制"><a href="#Hystrix工作机制" class="headerlink" title="Hystrix工作机制"></a>Hystrix工作机制</h3><p>首先，当某个API接口的失败次数在一定时间内小于设定的阈值时，熔断器出于关闭，该API正常提供服务，当该API接口处理请求失败次数大于设定阈值时，Hystrix判定该API出现故障，打开熔断器，此时请求该API的接口会执行快速失败逻辑(即fallback回退的逻辑)，不执行业务逻辑，请求的线程不会出于阻塞状态。处于打开状态的熔断器，在一段时间之后会处于半打开的状态，并将一定数量的请求执行正常逻辑，其他的会执行快速失败，若执行正常的请求失败了，则熔断器继续打开，否则熔断器关闭，这样熔断器就具有了自我修复的能力。</p>
+<h3 id="Hystrix工作机制"><a href="#Hystrix工作机制" class="headerlink" title="Hystrix工作机制"></a>Hystrix工作机制</h3><p>首先，当某个API接口的失败次数在一定时间内小于设定的阈值时，熔断器处于关闭，该API正常提供服务，当该API接口处理请求失败次数大于设定阈值时，Hystrix判定该API出现故障，打开熔断器，此时请求该API的接口会执行快速失败逻辑(即fallback回退的逻辑)，不执行业务逻辑，请求的线程不会出于阻塞状态。处于打开状态的熔断器，在一段时间之后会处于半打开的状态，并将一定数量的请求执行正常逻辑，其他的会执行快速失败，若执行正常的请求失败了，则熔断器继续打开，否则熔断器关闭，这样熔断器就具有了自我修复的能力。</p>
 <h2 id="在RestTemplate和Ribbon-上使用熔断器"><a href="#在RestTemplate和Ribbon-上使用熔断器" class="headerlink" title="在RestTemplate和Ribbon 上使用熔断器"></a>在RestTemplate和Ribbon 上使用熔断器</h2><h3 id="pom文件添加依赖"><a href="#pom文件添加依赖" class="headerlink" title="pom文件添加依赖"></a>pom文件添加依赖</h3><p>首先在之前写过的基于RestTemplate和Ribbon的项目中的pom文件中添加以下依赖<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-starter-netflix-hystrix&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
 <h3 id="项目启动项添加-EnableHystrix注解"><a href="#项目启动项添加-EnableHystrix注解" class="headerlink" title="项目启动项添加@EnableHystrix注解"></a>项目启动项添加@EnableHystrix注解</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">package com.wangshun.leaning;</span><br><span class="line"></span><br><span class="line">import org.springframework.boot.SpringApplication;</span><br><span class="line">import org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line">import org.springframework.cloud.netflix.hystrix.EnableHystrix;</span><br><span class="line"></span><br><span class="line">@SpringBootApplication</span><br><span class="line">@EnableHystrix</span><br><span class="line">public class SpringCloudLeaning1RibbonApplication &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		SpringApplication.run(SpringCloudLeaning1RibbonApplication.class, args);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="改造Service"><a href="#改造Service" class="headerlink" title="改造Service"></a>改造Service</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">package com.wangshun.leaning.service;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.stereotype.Service;</span><br><span class="line">import org.springframework.web.client.RestTemplate;</span><br><span class="line"></span><br><span class="line">import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;</span><br><span class="line"></span><br><span class="line">@Service</span><br><span class="line">public class RibbonService &#123;</span><br><span class="line">	@Autowired</span><br><span class="line">	RestTemplate restTemplate;</span><br><span class="line">	</span><br><span class="line">	@HystrixCommand(fallbackMethod=<span class="string">"helloError"</span>)</span><br><span class="line">	public String hello(String email) &#123;</span><br><span class="line">		<span class="built_in">return</span> restTemplate.getForObject(<span class="string">"http://PRODUCT/hello?email="</span>+email,String.class );</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public String helloError(String email) &#123;</span><br><span class="line">		<span class="built_in">return</span> <span class="string">"helllo"</span>+email+<span class="string">",sorry,error"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -623,7 +635,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">24</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

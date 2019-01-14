@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Spring Cloud Config 配置中心概述什么是配置中心配置中心的由来在集中式的开发时代，配置文件基本能够满足，因为那时候配置管理不会成为一个很大的问题，但是在互联网时代，应用都是分布式系统，部署在N台服务器上，想要去献上一台服务器重启肯定不靠谱，而且维护成本也很高，所以配置中心应运而生，配置中心被作用于几种管理不同的欢迎(dev、pr、qa)和不同的集群配置，以及在修改配置后可以将实时">
+<meta name="keywords" content="SpringCloud">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringCloud学习(6)配置中心Config">
+<meta property="og:url" content="http://yoursite.com/2019/01/14/SpringCloud学习-6-配置中心Config/index.html">
+<meta property="og:site_name" content="王瞬|卡丘">
+<meta property="og:description" content="Spring Cloud Config 配置中心概述什么是配置中心配置中心的由来在集中式的开发时代，配置文件基本能够满足，因为那时候配置管理不会成为一个很大的问题，但是在互联网时代，应用都是分布式系统，部署在N台服务器上，想要去献上一台服务器重启肯定不靠谱，而且维护成本也很高，所以配置中心应运而生，配置中心被作用于几种管理不同的欢迎(dev、pr、qa)和不同的集群配置，以及在修改配置后可以将实时">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-14T14:40:36.120Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringCloud学习(6)配置中心Config">
+<meta name="twitter:description" content="Spring Cloud Config 配置中心概述什么是配置中心配置中心的由来在集中式的开发时代，配置文件基本能够满足，因为那时候配置管理不会成为一个很大的问题，但是在互联网时代，应用都是分布式系统，部署在N台服务器上，想要去献上一台服务器重启肯定不靠谱，而且维护成本也很高，所以配置中心应运而生，配置中心被作用于几种管理不同的欢迎(dev、pr、qa)和不同的集群配置，以及在修改配置后可以将实时">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="王瞬|卡丘" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/14/SpringCloud学习-6-配置中心Config/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>SpringCloud学习(6)配置中心Config | 王瞬|卡丘</title>
+  
+
+
+
+
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?39f133557477ec32790de624cc6b48a6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王瞬|卡丘</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">王瞬的私人博客</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/14/SpringCloud学习-6-配置中心Config/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王瞬|卡丘">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/icon.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王瞬|卡丘">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SpringCloud学习(6)配置中心Config
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-14 20:09:58 / 修改时间：22:40:36" itemprop="dateCreated datePublished" datetime="2019-01-14T20:09:58+08:00">2019-01-14</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/SpringCloud学习/" itemprop="url" rel="index"><span itemprop="name">SpringCloud学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/14/SpringCloud学习-6-配置中心Config/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019/01/14/SpringCloud学习-6-配置中心Config/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/01/14/SpringCloud学习-6-配置中心Config/" class="leancloud_visitors" data-flag-title="SpringCloud学习(6)配置中心Config">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Spring-Cloud-Config-配置中心概述"><a href="#Spring-Cloud-Config-配置中心概述" class="headerlink" title="Spring Cloud Config 配置中心概述"></a>Spring Cloud Config 配置中心概述</h2><h3 id="什么是配置中心"><a href="#什么是配置中心" class="headerlink" title="什么是配置中心"></a>什么是配置中心</h3><h4 id="配置中心的由来"><a href="#配置中心的由来" class="headerlink" title="配置中心的由来"></a>配置中心的由来</h4><p>在集中式的开发时代，配置文件基本能够满足，因为那时候配置管理不会成为一个很大的问题，但是在互联网时代，应用都是分布式系统，部署在N台服务器上，想要去献上一台服务器重启肯定不靠谱，而且维护成本也很高，所以配置中心应运而生，配置中心被作用于几种管理不同的欢迎(dev、pr、qa)和不同的集群配置，以及在修改配置后可以将实时动态推送到应用上进行刷新.<a id="more"></a></p>
+<h4 id="配置中心应具有的功能"><a href="#配置中心应具有的功能" class="headerlink" title="配置中心应具有的功能"></a>配置中心应具有的功能</h4><p>1.open API<br>2.业务无关性<br>3.配置生效监控<br>4.一致性K-V存储<br>5.统一配置实时推送<br>6.配合灰度与更新<br>7.配置全局恢复、备份和力士<br>8.高可用集群</p>
+<h3 id="Spring-Cloud-Config"><a href="#Spring-Cloud-Config" class="headerlink" title="Spring Cloud Config"></a>Spring Cloud Config</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>SpringCloudConfig是一个集中化外部配置的分布式系统，由服务端和客户端组成，不依赖于注册中心，是一个独立的配置中心。其支持多种存储配置文件形态，例如jdbc、Vault、Native、svn、git，其中默认为git</p>
+<h4 id="git版工作原理"><a href="#git版工作原理" class="headerlink" title="git版工作原理"></a>git版工作原理</h4><p>配置客户端启动时会向服务端发起请求，服务端接受到客户端的请求后，根据配置的仓库地址，将git上的文件克隆到本地的一个临时目录中，这个目录是git的本地仓库目录，然后服务端再读取本地文件返回给客户端。这样做的好处是，当git服务器故障或者网络请求异常时，保证服务端仍然可以正常工作。</p>
+<h2 id="入门案例"><a href="#入门案例" class="headerlink" title="入门案例"></a>入门案例</h2><h3 id="Config-Server创建"><a href="#Config-Server创建" class="headerlink" title="Config Server创建"></a>Config Server创建</h3><h4 id="pom文件配置"><a href="#pom文件配置" class="headerlink" title="pom文件配置"></a>pom文件配置</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-config-server&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="添加-EnableConfigServer注解开启SpringCloudConfig的服务功能"><a href="#添加-EnableConfigServer注解开启SpringCloudConfig的服务功能" class="headerlink" title="添加@EnableConfigServer注解开启SpringCloudConfig的服务功能"></a>添加@EnableConfigServer注解开启SpringCloudConfig的服务功能</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">package com.wangshun.leaning;</span><br><span class="line"></span><br><span class="line">import org.springframework.boot.SpringApplication;</span><br><span class="line">import org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line">import org.springframework.cloud.config.server.EnableConfigServer;</span><br><span class="line"></span><br><span class="line">@SpringBootApplication</span><br><span class="line">@EnableConfigServer</span><br><span class="line">public class SpringCloudLeaning4ConfigApplication &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		SpringApplication.run(SpringCloudLeaning4ConfigApplication.class, args);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="yml文件配置"><a href="#yml文件配置" class="headerlink" title="yml文件配置"></a>yml文件配置</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  cloud:</span><br><span class="line">    config:</span><br><span class="line">      server:</span><br><span class="line">        git:</span><br><span class="line">          uri: https://github.com/zxc785009111/wangshun-spring-cloud-config.git</span><br><span class="line">          username: 你的git用户名</span><br><span class="line">          password: 你的git密码</span><br><span class="line">          search-paths:</span><br><span class="line">          - SPRING-CLOUD-CONFIG</span><br><span class="line">  application:</span><br><span class="line">    name: sc-config-git</span><br><span class="line">    </span><br><span class="line">server:</span><br><span class="line">  port: 9090</span><br></pre></td></tr></table></figure>
+<p>然后建立一个仓库~建立完成之后，在其中创建一个文件夹，这里我起名为SPRING-CLOUD-CONFIG，然后在该目录下创建1个文件，config-info-test.yml,在配置文件中添加以下内容<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cn: </span><br><span class="line">  springcloud: </span><br><span class="line">    book: </span><br><span class="line">      config: i am the git configuration file from <span class="built_in">test</span></span><br></pre></td></tr></table></figure></p>
+<p>在创建文件之后肯定是要把它上传到gitHub上面的，那么来说说如何在本地上传文件到gitHub 和从gitHub上下载代码<br>上传文件：<a href="https://blog.csdn.net/qq_42815754/article/details/83746492" target="_blank" rel="noopener">https://blog.csdn.net/qq_42815754/article/details/83746492</a><br>下载项目到本地：<a href="https://blog.csdn.net/qq_42815754/article/details/83747583" target="_blank" rel="noopener">https://blog.csdn.net/qq_42815754/article/details/83747583</a><br>上面2个地址写的挺详细的。上传文件大概就是这几个命令git status 、git add xxx、git commit -m “标注” 、git push origin master</p>
+<h4 id="启动项目"><a href="#启动项目" class="headerlink" title="启动项目"></a>启动项目</h4><p>启动项目，访问：<a href="http://localhost:9090/config-info/test/master" target="_blank" rel="noopener">http://localhost:9090/config-info/test/master</a> 可以看到日志中输出了这么一行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2019-01-14 21:44:29.944  INFO 8020 --- [nio-9090-exec-1] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property <span class="built_in">source</span>: file:/C:/Users/王瞬/AppData/Local/Temp/config-repo-12429596664206551063/SPRING-CLOUD-CONFIG/config-info-test.yml</span><br></pre></td></tr></table></figure></p>
+<p>页面上显示的内容为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="string">"name"</span>: <span class="string">"config-info"</span>,</span><br><span class="line">	<span class="string">"profiles"</span>: [<span class="string">"test"</span>],</span><br><span class="line">	<span class="string">"label"</span>: <span class="string">"master"</span>,</span><br><span class="line">	<span class="string">"version"</span>: <span class="string">"0911b43ed1eacf8d93d2ccbb5968744bc98b2e36"</span>,</span><br><span class="line">	<span class="string">"state"</span>: null,</span><br><span class="line">	<span class="string">"propertySources"</span>: [&#123;</span><br><span class="line">		<span class="string">"name"</span>: <span class="string">"https://github.com/zxc785009111/wangshun-spring-cloud-config.git/SPRING-CLOUD-CONFIG/config-info-test.yml"</span>,</span><br><span class="line">		<span class="string">"source"</span>: &#123;</span><br><span class="line">			<span class="string">"cn.springcloud.book.config"</span>: <span class="string">"i am the git configuration file from test"</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>到这里的话，服务端的配置就暂时告一段落了。接下来说说客户端的配置</p>
+<h3 id="Config-Client-创建"><a href="#Config-Client-创建" class="headerlink" title="Config Client 创建"></a>Config Client 创建</h3><p>创建一个新的项目，config-client</p>
+<h4 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-starter-config&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>为了更好的观察拉去到git上面的配置，这里需要创建一个Controller用于访问返回信息，同时需要创建一个实体，用于注入远程配置上的信息</p>
+<h4 id="实体类代码"><a href="#实体类代码" class="headerlink" title="实体类代码"></a>实体类代码</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">package com.wangshun.leaning.entity;</span><br><span class="line"></span><br><span class="line">import org.springframework.boot.context.properties.ConfigurationProperties;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">@Component</span><br><span class="line">@ConfigurationProperties(prefix=<span class="string">"cn.springcloud.book"</span>)</span><br><span class="line">public class ConfigInfoPropertise &#123;</span><br><span class="line">	</span><br><span class="line">	private String config;</span><br><span class="line"></span><br><span class="line">	public String <span class="function"><span class="title">getConfig</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> config;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setConfig(String config) &#123;</span><br><span class="line">		this.config = config;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Controller代码"><a href="#Controller代码" class="headerlink" title="Controller代码"></a>Controller代码</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">package com.wangshun.leaning.comtroller;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line">import com.wangshun.leaning.entity.ConfigInfoPropertise;</span><br><span class="line"></span><br><span class="line">@RestController</span><br><span class="line">public class ConfigClientController &#123;</span><br><span class="line">	@Autowired</span><br><span class="line">	private ConfigInfoPropertise configInfoPropertise;</span><br><span class="line">	@GetMapping(<span class="string">"/getConfigInfo"</span>)</span><br><span class="line">	public String <span class="function"><span class="title">getConfigInfo</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> configInfoPropertise.getConfig();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="application-yml配置"><a href="#application-yml配置" class="headerlink" title="application.yml配置"></a>application.yml配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 9091</span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: spring-cloud-config-client</span><br></pre></td></tr></table></figure>
+<h4 id="bootstrap-yml-配置"><a href="#bootstrap-yml-配置" class="headerlink" title="bootstrap.yml 配置"></a>bootstrap.yml 配置</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  cloud:</span><br><span class="line">    config:</span><br><span class="line">      label: master</span><br><span class="line">      uri:</span><br><span class="line">      - http://localhost:9090</span><br><span class="line">      name: config-info</span><br><span class="line">      profile: <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+<p>这里说一下，由于在SpringBoot中，bootstrap.yml是比application.yml优先加载的，所以它会优先加载远程的配置信息，到此客户端中配置完成<br>然后说一下bootstrap.yml中的各个属性<br>label:代表的是请求哪个git分支，这里我是采用的主分支<br>url：代表请求的config-server地址<br>name：代表请求哪个名称的文件，可以写多个，通过逗号隔开<br>profile：代表哪个分支的文件，比如dev、test、prod</p>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p>启动项目，server 和client 均启动后，可以在client 的控制台看到这么一条日志：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2019-01-14 22:19:09.529  INFO 12628 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Fetching config from server at : http://localhost:9090</span><br><span class="line">2019-01-14 22:19:21.927  INFO 12628 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Located environment: name=config-info, profiles=[<span class="built_in">test</span>], label=master, version=0911b43ed1eacf8d93d2ccbb5968744bc98b2e36, state=null</span><br></pre></td></tr></table></figure></p>
+<p>也就是说他去服务端那边获取配置信息去了。</p>
+<p>然后访问<a href="http://localhost:9091/getConfigInfo" target="_blank" rel="noopener">http://localhost:9091/getConfigInfo</a><br>页面显示如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i am the git configuration file from <span class="built_in">test</span></span><br></pre></td></tr></table></figure></p>
+<p>参考文献：<br>    <a href="https://blog.csdn.net/qq_42815754/article/details/83746492" target="_blank" rel="noopener">https://blog.csdn.net/qq_42815754/article/details/83746492</a><br>    <a href="https://blog.csdn.net/qq_42815754/article/details/83747583" target="_blank" rel="noopener">https://blog.csdn.net/qq_42815754/article/details/83747583</a><br>    《重新定义SpringCloud实战》——许进</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SpringCloud/" rel="tag"># SpringCloud</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/13/SpringCloud学习-5-路由网关Zuul/" rel="next" title="SpringCloud学习(5)路由网关Zuul">
+                <i class="fa fa-chevron-left"></i> SpringCloud学习(5)路由网关Zuul
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/14/SpringCloud学习-7-刷新配置中心信息/" rel="prev" title="SpringCloud学习(7)刷新配置中心信息">
+                SpringCloud学习(7)刷新配置中心信息 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/icon.png" alt="王瞬|卡丘">
+            
+              <p class="site-author-name" itemprop="name">王瞬|卡丘</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">24</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/zxc785009111" title="GitHub &rarr; https://github.com/zxc785009111" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.battcn.com/" title="https://blog.battcn.com/" rel="noopener" target="_blank">battch</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Cloud-Config-配置中心概述"><span class="nav-number">1.</span> <span class="nav-text">Spring Cloud Config 配置中心概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是配置中心"><span class="nav-number">1.1.</span> <span class="nav-text">什么是配置中心</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置中心的由来"><span class="nav-number">1.1.1.</span> <span class="nav-text">配置中心的由来</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置中心应具有的功能"><span class="nav-number">1.1.2.</span> <span class="nav-text">配置中心应具有的功能</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Cloud-Config"><span class="nav-number">1.2.</span> <span class="nav-text">Spring Cloud Config</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#概述"><span class="nav-number">1.2.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#git版工作原理"><span class="nav-number">1.2.2.</span> <span class="nav-text">git版工作原理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#入门案例"><span class="nav-number">2.</span> <span class="nav-text">入门案例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Config-Server创建"><span class="nav-number">2.1.</span> <span class="nav-text">Config Server创建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pom文件配置"><span class="nav-number">2.1.1.</span> <span class="nav-text">pom文件配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加-EnableConfigServer注解开启SpringCloudConfig的服务功能"><span class="nav-number">2.1.2.</span> <span class="nav-text">添加@EnableConfigServer注解开启SpringCloudConfig的服务功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#yml文件配置"><span class="nav-number">2.1.3.</span> <span class="nav-text">yml文件配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动项目"><span class="nav-number">2.1.4.</span> <span class="nav-text">启动项目</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Config-Client-创建"><span class="nav-number">2.2.</span> <span class="nav-text">Config Client 创建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加依赖"><span class="nav-number">2.2.1.</span> <span class="nav-text">添加依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实体类代码"><span class="nav-number">2.2.2.</span> <span class="nav-text">实体类代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controller代码"><span class="nav-number">2.2.3.</span> <span class="nav-text">Controller代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#application-yml配置"><span class="nav-number">2.3.</span> <span class="nav-text">application.yml配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#bootstrap-yml-配置"><span class="nav-number">2.3.1.</span> <span class="nav-text">bootstrap.yml 配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试"><span class="nav-number">2.3.2.</span> <span class="nav-text">测试</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王瞬|卡丘</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script>
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname,
+            owner: 'zxc785009111',
+            repo: 'https://github.com/zxc785009111/zxc785009111.github.io.git',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '93bed796dda14f2d435c2133e73f1d68868c0609',
+            
+                client_id: '5d067a58542e7dec0204'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "OdVJyQ0RufHbP3IGm64pLGTR-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "OdVJyQ0RufHbP3IGm64pLGTR-gzGzoHsz",
+                'X-LC-Key': "GM8FS2xjI83IuuP9Frddmv3s",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
