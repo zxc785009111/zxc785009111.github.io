@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Consul简介什么是ConsulConsul是一个分布式高可用的服务网络解决方案，提供包含服务发现、配置和分段功能在内的全功能控制面板，这些功能每一个可以单独使用，也可以一起使用以构建完整的服务网络。">
+<meta name="keywords" content="SpringCloud">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringCloud学习(8)服务治理组件Consul">
+<meta property="og:url" content="http://yoursite.com/2019/01/15/SpringCloud学习-8-服务治理组件Consul/index.html">
+<meta property="og:site_name" content="王瞬|卡丘">
+<meta property="og:description" content="Consul简介什么是ConsulConsul是一个分布式高可用的服务网络解决方案，提供包含服务发现、配置和分段功能在内的全功能控制面板，这些功能每一个可以单独使用，也可以一起使用以构建完整的服务网络。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/SpringCloud/Consul/consul-1.png">
+<meta property="og:image" content="http://yoursite.com/images/SpringCloud/Consul/consul-2.png">
+<meta property="og:image" content="http://yoursite.com/images/SpringCloud/Consul/consul-3.png">
+<meta property="og:updated_time" content="2019-01-15T16:35:32.646Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringCloud学习(8)服务治理组件Consul">
+<meta name="twitter:description" content="Consul简介什么是ConsulConsul是一个分布式高可用的服务网络解决方案，提供包含服务发现、配置和分段功能在内的全功能控制面板，这些功能每一个可以单独使用，也可以一起使用以构建完整的服务网络。">
+<meta name="twitter:image" content="http://yoursite.com/images/SpringCloud/Consul/consul-1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="王瞬|卡丘" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/15/SpringCloud学习-8-服务治理组件Consul/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>SpringCloud学习(8)服务治理组件Consul | 王瞬|卡丘</title>
+  
+
+
+
+
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?39f133557477ec32790de624cc6b48a6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王瞬|卡丘</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">王瞬的私人博客</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/15/SpringCloud学习-8-服务治理组件Consul/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王瞬|卡丘">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/icon.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王瞬|卡丘">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SpringCloud学习(8)服务治理组件Consul
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-15 21:19:50" itemprop="dateCreated datePublished" datetime="2019-01-15T21:19:50+08:00">2019-01-15</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-16 00:35:32" itemprop="dateModified" datetime="2019-01-16T00:35:32+08:00">2019-01-16</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/SpringCloud学习/" itemprop="url" rel="index"><span itemprop="name">SpringCloud学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/15/SpringCloud学习-8-服务治理组件Consul/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019/01/15/SpringCloud学习-8-服务治理组件Consul/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/01/15/SpringCloud学习-8-服务治理组件Consul/" class="leancloud_visitors" data-flag-title="SpringCloud学习(8)服务治理组件Consul">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Consul简介"><a href="#Consul简介" class="headerlink" title="Consul简介"></a>Consul简介</h2><h3 id="什么是Consul"><a href="#什么是Consul" class="headerlink" title="什么是Consul"></a>什么是Consul</h3><p>Consul是一个分布式高可用的服务网络解决方案，提供包含服务发现、配置和分段功能在内的全功能控制面板，这些功能每一个可以单独使用，也可以一起使用以构建完整的服务网络。<a id="more"></a></p>
+<p>###Consul的特点<br>1.采用go语言编写，以Http方式对外提供服务<br>2.Consul支持多数据中心，这是其特色<br>3.Consul除了服务发现之外，还有一些别的功能<br>4.Consul的一致性协议是Raft</p>
+<h3 id="Consul能做什么"><a href="#Consul能做什么" class="headerlink" title="Consul能做什么"></a>Consul能做什么</h3><p>1.服务发现，服务可以通过DNS或者HTTP直接找到它所依赖的服务。<br>2.健康检查，Consul提供了健康检查机制，从简单的服务端返回是否是200响应到较为复杂的内存使用率是否低于百分之90<br>3.K/V存储，应用程序可以根据需要使用Consul的Key/Value存储。Consul提供了简单的http请求来满足用户的动态配置、特征标记、协调、leader选举等需求。<br>4.多数据中心。Consul原生支持多数据库中心。用户不必为了多数据中心而自己做抽象。</p>
+<h3 id="Consul安装"><a href="#Consul安装" class="headerlink" title="Consul安装"></a>Consul安装</h3><p>去官网下载对应的版本<br>官网地址：<a href="https://www.consul.io/downloads.html" target="_blank" rel="noopener">https://www.consul.io/downloads.html</a></p>
+<p>windows 版本直接解压 然后进入对应的文件夹路径 打开cmd 执行consul agent -dev即可<br>下面是成功图<br><img src="/images/SpringCloud/Consul/consul-1.png"></p>
+<p>然后访问<a href="http://localhost:8500/" target="_blank" rel="noopener">http://localhost:8500/</a> 就可以看到界面了。<br><img src="/images/SpringCloud/Consul/consul-2.png"></p>
+<p>##Spring Cloud Consul</p>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Spring Cloud Consul 是通过自动配置，对Spring 环境绑定和其他惯用的Spring模块编程，为SpringBoot应用提供了Consul集成，只需要一些简单的注解，就可以快速启动和配置Consul，并用它构建大型分布式系统。</p>
+<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>1.Spring Cloud Consul 作为Spring Cloud 和Consul 的桥梁，对两者都有良好的支持。<br>2.服务发现。实例可以向Consul注册服务，客户端可以使用Spring bean来发现服务的提供方<br>3.支持Ribbon，客户端负载均衡。<br>4.支持Zuul，服务网关。<br>5.分布式配置中心，使用的Consul的K/V存储。<br>6.控制总线，使用的是Consul enents。</p>
+<h2 id="入门案例"><a href="#入门案例" class="headerlink" title="入门案例"></a>入门案例</h2><h3 id="consul-provider"><a href="#consul-provider" class="headerlink" title="consul-provider"></a>consul-provider</h3><h4 id="pom文件"><a href="#pom文件" class="headerlink" title="pom文件"></a>pom文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-starter-consul-discovery&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="application-yml"><a href="#application-yml" class="headerlink" title="application.yml"></a>application.yml</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 8081</span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: consul-provider</span><br><span class="line">  cloud:</span><br><span class="line">    consul:</span><br><span class="line">      host: localhost</span><br><span class="line">      port: 8500</span><br></pre></td></tr></table></figure>
+<h4 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">package com.wangshun.leaning.comtroller;</span><br><span class="line"></span><br><span class="line">import org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.PathVariable;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line">@RestController</span><br><span class="line">public class HelloController &#123;</span><br><span class="line">	//注意：新版Spring Cloud Consul默认注册的健康检查地址为/actuator/health</span><br><span class="line">	@GetMapping(<span class="string">"/actuator/health"</span>)</span><br><span class="line">	public String <span class="function"><span class="title">health</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> <span class="string">"SUCCESS"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	@GetMapping(<span class="string">"/hello/&#123;name&#125;"</span>)</span><br><span class="line">	public String hello(@PathVariable(<span class="string">"name"</span>)String name) &#123;</span><br><span class="line">		<span class="built_in">return</span> <span class="string">"Hello:"</span>+name;</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="consul-consumer"><a href="#consul-consumer" class="headerlink" title="consul-consumer"></a>consul-consumer</h3><p>客户端总体和之前Feign写的客户端基本一致….毕竟只是换了一个服务治理的框。</p>
+<h4 id="pom文件-1"><a href="#pom文件-1" class="headerlink" title="pom文件"></a>pom文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-starter-consul-discovery&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>这里由于选择Feign作为服务调用的组件。</p>
+<h4 id="启动项添加-EnableFeignClients注解"><a href="#启动项添加-EnableFeignClients注解" class="headerlink" title="启动项添加@EnableFeignClients注解"></a>启动项添加@EnableFeignClients注解</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package com.wangshun.leaning;</span><br><span class="line"></span><br><span class="line">import org.springframework.boot.SpringApplication;</span><br><span class="line">import org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line">import org.springframework.cloud.openfeign.EnableFeignClients;</span><br><span class="line">@EnableFeignClients</span><br><span class="line">@SpringBootApplication</span><br><span class="line">public class SpringCloudLeaning5ConsulConsumerApplication &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		SpringApplication.run(SpringCloudLeaning5ConsulConsumerApplication.class, args);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="application-yml-1"><a href="#application-yml-1" class="headerlink" title="application.yml"></a>application.yml</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 8082</span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: consul-consumer</span><br><span class="line">  cloud:</span><br><span class="line">    consul:</span><br><span class="line">      host: localhost</span><br><span class="line">      port: 8500</span><br></pre></td></tr></table></figure>
+<h4 id="Service接口"><a href="#Service接口" class="headerlink" title="Service接口"></a>Service接口</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package com.wangshun.leaning.service;</span><br><span class="line"></span><br><span class="line">import org.springframework.cloud.openfeign.FeignClient;</span><br><span class="line">import org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.PathVariable;</span><br><span class="line"></span><br><span class="line">@FeignClient(<span class="string">"consul-provider"</span>)</span><br><span class="line">public interface HelloService &#123;</span><br><span class="line">	@GetMapping(value=<span class="string">"/hello/&#123;name&#125;"</span>)</span><br><span class="line">	String sayHello(@PathVariable(<span class="string">"name"</span>)String name);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Controller-1"><a href="#Controller-1" class="headerlink" title="Controller"></a>Controller</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">package com.wangshun.leaning.controller;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.PathVariable;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line">import com.wangshun.leaning.service.HelloService;</span><br><span class="line"></span><br><span class="line">@RestController</span><br><span class="line">public class HelloController &#123;</span><br><span class="line">	@Autowired</span><br><span class="line">	HelloService helloService;</span><br><span class="line">	//注意：新版Spring Cloud Consul默认注册的健康检查地址为/actuator/health</span><br><span class="line">	@GetMapping(<span class="string">"/actuator/health"</span>)</span><br><span class="line">	public String <span class="function"><span class="title">health</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> <span class="string">"SUCCESS"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	@GetMapping(<span class="string">"/hello/&#123;name&#125;"</span>)</span><br><span class="line">	public String sayHello(@PathVariable(<span class="string">"name"</span>)String name) &#123;</span><br><span class="line">		<span class="built_in">return</span> helloService.sayHello(name);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p>启动consul ，server，client<br>访问<a href="http://localhost:8082/hello/wangs" target="_blank" rel="noopener">http://localhost:8082/hello/wangs</a><br>页面显示：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello:wangs</span><br></pre></td></tr></table></figure></p>
+<p>成功~</p>
+<h3 id="consul-config"><a href="#consul-config" class="headerlink" title="consul-config"></a>consul-config</h3><p>整体来讲，写法和Spring Cloud Config基本一致~</p>
+<h4 id="pom-文件"><a href="#pom-文件" class="headerlink" title="pom 文件"></a>pom 文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-starter-consul-config&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-starter-consul-discovery&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="application-yml-2"><a href="#application-yml-2" class="headerlink" title="application.yml"></a>application.yml</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 8083</span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: consul-config</span><br><span class="line">  cloud:</span><br><span class="line">    consul:</span><br><span class="line">      host: localhost</span><br><span class="line">      port: 8500</span><br></pre></td></tr></table></figure>
+<h4 id="entity"><a href="#entity" class="headerlink" title="entity"></a>entity</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">package com.wangshun.leaning.entity;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.factory.annotation.Value;</span><br><span class="line">import org.springframework.cloud.context.config.annotation.RefreshScope;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line">@Component</span><br><span class="line">@RefreshScope//参数值修改后自动刷新</span><br><span class="line">public class ConfigEntity &#123;</span><br><span class="line">	@Value(<span class="string">"<span class="variable">$&#123;foo.bar.name&#125;</span>"</span>)</span><br><span class="line">	private String name;</span><br><span class="line"></span><br><span class="line">	public String <span class="function"><span class="title">getName</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setName(String name) &#123;</span><br><span class="line">		this.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Controller-2"><a href="#Controller-2" class="headerlink" title="Controller"></a>Controller</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">package com.wangshun.leaning.controller;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line">import com.wangshun.leaning.entity.ConfigEntity;</span><br><span class="line">@RestController</span><br><span class="line">public class EntityController &#123;</span><br><span class="line">	@Autowired</span><br><span class="line">	ConfigEntity configEntity;</span><br><span class="line">	@GetMapping(<span class="string">"/getName"</span>)</span><br><span class="line">	public String <span class="function"><span class="title">getEntityName</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> configEntity.getName();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	@GetMapping(<span class="string">"/actuator/health"</span>)</span><br><span class="line">	public String <span class="function"><span class="title">health</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> <span class="string">"SUCCESS"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h4><p>启动Consul，访问：<a href="http://localhost:8500/ui/dc1/kv，或者访问http://localhost:8500" target="_blank" rel="noopener">http://localhost:8500/ui/dc1/kv，或者访问http://localhost:8500</a>  后点击Key/Value，<br>点击创建，然后输入如下K/V<br><img src="/images/SpringCloud/Consul/consul-3.png"><br>这里解释一下<br>参数的K为config/consul-config/foo.bar.name<br>也就是config文件夹下的consul-config(application name)下的foo.bar.name 这个参数<br>然后value就对应这个参数。</p>
+<p>然后访问<a href="http://localhost:8083/getName" target="_blank" rel="noopener">http://localhost:8083/getName</a>  就可以看到显示的参数为你设置的Value，然后修改参数，再刷新<a href="http://localhost:8083/getName" target="_blank" rel="noopener">http://localhost:8083/getName</a>  就可以看到数值已经修改啦。<br>至此，参数自动刷新已完成。</p>
+<p>参考文献<br>    《重新定义SpringCloud实战》——许进</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SpringCloud/" rel="tag"># SpringCloud</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/14/SpringCloud学习-7-刷新配置中心信息/" rel="next" title="SpringCloud学习(7)刷新配置中心信息">
+                <i class="fa fa-chevron-left"></i> SpringCloud学习(7)刷新配置中心信息
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/icon.png" alt="王瞬|卡丘">
+            
+              <p class="site-author-name" itemprop="name">王瞬|卡丘</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/zxc785009111" title="GitHub &rarr; https://github.com/zxc785009111" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.battcn.com/" title="https://blog.battcn.com/" rel="noopener" target="_blank">battch</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Consul简介"><span class="nav-number">1.</span> <span class="nav-text">Consul简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Consul"><span class="nav-number">1.1.</span> <span class="nav-text">什么是Consul</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Consul能做什么"><span class="nav-number">1.2.</span> <span class="nav-text">Consul能做什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Consul安装"><span class="nav-number">1.3.</span> <span class="nav-text">Consul安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.4.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作用"><span class="nav-number">1.5.</span> <span class="nav-text">作用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#入门案例"><span class="nav-number">2.</span> <span class="nav-text">入门案例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#consul-provider"><span class="nav-number">2.1.</span> <span class="nav-text">consul-provider</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pom文件"><span class="nav-number">2.1.1.</span> <span class="nav-text">pom文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#application-yml"><span class="nav-number">2.1.2.</span> <span class="nav-text">application.yml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controller"><span class="nav-number">2.1.3.</span> <span class="nav-text">Controller</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#consul-consumer"><span class="nav-number">2.2.</span> <span class="nav-text">consul-consumer</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pom文件-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">pom文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动项添加-EnableFeignClients注解"><span class="nav-number">2.2.2.</span> <span class="nav-text">启动项添加@EnableFeignClients注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#application-yml-1"><span class="nav-number">2.2.3.</span> <span class="nav-text">application.yml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Service接口"><span class="nav-number">2.2.4.</span> <span class="nav-text">Service接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controller-1"><span class="nav-number">2.2.5.</span> <span class="nav-text">Controller</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试"><span class="nav-number">2.2.6.</span> <span class="nav-text">测试</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#consul-config"><span class="nav-number">2.3.</span> <span class="nav-text">consul-config</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pom-文件"><span class="nav-number">2.3.1.</span> <span class="nav-text">pom 文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#application-yml-2"><span class="nav-number">2.3.2.</span> <span class="nav-text">application.yml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#entity"><span class="nav-number">2.3.3.</span> <span class="nav-text">entity</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controller-2"><span class="nav-number">2.3.4.</span> <span class="nav-text">Controller</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试-1"><span class="nav-number">2.3.5.</span> <span class="nav-text">测试</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王瞬|卡丘</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script>
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname,
+            owner: 'zxc785009111',
+            repo: 'https://github.com/zxc785009111/zxc785009111.github.io.git',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '93bed796dda14f2d435c2133e73f1d68868c0609',
+            
+                client_id: '5d067a58542e7dec0204'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "OdVJyQ0RufHbP3IGm64pLGTR-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "OdVJyQ0RufHbP3IGm64pLGTR-gzGzoHsz",
+                'X-LC-Key': "GM8FS2xjI83IuuP9Frddmv3s",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
