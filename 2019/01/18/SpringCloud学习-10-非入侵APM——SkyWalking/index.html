@@ -118,7 +118,7 @@
 <meta property="og:image" content="http://yoursite.com/images/SpringCloud/SkyWalking/skyWalking-4.png">
 <meta property="og:image" content="http://yoursite.com/images/SpringCloud/SkyWalking/skyWalking-5.png">
 <meta property="og:image" content="http://yoursite.com/images/SpringCloud/SkyWalking/skyWalking-6.png">
-<meta property="og:updated_time" content="2019-01-18T11:55:42.175Z">
+<meta property="og:updated_time" content="2019-01-18T11:59:40.324Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringCloud学习(10)非入侵APM——SkyWalking">
 <meta name="twitter:description" content="SkyWalking概述SkyWalking 是一个用于追踪、监控和诊断分布式系统，特别是微服务的项目。从5.X进化成一个完成功能的APM系统">
@@ -397,7 +397,7 @@
                 
               
 
-              <time title="创建时间：2019-01-18 18:42:58 / 修改时间：19:55:42" itemprop="dateCreated datePublished" datetime="2019-01-18T18:42:58+08:00">2019-01-18</time>
+              <time title="创建时间：2019-01-18 18:42:58 / 修改时间：19:59:40" itemprop="dateCreated datePublished" datetime="2019-01-18T18:42:58+08:00">2019-01-18</time>
             
 
             
@@ -501,7 +501,7 @@
 <p>至此所有的服务就都编写完成了，当然也可以启动测试一下：<br>启动server、zuul、service-a、service-b<br>访问：<a href="http://localhost:9020/client/send/skywalking" target="_blank" rel="noopener">http://localhost:9020/client/send/skywalking</a><br>可以收到结果skywalking——&gt;service-b就证明接口没问题啦。</p>
 <h2 id="skyWalking-Controller-环境安装-windows"><a href="#skyWalking-Controller-环境安装-windows" class="headerlink" title="skyWalking Controller 环境安装(windows)"></a>skyWalking Controller 环境安装(windows)</h2><p>SkyWalking 6.x需要的基础环境如下：<br>Elasticsearch 6.x (集群模式或者不适用,以后简称es)<br>Sky Walking 6.X使用es作为存储，所以首先下载es，去官网下载最新版即可，我这边目前的最新版是6.5.4<br>下载完成后解压，然后进入目录的bin目录下，启动elasticsearch.bat<br>启动成功的截图如下：<br><img src="/images/SpringCloud/SkyWalking/skyWalking-1.png"></p>
 <p>启动完成后开始下载SkyWalking的相关资料。从Apache官网下载当前SkyWalking发布的版本即可，具体下载地址：<br><a href="http://skywalking.apache.org/downloads" target="_blank" rel="noopener">http://skywalking.apache.org/downloads</a><br>然后根据操作系统选择对应版本下载即可。<br>解压完成的结构图如下：<br><img src="/images/SpringCloud/SkyWalking/skyWalking-2.png"></p>
-<p>这里说一下目录的结构，agen是探针相关，bin中存放的是collectorService和webappService的启动脚本，startup是可以同时启动前面2个脚本的合并命令。<br>config是collector的相关配置信息。log是存放启动collector和web 后生成的日志文件。，webapp存放Sky Walking展示UI的jar和配置文件。默认端口为8080、10800、11800、1280这些端口，如果需要修改，应该在config陆慕吸啊的application.yml和webapp下的webapp.yml配置文件中修改。</p>
+<p>这里说一下目录的结构，agen是探针相关，bin中存放的是collectorService和webappService的启动脚本，startup是可以同时启动前面2个脚本的合并命令。<br>config是collector的相关配置信息。log是存放启动collector和web 后生成的日志文件。，webapp存放Sky Walking展示UI的jar和配置文件。默认端口为8080、10800、11800、1280这些端口，如果需要修改，应该在config里面的application.yml和webapp下的webapp.yml配置文件中修改。</p>
 <p>接下来启动collector和web，进入bin目录下双击startup.bat即可。<br>启动成功后访问localhost:8080,使用admin/admin进行登录即可，登录后可看到以下界面。<br><img src="/images/SpringCloud/SkyWalking/skyWalking-3.png"></p>
 <h3 id="使用Agent启动服务和监控查看"><a href="#使用Agent启动服务和监控查看" class="headerlink" title="使用Agent启动服务和监控查看"></a>使用Agent启动服务和监控查看</h3><p>首先在SkyWalking6.5.X的同级目录下创建一个文件夹，然后再文件夹中创建4个文件夹，结构如下图<br><img src="/images/SpringCloud/SkyWalking/skyWalking-4.png"><br>每个文件夹中都有一个agent 文件夹 和一个程序的执行jar，每个应用使用对应的agent进行启动。</p>
 <p>其中agent就是原本下载的SkyWalking中agent的文件夹，复制过来就行，然后修改agent/config里面的agent.conf，修改agent.service_name的值为<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">agent.service_name=service-eureka</span><br></pre></td></tr></table></figure></p>
