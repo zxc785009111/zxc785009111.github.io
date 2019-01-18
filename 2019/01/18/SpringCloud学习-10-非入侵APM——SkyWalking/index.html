@@ -118,7 +118,7 @@
 <meta property="og:image" content="http://yoursite.com/images/SpringCloud/SkyWalking/skyWalking-4.png">
 <meta property="og:image" content="http://yoursite.com/images/SpringCloud/SkyWalking/skyWalking-5.png">
 <meta property="og:image" content="http://yoursite.com/images/SpringCloud/SkyWalking/skyWalking-6.png">
-<meta property="og:updated_time" content="2019-01-18T11:49:50.748Z">
+<meta property="og:updated_time" content="2019-01-18T11:55:42.175Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringCloud学习(10)非入侵APM——SkyWalking">
 <meta name="twitter:description" content="SkyWalking概述SkyWalking 是一个用于追踪、监控和诊断分布式系统，特别是微服务的项目。从5.X进化成一个完成功能的APM系统">
@@ -397,7 +397,7 @@
                 
               
 
-              <time title="创建时间：2019-01-18 18:42:58 / 修改时间：19:49:50" itemprop="dateCreated datePublished" datetime="2019-01-18T18:42:58+08:00">2019-01-18</time>
+              <time title="创建时间：2019-01-18 18:42:58 / 修改时间：19:55:42" itemprop="dateCreated datePublished" datetime="2019-01-18T18:42:58+08:00">2019-01-18</time>
             
 
             
@@ -508,7 +508,7 @@
 <p>4个文件夹分别修改 这个属性值为对应的服务名称，和application.name一致或者随意起都可以，其实就是页面显示的名字而已。</p>
 <p>然后再说那4个jar，4个jar是通过maven打包出来的，我是使用的clean install命令打包出来的，然后分别放到对应的文件夹下即可。</p>
 <h3 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">--启动Eureka</span><br><span class="line">java -javaagent:E:/software/skywalking/service-eureka/agent/skywalking-agent.jar -jar SpringCloud-leaning-7-eureka-server-skywalking-0.0.1-SNAPSHOT.jar</span><br><span class="line"></span><br><span class="line">--启动zuul</span><br><span class="line">java -javaagent:E:/software/skywalking/service-zuul/agent/skywalking-agent.jar -jar SpringCloud-leaning-7-zuul-skywalking-0.0.1-SNAPSHOT.jar</span><br><span class="line"></span><br><span class="line">--启动service<span class="_">-a</span></span><br><span class="line">java -javaagent:E:/software/skywalking/service<span class="_">-a</span>/agent/skywalking-agent.jar -jar SpringCloud-leaning-7-service<span class="_">-a</span>-skywalking-0.0.1-SNAPSHOT.jar</span><br><span class="line"></span><br><span class="line">--启动serice -b</span><br><span class="line">java -javaagent:E:/software/skywalking/service-b/agent/skywalking-agent.jar -jar SpringCloud-leaning-7-service-b-skywalking-1-0.0.1-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
-<p>这里要注意两点，一个是skywalking-agent.jar 是当前目录下的，复制的时候不要忘了改，不然拓扑图不显示…（自己懒省事挖的坑解决了好久…..）<br>启动完成后 刷新localhost:8080可以看到以下界面:<br><img src="/images/SpringCloud/SkyWalking/skyWalking-5.png"></p>
+<p>这里要注意两点，一个是skywalking-agent.jar 是当前目录下的，复制的时候不要忘了改，不然拓扑图不显示…（自己懒省事挖的坑解决了好久…..）<br>另外一个是启动顺序是固定的，eureka–&gt;zuul–&gt;service-a –&gt;service-b，不然会报错比如eureka拒绝访问等等<br>启动完成后 刷新localhost:8080可以看到以下界面:<br><img src="/images/SpringCloud/SkyWalking/skyWalking-5.png"></p>
 <p>重新执行<a href="http://localhost:9020/client/send/skywalking" target="_blank" rel="noopener">http://localhost:9020/client/send/skywalking</a><br>可以看到页面监控的响应时间等信息。<br>其他的一些详情信息可以点击左侧的各项指标进行查看，比如服务地图等等….<br><img src="/images/SpringCloud/SkyWalking/skyWalking-6.png"></p>
 <p>参考文献：<br>    《重新定义SpringCloud实战》——许进</p>
 
