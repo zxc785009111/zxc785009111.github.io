@@ -118,7 +118,7 @@
 <meta property="og:image" content="http://yoursite.com/images/SpringCloud/SkyWalking/skyWalking-4.png">
 <meta property="og:image" content="http://yoursite.com/images/SpringCloud/SkyWalking/skyWalking-5.png">
 <meta property="og:image" content="http://yoursite.com/images/SpringCloud/SkyWalking/skyWalking-6.png">
-<meta property="og:updated_time" content="2019-01-18T11:59:40.324Z">
+<meta property="og:updated_time" content="2019-01-19T03:13:30.191Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringCloud学习(10)非入侵APM——SkyWalking">
 <meta name="twitter:description" content="SkyWalking概述SkyWalking 是一个用于追踪、监控和诊断分布式系统，特别是微服务的项目。从5.X进化成一个完成功能的APM系统">
@@ -397,12 +397,24 @@
                 
               
 
-              <time title="创建时间：2019-01-18 18:42:58 / 修改时间：19:59:40" itemprop="dateCreated datePublished" datetime="2019-01-18T18:42:58+08:00">2019-01-18</time>
+              <time title="创建时间：2019-01-18 18:42:58" itemprop="dateCreated datePublished" datetime="2019-01-18T18:42:58+08:00">2019-01-18</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-19 11:13:30" itemprop="dateModified" datetime="2019-01-19T11:13:30+08:00">2019-01-19</time>
               
             
           </span>
@@ -476,7 +488,7 @@
       
         <h2 id="SkyWalking概述"><a href="#SkyWalking概述" class="headerlink" title="SkyWalking概述"></a>SkyWalking概述</h2><p>SkyWalking 是一个用于追踪、监控和诊断分布式系统，特别是微服务的项目。从5.X进化成一个完成功能的APM系统<a id="more"></a></p>
 <h3 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h3><p>1.分布式追踪和上下文传输<br>2.应用、实例、服务性能指标分析<br>3.根源分析<br>4.应用拓扑分析<br>5.应用和服务依赖分析<br>6.慢服务检测<br>7.性能优化</p>
-<h3 id="主要特性"><a href="#主要特性" class="headerlink" title="主要特性"></a>主要特性</h3><p>1.多语言探针或者类库<br>    1.1 Java自动探针，追踪和监控程序时，不需要修改源码。<br>    1.2 社区提供语言探针：。NET Core、Node.js<br>2.多种后端存储：ElasticSeach、H2<br>    2.1支持OpenTrancing:Java自动探针和OpenTracing API协同工作<br>3.轻量级、完善的后端聚合和分析功能<br>4.现代化WebUI<br>5.日志集成<br>6.应用、实例和服务的告警<br>7.支持接受其他跟踪器数据格式。<br>    7.1 Zipkin JSON,Thrift,Protobuf v1 和v2格式，由OpenZipkin库提供支持。<br>    7.2 Jaeger采用Zipkin Thrift或JSON v1/v2格式</p>
+<h3 id="主要特性"><a href="#主要特性" class="headerlink" title="主要特性"></a>主要特性</h3><p>1.多语言探针或者类库<br>    1.1 Java自动探针，追踪和监控程序时，不需要修改源码。<br>    1.2 社区提供语言探针：.NET Core、Node.js<br>2.多种后端存储：ElasticSeach、H2<br>    2.1支持OpenTrancing:Java自动探针和OpenTracing API协同工作<br>3.轻量级、完善的后端聚合和分析功能<br>4.现代化WebUI<br>5.日志集成<br>6.应用、实例和服务的告警<br>7.支持接受其他跟踪器数据格式。<br>    7.1 Zipkin JSON,Thrift,Protobuf v1 和v2格式，由OpenZipkin库提供支持。<br>    7.2 Jaeger采用Zipkin Thrift或JSON v1/v2格式</p>
 <h3 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h3><p>SkyWalking 的整体架构主要由四部分组成：collector、agent、web、storage</p>
 <p>首先是接入部分，接入的话可以使用SDK接入，也可以使用非入侵性Agent形式接入，agent将数据转化成SkyWalking Trace 数据协议，通过Http或者gRPC发送到collector,collector对收集的数据进行分析和聚合，最后存储到ElasticSearch或者H2中，一般情况下H2用于测试。</p>
 <h2 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h2><p>本次案例使用2个服务(service-a,service-b)、Zuul网关、Eureka作为注册中心，案例的调用过程是这样的，首先通过访问Zuul网关然后转发到service-a,service-a通过Feign远程调用service-b，最后返回内容。</p>
@@ -557,6 +569,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/01/19/SpringCloud学习-11-服务网关——Gateway/" rel="prev" title="SpringCloud学习(11)服务网关——Gateway">
+                SpringCloud学习(11)服务网关——Gateway <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -633,7 +649,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
